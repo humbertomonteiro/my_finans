@@ -24,46 +24,52 @@
     margin-top: -9px;
     margin-bottom: -9px;
     margin-left: 4px;
+    color: #fff;
 }
 
 .delete {
-    background-color: red;
+    background-color: rgb(224, 0, 0);
 }
 
 .solve {
-    background-color: rgb(0, 158, 71);
+    background-color: #02c4a3;
 }
 
 .edit {
-    background-color: rgb(0, 47, 255);
+    background-color: rgb(0, 34, 187);
 }
 
 #form-date {
-    padding: 10px;
+    padding: 2px;
+    margin: 15px 0;
+    border-radius: 4px;
 }
 
 .select {
-    padding: 2px;
+    padding: 4px;
     border: 0;
     border-radius: 4px;
     margin:  0 4px;
-    background-color: rgb(134, 134, 134);
+    background-color: #fff;
     transition: .5s;
 }
 
 .select:hover {
-    background-color: #fff;
+    background-color: #02c4a4e0;
 }
 
 @media (max-width: 600px) {
     .transation-li {
-        width: 320px;
+        width: 350px;
         display: grid;
-        grid-template-columns: 83px 90px 75px 20px 20px 20px;
+        grid-template-columns: 85px 93px 85px 25px 25px 25px;
+        font-size: .9em;
     }
 
     .delete, .solve, .edit {
         margin-top: -5px;
         margin-bottom: -5px;
+        display: flex;
+        justify-content: center;
     }
 }

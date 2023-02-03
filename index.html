@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/b6c34f0ed7.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/home.css">
     <title>My Finans</title>
 </head>
@@ -13,13 +14,25 @@
         <nav>
 
             <h1 class="logo">
-                <a href="index.html">My Finans</a>
+                <a href="index.html">MyFinans<i class="fa-solid fa-comments-dollar"></i></a>
             </h1>
 
             <nav class="links">
-                <a href="index.html"><li>Home</li></a>
-                <a href="./pages/transactions.html"><li>Transações</li></a>
-                <a href=""></a>
+                <a href="index.html">
+                    <li>
+                        <i class="fa-solid fa-house"></i> <p>Home</p>
+                    </li>
+                </a>
+                <a href="./pages/transactions.html">
+                    <li>
+                        <i class="fa-solid fa-list-check"></i> <p>Transações</p>
+                    </li>
+                </a>
+                <a href="./pages/settings.html">
+                    <li>
+                        <i class="fa-solid fa-gear"></i> <p>Configurações</p>
+                    </li>
+                </a>
             </nav>
                 
         </nav>
@@ -31,19 +44,19 @@
         <section class="container">
 
             <div class="values">
-                <h3>Saldo atual</h3>
+                <h3 class="balance-title">Saldo atual</h3>
                 <h2 id="balance">0</h2>
             </div>
 
             <div class="revenue-expenditure">
 
                 <div class="values">
-                    <h3 class="revenue-title">Receitas</h3>
+                    <h3 class="revenue-title"><i class="fa-solid fa-arrow-down"></i> Receitas</h3>
                     <h2 id="revenue">0</h2>
                 </div>
 
                 <div class="values">
-                    <h3 class="expenditure-title">Despesas</h3>
+                    <h3 class="expenditure-title"><i class="fa-solid fa-arrow-up"></i> Despesas</h3>
                     <h2 id="expenditure">0</h2>
                 </div>
 
@@ -61,7 +74,7 @@
             <form id="form-cad" class="submit">
 
                 <div class="inputs">
-                    <input class="btn-input" id="value" type="text" placeholder="valor">
+                    <input id="value" type="text" placeholder="valor">
                     <input id="description" type="text" placeholder="descricao">
                 </div>
 

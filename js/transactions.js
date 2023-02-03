@@ -74,6 +74,7 @@ function showTransactions(y, m) {
 
         const date = e.date
         const dateSplit = date.split('/')
+        console.log(dateSplit)
         const year = dateSplit[2]
         const monthNumber = dateSplit[1]
         let month = ''
@@ -127,6 +128,7 @@ function showTransactions(y, m) {
 
             btnRemove.setAttribute('id', `${e.id}`)
             btnRemove.classList.add('delete')
+            btnRemove.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
 
             btnRemove.onclick = () => {
                 localStorage.removeItem(e.id)
@@ -137,8 +139,8 @@ function showTransactions(y, m) {
             <span>${e.category}</span>
             <span>${e.description}</span>
             <span>R$ ${e.value}</span>
-            <button resolve class='solve'></button>
-            <button edite class='edit'></button>`
+            <button resolve class='solve'><i class="fa-solid fa-check"></i></button>
+            <button edite class='edit'><i class="fa-solid fa-pencil"></i></button>`
             li.appendChild(btnRemove)
 
             transactionsYear.append(li)

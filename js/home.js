@@ -112,22 +112,6 @@ function setTransactions() {
     if(valueV === '' || descriptionV === '' || categoryV === '' || dateValue === '') {
         return alert('Preencha todos os campos para cadastrar sua transação')
     }
-
-    //alert transação cadastrada
-    // const li = document.createElement('li')
-    // const li2 = document.createElement('li')
-
-    // li.classList.add('headLi')
-    // li2.classList.add('bodyLi')
-
-    // let valueN = Number(valueV).toFixed(2)
-
-    // li.innerText = `${revenueOrExpenditure} cadastrado(a) no dia ${dateValue}`
-    // li2.innerText = `${descriptionV} ${categoryV} R$${valueN}`
-
-    // ul.append(li)
-    // ul.append(li2)
-    // ul.classList.add('alert')
 }
 
 // todas as transações
