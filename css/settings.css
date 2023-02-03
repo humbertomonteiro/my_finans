@@ -28,10 +28,14 @@ main {
 .alert .alertP {
     background-color: #fff;
     color: #000;
-    width: 400px;
+    width: 350px;
     display: flex;
     justify-content: center;
     padding: 10px;
     margin: 20px 0;
     border-radius: 4px;
+}
+
+.hidden {
+    display: none;
 }

@@ -38,6 +38,7 @@ btnAlert.onclick = () => {
 
     btnDelete.onclick = () => {
         localStorage.clear()
+        window.location.href = '../index.html'
     }
 
     btnCancel.onclick = () => {
@@ -45,4 +46,5 @@ btnAlert.onclick = () => {
     }
 
     alert.classList.add('alert')
+    btnAlert.classList.add('hidden')
 }
