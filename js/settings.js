@@ -26,9 +26,10 @@ btnAlert.onclick = () => {
     alertP.innerText = `Você quer mesmo apagar todas as suas transações?`
 
     btnDelete.classList.add('btn')
+    btnDelete.classList.add('expenditure-btn')
     btnDelete.innerText = 'Sim, apagar!'
 
-    btnCancel.innerText = 'Não, voltar para pagina inicial'
+    btnCancel.innerText = 'Não, voltar para pagina inicial!'
     btnCancel.classList.add('btn')
 
     alert.append(alertH2)

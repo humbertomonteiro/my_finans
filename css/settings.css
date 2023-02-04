@@ -5,7 +5,7 @@ main {
 }
 
 .alert {
-    background-color: #02c4a3;
+    background-color: #b10101;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,7 +17,7 @@ main {
 }
 
 .alert:hover {
-    background-color: #00b395;
+    background-color: #b10101ee;
 }
 
 .alert .alertH2 {
@@ -28,7 +28,7 @@ main {
 .alert .alertP {
     background-color: #fff;
     color: #000;
-    width: 350px;
+    width: 320px;
     display: flex;
     justify-content: center;
     padding: 10px;

@@ -1,11 +1,12 @@
 const currentData = new Date
-const currentYear = currentData.getFullYear()
-const currentMonth = currentData.getMonth() + 1
+let currentYear = currentData.getFullYear()
+let currentMonth = currentData.getMonth() + 1
 
 const ids = localStorage.getItem('id')
 const arrayTransactions = []
 
-const formDate = document.querySelector('#form-date')
+// const formDate = document.querySelector('#form-date')
+const sectionTransictions = document.querySelector('#section-transictions')
 
 const yearFilter = document.querySelector('#year-filter')
 let yearOption = yearFilter
@@ -15,50 +16,183 @@ let monthOption = monthFilter
 
 const transactionsYear = document.querySelector('#transactions-year')
 
-for(let a = currentYear; a <= (currentYear + 10); a++) {
-    let yearOption = document.createElement('option')
-    yearOption.innerHTML = a
-    yearFilter.append(yearOption)
-}
+let month = ''
 
 switch(currentMonth) {
-    case 1: 
-        monthFilter.value = 1
+    case 01:
+        month = 'Janeiro'
         break
-    case 2: 
-        monthFilter.value = 2
+    case 02:
+        month = 'Fevereiro'
         break
-    case 3: 
-        monthFilter.value = 3
+    case 03:
+        month = 'Março'
         break
-    case 4: 
-        monthFilter.value = 4
+    case 04:
+        month = 'Abril'
         break
-    case 5: 
-        monthFilter.value = 5
+    case 05:
+        month = 'Maio'
         break
-    case 6: 
-        monthFilter.value = 6
+    case 06:
+        month = 'Junho'
         break
-    case 7: 
-        monthFilter.value = 7
+    case 07:
+        month = 'Julho'
         break
-    case 8: 
-        monthFilter.value = 8
+    case 08:
+        month = 'Agosto'
         break
-    case 9: 
-        monthFilter.value = 9
+    case 09:
+        month = 'Setembro'
         break
-    case 10: 
-        monthFilter.value = 10
+    case 10:
+        month = 'Outubro'
         break
-    case 11: 
-        monthFilter.value = 11
+    case 11:
+        month = 'Novembro'
         break
-    case 12: 
-        monthFilter.value = 12
+    case 12:
+        month = 'Dezembro'
         break
 }
+
+function createCalendar() {
+
+    const containerTransactions = document.querySelector('.container-transactions')
+
+    const divMonth = document.createElement('div')
+    divMonth.classList.add('div-month')
+
+    const btnBefore = document.createElement('button')
+    btnBefore.innerHTML = '<i class="fa-solid fa-chevron-left"></i>'
+
+    const btnAfter = document.createElement('button')
+    btnAfter.innerHTML = '<i class="fa-solid fa-chevron-right"></i>'
+
+    let monthH2 = document.createElement('h2')
+    monthH2.innerText = month
+
+    btnBefore.onclick = () => {
+        --currentMonth
+        if(currentMonth < 1) {
+            currentMonth = 12
+            --currentYear
+        }
+
+        switch(currentMonth) {
+            case 01:
+                month = 'Janeiro'
+                break
+            case 02:
+                month = 'Fevereiro'
+                break
+            case 03:
+                month = 'Março'
+                break
+            case 04:
+                month = 'Abril'
+                break
+            case 05:
+                month = 'Maio'
+                break
+            case 06:
+                month = 'Junho'
+                break
+            case 07:
+                month = 'Julho'
+                break
+            case 08:
+                month = 'Agosto'
+                break
+            case 09:
+                month = 'Setembro'
+                break
+            case 10:
+                month = 'Outubro'
+                break
+            case 11:
+                month = 'Novembro'
+                break
+            case 12:
+                month = 'Dezembro'
+                break
+        }
+
+        monthH2.innerText = ''
+        monthH2.innerText = month
+
+        transactionsYear.innerHTML = ''
+
+        showTransactions(currentYear, currentMonth)
+
+        console.log(currentMonth, currentYear)
+    }
+
+    btnAfter.onclick = () => {
+        ++currentMonth
+        if(currentMonth > 12) {
+            currentMonth = 1
+            ++currentYear
+        }
+
+        switch(currentMonth) {
+            case 01:
+                month = 'Janeiro'
+                break
+            case 02:
+                month = 'Fevereiro'
+                break
+            case 03:
+                month = 'Março'
+                break
+            case 04:
+                month = 'Abril'
+                break
+            case 05:
+                month = 'Maio'
+                break
+            case 06:
+                month = 'Junho'
+                break
+            case 07:
+                month = 'Julho'
+                break
+            case 08:
+                month = 'Agosto'
+                break
+            case 09:
+                month = 'Setembro'
+                break
+            case 10:
+                month = 'Outubro'
+                break
+            case 11:
+                month = 'Novembro'
+                break
+            case 12:
+                month = 'Dezembro'
+                break
+        }
+
+        monthH2.innerText = ''
+        monthH2.innerText = month
+
+        transactionsYear.innerHTML = ''
+
+        showTransactions(currentYear, currentMonth)
+
+        console.log(currentMonth, currentYear)
+    }
+
+    divMonth.append(btnBefore)
+    divMonth.append(monthH2)
+    divMonth.append(btnAfter)
+
+    containerTransactions.prepend(divMonth)
+}
+
+createCalendar()
 
 for(let i = 1; i <= ids; i++) {
     const transactions = JSON.parse(localStorage.getItem(i))
@@ -74,58 +208,15 @@ function showTransactions(y, m) {
 
         const date = e.date
         const dateSplit = date.split('/')
-        console.log(dateSplit)
         const year = dateSplit[2]
         const monthNumber = dateSplit[1]
-        let month = ''
         
-        switch(monthNumber) {
-            case '01':
-                month = 'Janeiro'
-                break
-            case '02':
-                month = 'Fevereiro'
-                break
-            case '03':
-                month = 'março'
-                break
-            case '04':
-                month = 'Abril'
-                break
-            case '05':
-                month = 'Maio'
-                break
-            case '06':
-                month = 'Junho'
-                break
-            case '07':
-                month = 'Julho'
-                break
-            case '08':
-                month = 'Agosto'
-                break
-            case '09':
-                month = 'Setembro'
-                break
-            case '10':
-                month = 'Outubro'
-                break
-            case '11':
-                month = 'Novembro'
-                break
-            case '12':
-                month = 'Dezembro'
-                break
-        }
-
-        if(y === year && `0${m}` == monthNumber) {
-
+        if(y === Number(year) && m === Number(monthNumber)) {
             const li = document.createElement('li')
             li.classList.add('transation-li')
 
             // remover transations
             const btnRemove = document.createElement('button')
-
             btnRemove.setAttribute('id', `${e.id}`)
             btnRemove.classList.add('delete')
             btnRemove.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
@@ -139,8 +230,7 @@ function showTransactions(y, m) {
             <span>${e.category}</span>
             <span>${e.description}</span>
             <span>R$ ${e.value}</span>
-            <button resolve class='solve'><i class="fa-solid fa-check"></i></button>
-            <button edite class='edit'><i class="fa-solid fa-pencil"></i></button>`
+            <button resolve class='solve'><i class="fa-solid fa-check"></i></button>`
             li.appendChild(btnRemove)
 
             transactionsYear.append(li)
@@ -149,17 +239,4 @@ function showTransactions(y, m) {
     })
 }
 
-showTransactions(yearOption.value, monthOption.value)
-
-formDate.addEventListener('submit', e => {
-    e.preventDefault()
-
-    let yearOption = yearFilter
-    
-    transactionsYear.innerHTML = ''
-
-    yearOption.value = yearFilter.value 
-    monthOption.value = monthFilter.value
-
-    showTransactions(yearOption.value, monthOption.value)
-})
+showTransactions(currentYear, currentMonth)

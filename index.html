@@ -51,13 +51,13 @@
             <div class="revenue-expenditure">
 
                 <div class="values">
-                    <h3 class="revenue-title"><i class="fa-solid fa-arrow-down"></i> Receitas</h3>
-                    <h2 id="revenue">0</h2>
+                    <h4 class="revenue-title"><i class="fa-solid fa-arrow-down"></i> Receitas</h4>
+                    <h3 id="revenue">0</h3>
                 </div>
 
                 <div class="values">
-                    <h3 class="expenditure-title"><i class="fa-solid fa-arrow-up"></i> Despesas</h3>
-                    <h2 id="expenditure">0</h2>
+                    <h4 class="expenditure-title"><i class="fa-solid fa-arrow-up"></i> Despesas</h4>
+                    <h3 id="expenditure">0</h3>
                 </div>
 
             </div>
@@ -72,25 +72,21 @@
             </div>
 
             <form id="form-cad" class="submit">
-
+                <div class="checkbox">Resolvido 
+                    <input type="checkbox" name="" id="checkbox-done">
+                </div>
                 <div class="inputs">
                     <input id="value" type="text" placeholder="valor">
                     <input id="description" type="text" placeholder="descricao">
-                </div>
-
-                <div class="inputs">
                     <input id="category" type="text" placeholder="categoria">
                     <input id="date" type="date" placeholder="data">
                 </div>
 
                 <div class="inputs">
                     <button class="btn" id="btn-cad">Cadastrar</button>
-                    <button class="btn cancel" id="btn-cancel">Cancelar</button>
                 </div>
 
             </form>
-
-            <ul id="alert"></ul>
 
         </section>
 

@@ -13,8 +13,6 @@ const description = document.querySelector('#description')
 const category = document.querySelector('#category')
 const date = document.querySelector('#date')
 
-const ul = document.querySelector('#alert')
-
 // botão de receita
 revenueBtn.onclick = () => {
     btnCad.classList.add('revenue-btn')
@@ -33,16 +31,6 @@ expenditureBtn.onclick = () => {
     formCad.classList.add('show')
     formCad.setAttribute('expenditure', true)
     formCad.removeAttribute('revenue', true)
-}
-
-// botão para cancelar
-btnCancel.onclick = e => {
-    e.preventDefault()
-
-    value.value = ''
-    description.value = ''
-    category.value = ''
-    date.value = ''
 }
 
 // setar id no localstorage
@@ -77,7 +65,6 @@ function setTransactions() {
     const dateValue = `${dateUsa[2]}/${dateUsa[1]}/${dateUsa[0]}`
 
     const expenditureTrue = document.querySelector('[expenditure]')
-    let revenueOrExpenditure = ''
 
     // se for despesa
     if(expenditureTrue) {
@@ -89,7 +76,6 @@ function setTransactions() {
             dateValue
         )
         
-        revenueOrExpenditure = 'Despesa'
         localStorage.setItem(id, JSON.stringify(transactions))
         localStorage.setItem('id', id)
 
@@ -103,14 +89,13 @@ function setTransactions() {
             dateValue
         )
 
-        revenueOrExpenditure = 'Saldo'
         localStorage.setItem(id, JSON.stringify(transactions))
         localStorage.setItem('id', id)
     }
 
     // verificar se foram setados os valores
     if(valueV === '' || descriptionV === '' || categoryV === '' || dateValue === '') {
-        return alert('Preencha todos os campos para cadastrar sua transação')
+        alert('Preencha todos os campos para cadastrar sua transação')
     }
 }
 
