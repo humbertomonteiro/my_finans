@@ -17,6 +17,17 @@
     text-align: center;
 }
 
+.balance-month {
+    width: 600px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.balance-month p {
+    font-size: .8em;
+}
+
 .div-month button {
     background-color: transparent;
     border: 0;
@@ -37,7 +48,7 @@
     color: #000;
 }
 
-.delete, .solve {
+.delete, .solve, .no-solve {
     padding: 7px;
     border-radius: 4px;
     border: 0;
@@ -48,7 +59,7 @@
     transition: .5s;
 }
 
-.delete:hover, .solve:hover{
+.delete:hover, .solve:hover, .no-solve:hover {
     transform: scale(1.1);
 }
 
@@ -56,14 +67,33 @@
     background-color: rgb(224, 0, 0);
 }
 
+.solve, .no-solve {
+    background-color: #00000023;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: center;
+}
+
 .solve {
-    background-color: #02c4a3;
+    color: #0077ff;
+}
+
+.no-solve {
+   color: rgb(224, 0, 0);
 }
 
 #form-date {
     padding: 2px;
     margin: 15px 0;
     border-radius: 4px;
+}
+
+.border-expenditure {
+    border-left: 4px solid rgb(224, 0, 0);
+}
+
+.border-revenue {
+    border-left: 4px solid #02c4a3;
 }
 
 @media (max-width: 470px) {

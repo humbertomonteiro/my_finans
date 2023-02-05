@@ -8,6 +8,7 @@ const btnCancel = document.querySelector('#btn-cancel')
 
 const revenueBtn = document.querySelector('#revenue-btn')
 const expenditureBtn = document.querySelector('#expenditure-btn')
+const checkbox = document.querySelector('#checkbox')
 const value = document.querySelector('#value')
 const description = document.querySelector('#description')
 const category = document.querySelector('#category')
@@ -44,9 +45,10 @@ function nextId() {
     return parseInt(localStorage.getItem('id')) + 1
 }
 // função factory
-function factoryTransactions(id, value, description, category, date) {
+function factoryTransactions(id, checkbox, value, description, category, date) {
     return {
         id,
+        checkbox,
         value, 
         description,
         category,
@@ -57,6 +59,7 @@ function factoryTransactions(id, value, description, category, date) {
 //setar transações
 function setTransactions() {
     const id = nextId()
+    const checkboxV = checkbox.checked
     const valueV = value.value
     const descriptionV = description.value
     const categoryV = category.value
@@ -70,6 +73,7 @@ function setTransactions() {
     if(expenditureTrue) {
         let transactions = factoryTransactions(
             id,
+            checkboxV,
             -valueV,
             descriptionV,
             categoryV,
@@ -83,6 +87,7 @@ function setTransactions() {
     } else {
         let transactions = factoryTransactions(
             id,
+            checkboxV,
             valueV,
             descriptionV,
             categoryV,
@@ -121,7 +126,7 @@ alltransactions()
 
 //balanço
 function balanceMonth(v) {
-    const valuesAdd = v.map(e => parseInt(e.value))
+    const valuesAdd = v.filter(e => e.checkbox === true).map(e => parseFloat(e.value))
 
     const balanceMonth = valuesAdd
     .reduce((a, val) => a + val, 0)

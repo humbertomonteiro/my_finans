@@ -47,6 +47,10 @@ nav {
     list-style: none;
 }
 
+.links a li p {
+    font-size: .7em;
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -139,6 +143,7 @@ main {
 }
 
 .checkbox {
+    width: 600px;
     margin: 10px;
     display: flex;
     justify-content: center;
@@ -188,6 +193,15 @@ main {
 
 @media (max-width: 600px) {
 
+    .links a li p {
+        display: none;
+    }
+
+    .links a li {
+        padding: 0 15px;
+        font-size: 1.5em;
+    }
+
     .container {
         width: 90%;
     }
@@ -210,17 +224,6 @@ main {
         width: 95%;
     }
 
-}
-
-@media (max-width: 500px) {
-    .links a li p {
-        display: none;
-    }
-
-    .links a li {
-        padding: 0 15px;
-        font-size: 1.5em;
-    }
 }
 
 @media (max-width: 400px) {

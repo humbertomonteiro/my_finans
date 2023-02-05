@@ -5,7 +5,9 @@ let currentMonth = currentData.getMonth() + 1
 const ids = localStorage.getItem('id')
 const arrayTransactions = []
 
-// const formDate = document.querySelector('#form-date')
+const currentValues = document.querySelector('#current-values')
+const currentBalanceMonth = document.querySelector('#current-balance-month')
+
 const sectionTransictions = document.querySelector('#section-transictions')
 
 const yearFilter = document.querySelector('#year-filter')
@@ -202,6 +204,24 @@ for(let i = 1; i <= ids; i++) {
     arrayTransactions.push(transactions)
 }
 
+function balanceMonth(v) {
+    const currentV = v.filter(e => e.checkbox === true).map(e => parseFloat(e.value))
+
+    const current = currentV
+    .reduce((a, val) => a + val, 0)
+    .toFixed(2)
+    currentValues.innerText = `R$ ${current}`
+
+    const balanceMonth = v.map(e => parseFloat(e.value))
+    
+    const currentM = balanceMonth
+    .reduce((a, val) => a + val, 0)
+    .toFixed(2)
+    currentBalanceMonth.innerText = `R$ ${currentM}`
+}
+
+balanceMonth(arrayTransactions)
+
 function showTransactions(y, m) {
     
     arrayTransactions.map(e => {
@@ -215,22 +235,66 @@ function showTransactions(y, m) {
             const li = document.createElement('li')
             li.classList.add('transation-li')
 
+            if(e.value < 0) {
+                li.classList.add('border-expenditure')
+            } else {
+                li.classList.add('border-revenue')
+            }
+
             // remover transations
             const btnRemove = document.createElement('button')
             btnRemove.setAttribute('id', `${e.id}`)
             btnRemove.classList.add('delete')
             btnRemove.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
 
+            const btnSolve = document.createElement('button')
+            btnSolve.setAttribute('id', `${e.id}`)
+
+            if(e.checkbox) {
+                btnSolve.innerHTML = '<i class="fa-solid fa-circle-check"></i>'
+                btnSolve.classList.add('solve')
+            } else {
+                btnSolve.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>'
+                btnSolve.classList.add('no-solve')
+            }
+            
+
             btnRemove.onclick = () => {
                 localStorage.removeItem(e.id)
                 location.reload()
             }
 
+            btnSolve.onclick = () => {
+
+                let getEdit = localStorage.getItem(e.id)
+                const trueOrFalse = JSON.parse(getEdit).checkbox
+
+                if(trueOrFalse) {
+                    let editing = localStorage.getItem(e.id)
+                    let editingParse = JSON.parse(editing)
+                    let edited = editingParse
+                    edited.checkbox = false
+
+                    localStorage.setItem(e.id, JSON.stringify(edited))
+                    location.reload()
+            
+                } else {
+                    let editing = localStorage.getItem(e.id)
+                    let editingParse = JSON.parse(editing)
+                    let edited = editingParse
+                    edited.checkbox = true
+
+                    localStorage.setItem(e.id, JSON.stringify(edited))
+                    location.reload()
+                }
+            }
+
             li.innerHTML = `
             <span>${e.category}</span>
             <span>${e.description}</span>
-            <span>R$ ${e.value}</span>
-            <button resolve class='solve'><i class="fa-solid fa-check"></i></button>`
+            <span>R$ ${e.value}</span>`
+
+            li.appendChild(btnSolve)
             li.appendChild(btnRemove)
 
             transactionsYear.append(li)
