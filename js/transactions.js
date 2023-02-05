@@ -241,11 +241,14 @@ function showTransactions(y, m) {
                 li.classList.add('border-revenue')
             }
 
-            // remover transations
             const btnRemove = document.createElement('button')
             btnRemove.setAttribute('id', `${e.id}`)
             btnRemove.classList.add('delete')
             btnRemove.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
+
+            const btnEdit = document.createElement('button')
+            btnEdit.classList.add('edit')
+            btnEdit.innerHTML = '<i class="fa-solid fa-pencil"></i>'
 
             const btnSolve = document.createElement('button')
             btnSolve.setAttribute('id', `${e.id}`)
@@ -257,11 +260,45 @@ function showTransactions(y, m) {
                 btnSolve.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>'
                 btnSolve.classList.add('no-solve')
             }
-            
 
             btnRemove.onclick = () => {
-                localStorage.removeItem(e.id)
-                location.reload()
+
+                const divBackground = document.createElement('div')
+                divBackground.classList.add('div-background')
+
+                const notification = document.createElement('div')
+                notification.classList.add('div-notification')
+                notification.innerHTML = '<h2>Quer realmente apagar essa transação?</h2>'
+
+                const divBtn = document.createElement('div')
+                divBtn.classList.add('div-btn')
+
+                const btnYes = document.createElement('button')
+                btnYes.classList.add('btn-delete')
+                btnYes.innerText = 'Sim'
+
+                const btnNo = document.createElement('button')
+                btnNo.classList.add('btn-delete')
+                btnNo.innerText = 'Não'
+
+                divBtn.append(btnYes)
+                divBtn.append(btnNo)
+
+                notification.append(divBtn)
+
+                divBackground.append(notification)
+
+                const body = document.querySelector('body')
+                body.append(divBackground)
+
+                btnYes.onclick = () => {
+                    localStorage.removeItem(e.id)
+                    location.reload()
+                }
+
+                btnNo.onclick = () => {
+                    divBackground.remove()
+                }
             }
 
             btnSolve.onclick = () => {
@@ -294,6 +331,7 @@ function showTransactions(y, m) {
             <span>${e.description}</span>
             <span>R$ ${e.value}</span>`
 
+            li.appendChild(btnEdit)
             li.appendChild(btnSolve)
             li.appendChild(btnRemove)
 

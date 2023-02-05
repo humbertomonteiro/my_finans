@@ -17,6 +17,14 @@
     text-align: center;
 }
 
+.div-month button {
+    background-color: transparent;
+    border: 0;
+    color: #02c4a3;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
 .balance-month {
     width: 600px;
     display: flex;
@@ -28,39 +36,52 @@
     font-size: .8em;
 }
 
-.div-month button {
-    background-color: transparent;
-    border: 0;
-    color: #02c4a3;
-    cursor: pointer;
-    font-size: 1.2em;
+.div-balance {
+    width: 140px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.div-balance i {
+    font-size: 1.3em;
 }
 
 .transation-li {
     list-style: none;
     width: 450px;
     display: grid;
-    grid-template-columns: 120px 120px 95px 50px 50px;
-    padding: 10px;
-    margin: 5px 0;
+    grid-template-columns: 115px 115px 90px 40px 40px 40px;
+    padding: 5px;
+    margin: 8px 0;
     border-radius: 4px;
     background-color: #fff;
     color: #000;
 }
 
-.delete, .solve, .no-solve {
+.transation-li span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+}
+
+.edit, .delete, .solve, .no-solve {
     padding: 7px;
     border-radius: 4px;
     border: 0;
-    margin-top: -5px;
-    margin-bottom: -5px;
-    margin-left: 4px;
+    margin: 2px;
     color: #fff;
     transition: .5s;
 }
 
-.delete:hover, .solve:hover, .no-solve:hover {
+.edit:hover, .delete:hover, .solve:hover, .no-solve:hover {
     transform: scale(1.1);
+}
+
+.edit {
+    background-color: #02c4a3;
 }
 
 .delete {
@@ -96,16 +117,115 @@
     border-left: 4px solid #02c4a3;
 }
 
+.div-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #9b9a9a49;
+}
+
+.div-notification {
+    background-color: rgb(11, 161, 149);
+    color: #fff;
+    text-shadow: 2px 1px 5px #000;
+    position: absolute;
+    left: 30%;
+    top: 30%;
+    width: 40%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    border: 5px solid rgb(255, 255, 255);
+    animation: slideY .8s;
+}
+
+.div-notification h2 {
+    padding: 5px;
+}
+
+.div-btn {
+    min-width: 200px;
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+}
+
+.div-btn .btn-delete {
+    width: 45%;
+    margin: 10px;
+    background-color: #0e0e0e;
+    color: #fff;
+    border: 0;
+    padding: 10px;
+    border-radius: 4px;
+    transition: .5s;
+}
+
+.div-btn .btn-delete:hover {
+    transform: scale(1.1);
+    background-color: #000;
+}
+
 @media (max-width: 470px) {
 
     .transation-li {
         width: 350px;
         display: grid;
-        grid-template-columns: 100px 100px 75px 30px 30px;
-        padding: 10px;
+        grid-template-columns: 87px 89px 74px 30px 30px 30px;
+        padding: 5px;
         margin: 5px 0;
         border-radius: 4px;
         background-color: #fff;
         color: #000;
+    }
+
+    .transation-li span {
+        font-size: .9em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: flex;
+        align-items: center;
+    }
+
+    .balance-month {
+        width: 350px;
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+    }
+
+    .div-notification {
+        left: 25%;
+        top: 30%;
+        width: 50%;
+        height: 30%;
+    }
+
+    .div-notification h2 {
+        font-size: 1.2em;
+    }
+
+    .div-btn {
+        min-width: 130px;
+        display: flex;
+        justify-content: space-around;
+        padding: 5px;
+    }
+}
+
+@keyframes slideY {
+    from{
+        transform: translateY(90px);
+    }
+    to {
+        transform: translateY(0px);
     }
 }

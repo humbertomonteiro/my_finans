@@ -69,6 +69,11 @@ function setTransactions() {
 
     const expenditureTrue = document.querySelector('[expenditure]')
 
+    if(valueV === '' || descriptionV === '' || categoryV === '' || dateValue === '') {
+        alert('Preencha todos os campos para cadastrar sua transação')
+        return
+    }
+
     // se for despesa
     if(expenditureTrue) {
         let transactions = factoryTransactions(
@@ -96,11 +101,6 @@ function setTransactions() {
 
         localStorage.setItem(id, JSON.stringify(transactions))
         localStorage.setItem('id', id)
-    }
-
-    // verificar se foram setados os valores
-    if(valueV === '' || descriptionV === '' || categoryV === '' || dateValue === '') {
-        alert('Preencha todos os campos para cadastrar sua transação')
     }
 }
 
