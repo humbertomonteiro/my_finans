@@ -282,9 +282,7 @@ function showTransactions(y, m) {
 
                 transactionEdit.checkboxV = !trueOrFalse
 
-
                 allTransaction = allTransaction.filter(e => getId != e.id)
-
                 allTransaction.push(transactionEdit)
 
                 localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
@@ -292,10 +290,91 @@ function showTransactions(y, m) {
                 location.reload()
             }
 
-            // btnEdit.onclick = () => {   
-            //     const divBackground = document.querySelector('.div-background')
-            //     divBackground.classList.remove('hidden')
-            // }
+            btnEdit.onclick = () => {   
+
+                const body = document.querySelector('body')
+                const divBackground = document.createElement('div')
+                divBackground.classList.add('div-background')
+                const divEdition = document.createElement('div')
+                divEdition.classList.add('div-edition')
+
+                const dataBr = e.dateValue.split('/')
+                const dataUsa = `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
+
+                divEdition.innerHTML = `
+                <form class="div-inputs">
+                <h2>Editar Transação</h2>
+                <input id="value-edit" value="${e.valueV}" class="i-value" type="text" placeholder="Valor">
+                <input id="description-edit" value="${e.descriptionV}" type="text" placeholder="Descrição">
+                <input id="category-edit" value="${e.categoryV}" type="text" placeholder="Categoria">
+                <input id="date-edit" value="${dataUsa}" type="date" placeholder="date">
+                <div class="div-check">
+                    <h3>Resolvido</h3>
+                    <input id="check-edit" type="checkbox" name="" id="">
+                </div>
+                <button id="btn-cancel" class="btn-notification">Cancelar</button>
+                <button id="btn-edition" class="btn-notification">Pronto</button>
+                </form>`
+
+                divBackground.append(divEdition)
+                body.append(divBackground)
+
+                const btnCancel = document.querySelector('#btn-cancel')
+                btnCancel.onclick = e => {
+                    e.preventDefault()
+                    divBackground.remove()
+                }
+                
+                const btnEdition = document.querySelector('#btn-edition')
+                btnEdition.onclick = a => {
+                    a.preventDefault()
+                    const valueEdit = document.querySelector('#value-edit')
+                    const descriptionEdit = document.querySelector('#description-edit')
+                    const categoryEdit = document.querySelector('#category-edit')
+                    const dateEdit = document.querySelector('#date-edit')
+                    const checkEdit = document.querySelector('#date-edit')
+
+                    const idEdit = e.id
+                    let valueEditV = valueEdit.value
+                    const descriptionEditV = descriptionEdit.value
+                    const categoryEditV = categoryEdit.value
+                    const dateEditV = dateEdit.value
+                    let dateUsaEdit = dateEditV.split('-')
+                    let dateEditValue = `${dateUsaEdit[2]}/${dateUsaEdit[1]}/${dateUsaEdit[0]}`
+                    const checkboxEditeV = checkEdit.checked
+                    const timesEdit = 1
+
+                    if(valueEditV === '' || descriptionEditV === '' || categoryEditV === '' || dateEditV === '') {
+                        alert('Preencha todos os campos para cadastrar sua transação')
+                        return
+                    }
+
+                    const arrayValueEdit = String(valueEditV).split('')
+                    const hasVirgulaEdit = arrayValueEdit.indexOf(',')
+
+                    if(hasVirgulaEdit != -1) {
+                        arrayValueEdit[hasVirgulaEdit] = '.'
+                        valueEditV = arrayValueEdit.join('')
+                    }
+
+                    allTransaction = allTransaction.filter(c => c.id != e.id)
+                    console.log(allTransaction)
+
+                    allTransaction.push({
+                        id: idEdit,     
+                        checkboxV: checkboxEditeV,
+                        valueV: valueEditV,
+                        descriptionV: descriptionEditV,
+                        categoryV: categoryEditV,
+                        dateValue: dateEditValue,
+                        timesV: timesEdit
+                    })
+
+                    localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
+
+                    location.reload()
+                }
+            }
 
             li.innerHTML = `
             <span>${e.categoryV}</span>
