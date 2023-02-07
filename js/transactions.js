@@ -2,9 +2,6 @@ const currentData = new Date
 let currentYear = currentData.getFullYear()
 let currentMonth = currentData.getMonth() + 1
 
-const ids = localStorage.getItem('id')
-const arrayTransactions = []
-
 const currentValues = document.querySelector('#current-values')
 const currentBalanceMonth = document.querySelector('#current-balance-month')
 
@@ -127,8 +124,6 @@ function createCalendar() {
         transactionsYear.innerHTML = ''
 
         showTransactions(currentYear, currentMonth)
-
-        console.log(currentMonth, currentYear)
     }
 
     btnAfter.onclick = () => {
@@ -184,7 +179,6 @@ function createCalendar() {
 
         showTransactions(currentYear, currentMonth)
 
-        console.log(currentMonth, currentYear)
     }
 
     divMonth.append(btnBefore)
@@ -196,37 +190,13 @@ function createCalendar() {
 
 createCalendar()
 
-for(let i = 1; i <= ids; i++) {
-    const transactions = JSON.parse(localStorage.getItem(i))
-
-    if(transactions === null) continue
-
-    arrayTransactions.push(transactions)
-}
-
-function balanceMonth(v) {
-    const currentV = v.filter(e => e.checkbox === true).map(e => parseFloat(e.value))
-
-    const current = currentV
-    .reduce((a, val) => a + val, 0)
-    .toFixed(2)
-    currentValues.innerText = `R$ ${current}`
-
-    const balanceMonth = v.map(e => parseFloat(e.value))
-    
-    const currentM = balanceMonth
-    .reduce((a, val) => a + val, 0)
-    .toFixed(2)
-    currentBalanceMonth.innerText = `R$ ${currentM}`
-}
-
-balanceMonth(arrayTransactions)
+let allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
 
 function showTransactions(y, m) {
     
-    arrayTransactions.map(e => {
+    allTransaction.map(e => {
 
-        const date = e.date
+        const date = e.dateValue
         const dateSplit = date.split('/')
         const year = dateSplit[2]
         const monthNumber = dateSplit[1]
@@ -235,7 +205,7 @@ function showTransactions(y, m) {
             const li = document.createElement('li')
             li.classList.add('transation-li')
 
-            if(e.value < 0) {
+            if(e.valueV < 0) {
                 li.classList.add('border-expenditure')
             } else {
                 li.classList.add('border-revenue')
@@ -246,19 +216,18 @@ function showTransactions(y, m) {
             btnRemove.classList.add('delete')
             btnRemove.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
 
+            const btnSolve = document.createElement('button')
+            btnSolve.setAttribute('id', `${e.id}`)
+            btnSolve.classList.add('solve')
+
             const btnEdit = document.createElement('button')
             btnEdit.classList.add('edit')
             btnEdit.innerHTML = '<i class="fa-solid fa-pencil"></i>'
 
-            const btnSolve = document.createElement('button')
-            btnSolve.setAttribute('id', `${e.id}`)
-
-            if(e.checkbox) {
+            if(e.checkboxV) {
                 btnSolve.innerHTML = '<i class="fa-solid fa-circle-check"></i>'
-                btnSolve.classList.add('solve')
             } else {
                 btnSolve.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>'
-                btnSolve.classList.add('no-solve')
             }
 
             btnRemove.onclick = () => {
@@ -274,11 +243,11 @@ function showTransactions(y, m) {
                 divBtn.classList.add('div-btn')
 
                 const btnYes = document.createElement('button')
-                btnYes.classList.add('btn-delete')
+                btnYes.classList.add('btn-notification')
                 btnYes.innerText = 'Sim'
 
                 const btnNo = document.createElement('button')
-                btnNo.classList.add('btn-delete')
+                btnNo.classList.add('btn-notification')
                 btnNo.innerText = 'Não'
 
                 divBtn.append(btnYes)
@@ -292,7 +261,9 @@ function showTransactions(y, m) {
                 body.append(divBackground)
 
                 btnYes.onclick = () => {
-                    localStorage.removeItem(e.id)
+                    allTransaction = allTransaction.filter(a => a.id != e.id)
+                    localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
+
                     location.reload()
                 }
 
@@ -302,40 +273,63 @@ function showTransactions(y, m) {
             }
 
             btnSolve.onclick = () => {
+                
+                const getId = e.id
+                const index = allTransaction.indexOf(e)
+                const trueOrFalse = allTransaction[index].checkboxV
 
-                let getEdit = localStorage.getItem(e.id)
-                const trueOrFalse = JSON.parse(getEdit).checkbox
+                let transactionEdit = e
 
-                if(trueOrFalse) {
-                    let editing = localStorage.getItem(e.id)
-                    let editingParse = JSON.parse(editing)
-                    let edited = editingParse
-                    edited.checkbox = false
+                transactionEdit.checkboxV = !trueOrFalse
 
-                    localStorage.setItem(e.id, JSON.stringify(edited))
-                    location.reload()
-            
-                } else {
-                    let editing = localStorage.getItem(e.id)
-                    let editingParse = JSON.parse(editing)
-                    let edited = editingParse
-                    edited.checkbox = true
 
-                    localStorage.setItem(e.id, JSON.stringify(edited))
-                    location.reload()
-                }
+                allTransaction = allTransaction.filter(e => getId != e.id)
+
+                allTransaction.push(transactionEdit)
+
+                localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
+
+                location.reload()
             }
 
+            // btnEdit.onclick = () => {   
+            //     const divBackground = document.querySelector('.div-background')
+            //     divBackground.classList.remove('hidden')
+            // }
+
             li.innerHTML = `
-            <span>${e.category}</span>
-            <span>${e.description}</span>
-            <span>R$ ${e.value}</span>`
+            <span>${e.categoryV}</span>
+            <span>${e.descriptionV}</span>
+            <span>R$ ${Number(e.valueV).toFixed(2)}</span>`
 
             li.appendChild(btnEdit)
-            li.appendChild(btnSolve)
             li.appendChild(btnRemove)
+            li.appendChild(btnSolve)
 
             transactionsYear.append(li)
+
+            //balance
+            const currentV = allTransaction.filter(e => e.checkboxV === true).map(e => parseFloat(e.valueV))
+            
+            const current = currentV
+            .reduce((a, val) => a + val, 0)
+            .toFixed(2)
+            currentValues.innerText = `R$ ${current}`
+        
+            const balanceMonth = allTransaction.filter(e => {
+                const arraysDate = e.dateValue.split('/')
+
+                if(arraysDate[1] === monthNumber) {
+                    return e.valueV
+                }
+    
+            }).map(e => parseFloat(e.valueV))
+            .reduce((a, val) => a + val, 0)
+            .toFixed(2)
+
+            const currentM = balanceMonth
+
+            currentBalanceMonth.innerText = `R$ ${currentM}`
         }
 
     })

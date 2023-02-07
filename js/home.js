@@ -13,6 +13,7 @@ const value = document.querySelector('#value')
 const description = document.querySelector('#description')
 const category = document.querySelector('#category')
 const date = document.querySelector('#date')
+const times = document.querySelector('#times')
 
 // botão de receita
 revenueBtn.onclick = () => {
@@ -20,7 +21,6 @@ revenueBtn.onclick = () => {
     btnCad.classList.remove('expenditure-btn')
 
     formCad.classList.add('show')
-    formCad.setAttribute('revenue', true)
     formCad.removeAttribute('expenditure', true)
 }
 
@@ -31,128 +31,136 @@ expenditureBtn.onclick = () => {
 
     formCad.classList.add('show')
     formCad.setAttribute('expenditure', true)
-    formCad.removeAttribute('revenue', true)
 }
 
 // setar id no localstorage
-function nextId() {
-    const id = localStorage.getItem('id')
+const generationId = () => Math.round(Math.random() * 1000)
 
-    if(id === null) {
-        localStorage.setItem('id', 0)
-    }
-  
-    return parseInt(localStorage.getItem('id')) + 1
-}
-// função factory
-function factoryTransactions(id, checkbox, value, description, category, date) {
-    return {
-        id,
-        checkbox,
-        value, 
-        description,
-        category,
-        date
-    }
-}
+let setAllTransaction = new Array
 
 //setar transações
 function setTransactions() {
-    const id = nextId()
+    let id = generationId()
     const checkboxV = checkbox.checked
-    const valueV = value.value
+    let valueV = value.value
     const descriptionV = description.value
     const categoryV = category.value
     const dateValueUsa = date.value
-    const dateUsa = dateValueUsa.split('-')
-    const dateValue = `${dateUsa[2]}/${dateUsa[1]}/${dateUsa[0]}`
+    let dateUsa = dateValueUsa.split('-')
+    let dateValue = `${dateUsa[2]}/${dateUsa[1]}/${dateUsa[0]}`
+    const timesV = times.value
 
+    // adiciona atributo para informar despesa
     const expenditureTrue = document.querySelector('[expenditure]')
 
+    if(expenditureTrue) {
+            valueV = -valueV
+        }
+
+    // virifica se foram setados todos os valores
     if(valueV === '' || descriptionV === '' || categoryV === '' || dateValue === '') {
         alert('Preencha todos os campos para cadastrar sua transação')
         return
     }
 
-    // se for despesa
-    if(expenditureTrue) {
-        let transactions = factoryTransactions(
-            id,
-            checkboxV,
-            -valueV,
-            descriptionV,
-            categoryV,
-            dateValue
-        )
+    // trocar a virgula por ponto
+    const arrayValue = String(valueV).split('')
+    const hasVirgula = arrayValue.indexOf(',')
+
+    if(hasVirgula != -1) {
+        arrayValue[hasVirgula] = '.'
+        valueV = arrayValue.join('')
+    }
+
+    if(localStorage.hasOwnProperty('setAllTransaction')) {
+        setAllTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
+    }
+
+    setAllTransaction.push({
+        id,
+        checkboxV,
+        valueV,
+        descriptionV,
+        categoryV,
+        dateValue,
+        timesV
+    }) 
+
+    localStorage.setItem('setAllTransaction', JSON.stringify(setAllTransaction))
         
-        localStorage.setItem(id, JSON.stringify(transactions))
-        localStorage.setItem('id', id)
+    if(timesV > 1) {
 
-    // se for receita
-    } else {
-        let transactions = factoryTransactions(
-            id,
-            checkboxV,
-            valueV,
-            descriptionV,
-            categoryV,
-            dateValue
-        )
+        for(let i = 1; i < timesV; i++) {
 
-        localStorage.setItem(id, JSON.stringify(transactions))
-        localStorage.setItem('id', id)
+            let dateValue = `${dateUsa[2]}/${++dateUsa[1]}/${dateUsa[0]}`
+            ++id
+
+            if(localStorage.hasOwnProperty('setAllTransaction')) {
+                setAllTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
+            }
+
+            if(checkboxV) {
+                setAllTransaction.push({
+                    id,
+                    checkboxV: false,
+                    valueV,
+                    descriptionV,
+                    categoryV,
+                    dateValue,
+                    timesV
+                })
+            } else {
+                setAllTransaction.push({
+                    id,
+                    checkboxV,
+                    valueV,
+                    descriptionV,
+                    categoryV,
+                    dateValue,
+                    timesV
+                })
+            }            
+
+            localStorage.setItem('setAllTransaction', JSON.stringify(setAllTransaction))
+        }
+        
     }
 }
 
-// todas as transações
-let arrayAlltransactions = []
-
-function alltransactions() {
-    const ids = localStorage.getItem('id')
-    
-    for(let i = 1; i <= ids; i++) {
-        const transactions = JSON.parse(localStorage.getItem(i))
-    
-        if(transactions === null) continue
-
-        arrayAlltransactions.push(transactions)
-
-    }
-
-    return arrayAlltransactions
-}
-
-alltransactions()
+const allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
 
 //balanço
 function balanceMonth(v) {
-    const valuesAdd = v.filter(e => e.checkbox === true).map(e => parseFloat(e.value))
 
-    const balanceMonth = valuesAdd
+    if(v == null) return
+
+    const allValues = v.filter(e => e.checkboxV === true).map(e => parseFloat(e.valueV))
+
+    const balanceMonth = allValues
     .reduce((a, val) => a + val, 0)
     .toFixed(2)
     balance.innerText = `R$ ${balanceMonth}`
 
-    const revenueMonth = valuesAdd
+    const revenueMonth = allValues
     .filter(e => e > 0)
     .reduce((a, val) => a + val, 0)
     .toFixed(2)
     revenue.innerText = `R$ ${revenueMonth}`
 
-    const expenditureMonth = valuesAdd
+    const expenditureMonth = allValues
     .filter(e => e < 0)
     .reduce((a, val) => a + val, 0)
     .toFixed(2)
     expenditure.innerText = `R$ ${expenditureMonth}`
 }
 
-balanceMonth(arrayAlltransactions)
+balanceMonth(allTransaction)
 
 //submetendo formulario
 formCad.addEventListener('submit', e => {
     e.preventDefault()
 
     setTransactions()
-    balanceMonth(arrayAlltransactions)
+    balanceMonth(allTransaction)
     location.reload()
 })
