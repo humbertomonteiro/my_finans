@@ -47,6 +47,10 @@
     font-size: 1.3em;
 }
 
+[day] {
+    margin-top: 10px;
+}
+
 .transation-li {
     list-style: none;
     width: 450px;
