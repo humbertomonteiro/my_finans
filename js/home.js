@@ -2,12 +2,14 @@ const balance = document.querySelector('#balance')
 const revenue = document.querySelector('#revenue')
 const expenditure = document.querySelector('#expenditure')
 
+const revenuePendency = document.querySelector('#revenue-pendency')
+const expenditurePendency = document.querySelector('#expenditure-pendency')
+
 const formCad = document.querySelector('#form-cad')
 const btnCad = document.querySelector('#btn-cad')
-const btnCancel = document.querySelector('#btn-cancel')
-
 const revenueBtn = document.querySelector('#revenue-btn')
 const expenditureBtn = document.querySelector('#expenditure-btn')
+
 const checkboxSolve = document.querySelector('#checkbox-solve')
 const value = document.querySelector('#value')
 const description = document.querySelector('#description')

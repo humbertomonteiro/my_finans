@@ -124,6 +124,14 @@ function createCalendar() {
 
         transactionsYear.innerHTML = ''
 
+        for(let m = 1; m <= 30; m++) {
+            const ul = document.createElement('ul')
+            ul.classList.add('hidden')
+            ul.setAttribute('day', m)
+            ul.innerText = `Dia ${m}`
+            transactionsYear.append(ul)
+        }
+
         showBalenceAndTransactions(currentYear, currentMonth)
     }
 
@@ -178,6 +186,14 @@ function createCalendar() {
 
         transactionsYear.innerHTML = ''
 
+        for(let m = 1; m <= 30; m++) {
+            const ul = document.createElement('ul')
+            ul.classList.add('hidden')
+            ul.setAttribute('day', m)
+            ul.innerText = `Dia ${m}`
+            transactionsYear.append(ul)
+        }
+
         showBalenceAndTransactions(currentYear, currentMonth)
     }
 
@@ -192,30 +208,13 @@ createCalendar()
 
 let allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
 
-// let newAllTransaction = new Array
-// newAllTransaction = allTransaction
-
-// const arrayDays = newAllTransaction.map(e => e.dateValue)
-
-// const ulDays = new Set()
-
-// arrayDays.forEach(e => ulDays.add(e))
-// const dates = [...ulDays.values()]
-
-// dates.map(e => {
-//     const dateS = e.split('/')
-//     allTransaction.map(e => console.log(e.dateValue))
-
-//     const ulDays = document.createElement('ul')
-//     ulDays.setAttribute(`day${dateS[0]}month${dateS[1]}`, true)
-//     ulDays.classList.add('ulDays')
-
-//     if(dateS[0] === currentDay && dateS[1] === currentMonth) {
-//         transactionsYear.append(ulDays)
-//     }
-
-    
-// })
+for(let m = 1; m <= 30; m++) {
+    const ul = document.createElement('ul')
+    ul.classList.add('hidden')
+    ul.setAttribute('day', m)
+    ul.innerText = `Dia ${m}`
+    transactionsYear.append(ul)
+}
 
 function showBalenceAndTransactions(y, m) {    
 
@@ -438,7 +437,14 @@ function showBalenceAndTransactions(y, m) {
             li.appendChild(btnRemove)
             li.appendChild(btnSolve) 
 
-            transactionsYear.append(li)
+            const getUl = document.querySelectorAll(`[day]`)
+            getUl.forEach(e => {
+                if (`0${e.getAttribute('day')}` === day || e.getAttribute('day') === day) {
+                    e.append(li)
+                    e.classList.remove('hidden')
+                }
+            })
+
         } 
     })
 }

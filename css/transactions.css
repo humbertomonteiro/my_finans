@@ -84,7 +84,7 @@
 }
 
 .edit {
-    background-color: #02c4a3;
+    background-color: #02adc4;
 }
 
 .delete {
@@ -182,8 +182,8 @@
 
 .div-edition {
     width: 60%;
-    height: 30%;
-    background-color: #02c4a3;
+    height: 50%;
+    background-color: #02adc4;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -253,6 +253,10 @@
 
 .div-inputs button:hover {
     transform: scale(1.1);
+}
+
+.hidden {
+    display: none;
 }
 
 @media (max-width: 580px) {
