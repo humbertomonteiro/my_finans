@@ -8,7 +8,7 @@ const btnCancel = document.querySelector('#btn-cancel')
 
 const revenueBtn = document.querySelector('#revenue-btn')
 const expenditureBtn = document.querySelector('#expenditure-btn')
-const checkbox = document.querySelector('#checkbox')
+const checkboxSolve = document.querySelector('#checkbox-solve')
 const value = document.querySelector('#value')
 const description = document.querySelector('#description')
 const category = document.querySelector('#category')
@@ -41,7 +41,7 @@ let setAllTransaction = new Array
 //setar transações
 function setTransactions() {
     let id = generationId()
-    const checkboxV = checkbox.checked
+    const checkboxV = checkboxSolve.checked
     let valueV = value.value
     const descriptionV = description.value
     const categoryV = category.value
@@ -126,6 +126,8 @@ function setTransactions() {
         
     }
 }
+
+const newAllTransations = new Array()
 
 const allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
 

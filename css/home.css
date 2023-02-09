@@ -150,10 +150,71 @@ main {
     align-items: center;
 }
 
-.checkbox input {
-    margin: 4px;
-    width: 30px;
-    border-radius: 10px;
+.switch, .switch-solve {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.switch .switch-wrapper {
+    display: inline-block;
+    width: 65px;
+    height: 24px;
+    position: relative;
+}
+
+.switch .switch-wrapper .switch-btn, 
+.switch-solve .switch-wrapper .switch-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    background-color: gray;
+}
+
+.switch .switch-wrapper .switch-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch .switch-wrapper .switch-btn::before,
+.switch-solve .switch-wrapper .switch-btn::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 2px;
+    border-radius: 50%;
+    transition: .4s all ease;
+    background-color: #fff;
+}
+
+.switch .switch-wrapper .switch-input:checked + .switch-btn, 
+.switch-solve .switch-wrapper .switch-input:checked + .switch-btn {
+    background-color: #02c4a3;
+}
+
+.switch .switch-wrapper .switch-input:checked + .switch-btn::before,
+.switch-solve .switch-wrapper .switch-input:checked + .switch-btn::before {
+    left: 23px;
+}
+
+.switch-solve .switch-wrapper {
+    display: inline-block;
+    width: 33px;
+    height: 24px;
+    position: relative;
+}
+
+.checkbox span {
+    margin: 0 10px;
 }
 
 .btn {
@@ -211,6 +272,10 @@ main {
         max-width: 90%;
     }
 
+    .inputs {
+        width: 99.9%;
+    }
+
     .inputs input {
         display: flex;
         width: 300px;
@@ -234,5 +299,15 @@ main {
 
     .inputs input {
         margin-bottom: 8;
+    }
+}
+
+@media (max-width: 280px) {
+    .logo {
+        font-size: 1em;
+    }
+
+    .links {
+        font-size: .8em;
     }
 }

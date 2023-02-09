@@ -1,6 +1,7 @@
-const currentData = new Date
-let currentYear = currentData.getFullYear()
-let currentMonth = currentData.getMonth() + 1
+const currentDate = new Date
+let currentYear = currentDate.getFullYear()
+let currentMonth = currentDate.getMonth() + 1
+let currentDay = currentDate.getDate()
 
 const currentValues = document.querySelector('#current-values')
 const currentBalanceMonth = document.querySelector('#current-balance-month')
@@ -123,7 +124,7 @@ function createCalendar() {
 
         transactionsYear.innerHTML = ''
 
-        showTransactions(currentYear, currentMonth)
+        showBalenceAndTransactions(currentYear, currentMonth)
     }
 
     btnAfter.onclick = () => {
@@ -177,8 +178,7 @@ function createCalendar() {
 
         transactionsYear.innerHTML = ''
 
-        showTransactions(currentYear, currentMonth)
-
+        showBalenceAndTransactions(currentYear, currentMonth)
     }
 
     divMonth.append(btnBefore)
@@ -192,16 +192,69 @@ createCalendar()
 
 let allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
 
-function showTransactions(y, m) {
+// let newAllTransaction = new Array
+// newAllTransaction = allTransaction
+
+// const arrayDays = newAllTransaction.map(e => e.dateValue)
+
+// const ulDays = new Set()
+
+// arrayDays.forEach(e => ulDays.add(e))
+// const dates = [...ulDays.values()]
+
+// dates.map(e => {
+//     const dateS = e.split('/')
+//     allTransaction.map(e => console.log(e.dateValue))
+
+//     const ulDays = document.createElement('ul')
+//     ulDays.setAttribute(`day${dateS[0]}month${dateS[1]}`, true)
+//     ulDays.classList.add('ulDays')
+
+//     if(dateS[0] === currentDay && dateS[1] === currentMonth) {
+//         transactionsYear.append(ulDays)
+//     }
+
     
+// })
+
+function showBalenceAndTransactions(y, m) {    
+
     allTransaction.map(e => {
 
         const date = e.dateValue
         const dateSplit = date.split('/')
         const year = dateSplit[2]
         const monthNumber = dateSplit[1]
-        
+        const day = dateSplit[0]
+
         if(y === Number(year) && m === Number(monthNumber)) {
+
+            //balance
+            const currentV = allTransaction
+                .filter(e => e.checkboxV === true)
+                .map(e => parseFloat(e.valueV))
+            
+            const current = currentV
+            .reduce((a, val) => a + val, 0)
+            .toFixed(2)
+            currentValues.innerText = `R$ ${current}`
+        
+            const balanceMonth = allTransaction.filter(e => {
+                const arraysDate = e.dateValue.split('/')
+
+                if(arraysDate[1] === monthNumber) {
+                    return e.valueV
+                }
+    
+            }).map(e => parseFloat(e.valueV))
+            .reduce((a, val) => a + val, 0)
+            .toFixed(2)
+
+            const currentM = balanceMonth
+
+            currentBalanceMonth.innerText = `R$ ${currentM}`
+
+            //mostrar transações
             const li = document.createElement('li')
             li.classList.add('transation-li')
 
@@ -216,19 +269,19 @@ function showTransactions(y, m) {
             btnRemove.classList.add('delete')
             btnRemove.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
 
-            const btnSolve = document.createElement('button')
+            const btnSolve = document.createElement('div')
             btnSolve.setAttribute('id', `${e.id}`)
             btnSolve.classList.add('solve')
+            
+            if(e.checkboxV) {
+                btnSolve.innerHTML = '<i class="fa-regular fa-circle-check"></i>'
+            } else {
+                btnSolve.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+            }
 
             const btnEdit = document.createElement('button')
             btnEdit.classList.add('edit')
             btnEdit.innerHTML = '<i class="fa-solid fa-pencil"></i>'
-
-            if(e.checkboxV) {
-                btnSolve.innerHTML = '<i class="fa-solid fa-circle-check"></i>'
-            } else {
-                btnSolve.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>'
-            }
 
             btnRemove.onclick = () => {
 
@@ -250,8 +303,8 @@ function showTransactions(y, m) {
                 btnNo.classList.add('btn-notification')
                 btnNo.innerText = 'Não'
 
-                divBtn.append(btnYes)
                 divBtn.append(btnNo)
+                divBtn.append(btnYes)
 
                 notification.append(divBtn)
 
@@ -272,8 +325,8 @@ function showTransactions(y, m) {
                 }
             }
 
-            btnSolve.onclick = () => {
-                
+            btnSolve.onclick = c => {
+                 
                 const getId = e.id
                 const index = allTransaction.indexOf(e)
                 const trueOrFalse = allTransaction[index].checkboxV
@@ -305,15 +358,15 @@ function showTransactions(y, m) {
                 <form class="div-inputs">
                 <h2>Editar Transação</h2>
                 <input id="value-edit" value="${e.valueV}" class="i-value" type="text" placeholder="Valor">
-                <input id="description-edit" value="${e.descriptionV}" type="text" placeholder="Descrição">
-                <input id="category-edit" value="${e.categoryV}" type="text" placeholder="Categoria">
-                <input id="date-edit" value="${dataUsa}" type="date" placeholder="date">
+                <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text" placeholder="Descrição">
+                <input id="category-edit" value="${e.categoryV}" class="i-value" type="text" placeholder="Categoria">
+                <input id="date-edit" value="${dataUsa}" class="i-value-2" type="date" placeholder="date">
                 <div class="div-check">
                     <h3>Resolvido</h3>
                     <input id="check-edit" type="checkbox" name="" id="">
                 </div>
-                <button id="btn-cancel" class="btn-notification">Cancelar</button>
-                <button id="btn-edition" class="btn-notification">Pronto</button>
+                <button id="btn-cancel" class="i-value-3 btn-notification">Cancelar</button>
+                <button id="btn-edition" class=i-value-3 "btn-notification">Pronto</button>
                 </form>`
 
                 divBackground.append(divEdition)
@@ -383,35 +436,37 @@ function showTransactions(y, m) {
 
             li.appendChild(btnEdit)
             li.appendChild(btnRemove)
-            li.appendChild(btnSolve)
+            li.appendChild(btnSolve) 
 
             transactionsYear.append(li)
-
-            //balance
-            const currentV = allTransaction.filter(e => e.checkboxV === true).map(e => parseFloat(e.valueV))
-            
-            const current = currentV
-            .reduce((a, val) => a + val, 0)
-            .toFixed(2)
-            currentValues.innerText = `R$ ${current}`
-        
-            const balanceMonth = allTransaction.filter(e => {
-                const arraysDate = e.dateValue.split('/')
-
-                if(arraysDate[1] === monthNumber) {
-                    return e.valueV
-                }
-    
-            }).map(e => parseFloat(e.valueV))
-            .reduce((a, val) => a + val, 0)
-            .toFixed(2)
-
-            const currentM = balanceMonth
-
-            currentBalanceMonth.innerText = `R$ ${currentM}`
-        }
-
+        } 
     })
 }
 
-showTransactions(currentYear, currentMonth)
+showBalenceAndTransactions(currentYear, currentMonth)
+
+// const ulDays = document.querySelector(`[day${currentDay}month${currentMonth}]`)
+
+// ulDays.append(li)
+
+// arrayDays.map(f => {
+//     const ulDay = document.createElement('ul')
+//     ulDay.setAttribute('id',`day${f}`)
+//     ulDay.innerText = f
+//     return transactionsYear.append(ulDay)
+// })
+// arrayDays = lis.filter((d, nextD) => lis.indexOf(d) === nextD)
+
+// arrayDays.map(f => {
+//     const ulDay = document.createElement('ul')
+
+//     if(getUlDay) {
+//         return
+//     } else {
+//         ulDay.setAttribute('id',`day${f}`)
+//         ulDay.innerText = f
+
+//         return transactionsYear.append(ulDay)
+//     }
+
+// })

@@ -73,16 +73,21 @@
 
             <form id="form-cad" class="submit">
                 <div class="checkbox">
-                    <p>Resolvido</p> 
-                    <input type="checkbox" id="checkbox" checked>
+                    <label class="switch">
+                        <span class="switch-text">Resolvido</span>
+                        <div class="switch-wrapper">
+                            <input id="checkbox-solve" type="checkbox" class="switch-input">
+                            <span class="switch-btn"></span>
+                        </div>
+                    </label>
                 </div>
                 <div class="inputs">
                     <input id="value" type="text" placeholder="valor">
+                    <input id="category" type="text" placeholder="categoria">
                     <input id="description" type="text" placeholder="descricao">
-                    <input id="category" type="text" placeh older="categoria">
                     <input id="date" type="date" placeholder="data">
                     <div class="checkbox">
-                        <p>Quantas vezes</p>
+                        <span>Quantas vezes</span>
                         <select name="" id="times">
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -96,9 +101,19 @@
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
-                            <option value="fixed">Fixa</option>
                         </select>
                     </div>
+
+                    <div class="checkbox">
+                        <label class="switch">
+                            <span class="switch-text">Despesa fixa</span>
+                            <div class="switch-wrapper">
+                                <input id="checkbox" type="checkbox" class="switch-input">
+                                <span class="switch-btn"></span>
+                            </div>
+                        </label>
+                    </div>
+
                     <button class="btn" id="btn-cad">Cadastrar</button>
                 </div>
 
