@@ -323,7 +323,7 @@ main {
 @media (max-width: 400px) {
 
     .links {
-        position: absolut;
+        position: absolute;
         bottom: 0;
         width: 100%;
         background-color: #0000009d;
