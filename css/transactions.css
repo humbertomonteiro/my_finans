@@ -350,12 +350,6 @@
 
 }
 
-@media (max-width: 400px) {
-    .container-transactions {
-        margin-bottom: 50px;
-    }
-}
-
 @media (max-width: 300px) {
 
     .transation-li {
