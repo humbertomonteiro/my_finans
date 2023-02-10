@@ -321,16 +321,17 @@ main {
 }
 
 @media (max-width: 400px) {
-    
-    .cad-transations {
-        margin-bottom: 50px;
-    }
 
     .links {
         position: fixed;
         bottom: 0;
         width: 100%;
+        margin-top: 70px;
         background-color: #0000009d;
+    }
+    
+     .links a li p {
+        display: block;
     }
 
     .inputs input {
