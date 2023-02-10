@@ -326,12 +326,11 @@ main {
         position: fixed;
         bottom: 0;
         width: 100%;
-        margin-top: 70px;
         background-color: #0000009d;
     }
     
-     .links a li p {
-        display: block;
+    .cad-transations {
+        margin-bottom: 70px;
     }
 
     .inputs input {
