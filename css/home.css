@@ -386,6 +386,10 @@ main {
         width: 100%;
         background-color: #0000009d;
     }
+    
+    .cad-transations {
+        margin-bottom: 70px;
+    }
 
     .cad-transations {
         margin-bottom: 70px;
