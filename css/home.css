@@ -102,35 +102,62 @@ main {
 /* pendency */
 
 .container-pendency {
-    max-width: 800px;
+    width: 70%;
+    margin-bottom: 10px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
 }
 
 .container-pendency a {
     text-decoration: none;
+    margin: 5px;
 }
 
-.container-pendency .link-revenues, .container-pendency .link-expenditures {
-    width: 215px;
-    padding: 20px 10px;
-    margin: 10px;
+.container-pendency .link-revenues, 
+.container-pendency .link-expenditures {
+    padding: 10px;
     border-radius: 4px;
     text-align: center;
+    background-color: #000;
+    color: #fff;
+    transition: .8s;
+}
+
+.container-pendency .link-revenues:hover,
+.container-pendency .link-expenditures:hover {
+    background-color: #1b1b1b;
 }
 
 .container-pendency .link-revenues {
-    background-color: #02c4a3;
+    animation: slideXLeft .8s;
 }
 
 .container-pendency .link-expenditures {
-    background-color: rgb(224, 0, 0);
+    animation: slideXRigth .8s;
+}
+
+.container-pendency .link-revenues h3,
+.container-pendency .link-expenditures h3 {
+    max-width: 100px;
+    padding-bottom: 10px;
+}
+
+.container-pendency .link-revenues h3 {
+    color: #02c4a3;
+}
+
+.container-pendency .link-expenditures h3 {
+    color: rgb(224, 0, 0);
+}
+
+.container-pendency a h3 {
+    font-size: .8em;
 }
 
 /* add transactions */
 .cad-transations {
-    max-width: 800px;
+    max-width: 600px;
 }
 
 .type {
@@ -149,7 +176,7 @@ main {
 
 .show {
     visibility: visible;
-    animation: slideY 1s;
+    animation: slideY .8s;
 }
 
 .inputs {
@@ -175,10 +202,10 @@ main {
 }
 
 .checkbox {
-    width: 600px;
+    width: 300px;
     margin-bottom: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -241,7 +268,17 @@ main {
 .select {
     border: none;
     border-radius: 4px;
-    background-color: #c4c4c4;
+    background-color: transparent;
+    color: #fff;
+    padding: 0 16px;
+}
+
+.select option {
+    cursor: pointer;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn {
@@ -249,7 +286,7 @@ main {
     background-color: #02c4a3;
     padding: 5px;
     margin: 8px;
-    width: 220px;
+    width: 150px;
     border-radius: 4px;
     border: 1px solid #c4c4c4;
     transition: .5s;
@@ -272,12 +309,34 @@ main {
     color: #fff;
 }
 
+.hidden {
+    display: none;
+}
+
 @keyframes slideY {
     from{
         transform: translateY(90px);
     }
     to {
         transform: translateY(0px);
+    }
+}
+
+@keyframes slideXLeft {
+    from{
+        transform: translateX(-90px);
+    }
+    to{
+        transform: translateX(0px);
+    }
+}
+
+@keyframes slideXRigth {
+    from{
+        transform: translateX(90px);
+    }
+    to{
+        transform: translateX(0px);
     }
 }
 
@@ -320,14 +379,20 @@ main {
 
 }
 
-@media (max-width: 400px) {
-
+@media (max-width: 500px) {
     .links {
         position: fixed;
         bottom: 0;
         width: 100%;
         background-color: #0000009d;
     }
+
+    .cad-transations {
+        margin-bottom: 70px;
+    }
+}
+
+@media (max-width: 400px) {
 
     .inputs input {
         margin-bottom: 8;

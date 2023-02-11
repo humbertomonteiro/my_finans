@@ -44,7 +44,7 @@
         <section class="container">
 
             <div class="values">
-                <h3 class="balance-title">Saldo atual</h3>
+                <h3 class="balance-title">Saldo Atual</h3>
                 <h2 id="balance">0</h2>
             </div>
 
@@ -64,18 +64,20 @@
 
         </section>
 
-        <!-- <section id="pendency" class="container-pendency">
+        <section id="pendency" class="container-pendency">
             <a class="link-revenues" href="">
                 <div>
-                    <h3>Receitas pendentes</h3>
+                    <span class="many-revenues"></span>
+                    <h3>Receitas Pendentes</h3>
                     <h4 id="revenue-pendency"></h4>
                 </div>
             </a>
             <a class="link-expenditures" href="">
-                <h3>Despesas pendentes</h3>
+                <span id="many-expenditures"></span>
+                <h3>Despesas Pendentes</h3>
                 <h4 id="expenditure-pendency"></h4>
             </a>
-        </section> -->
+        </section>
 
         <section class="cad-transations">
 
@@ -85,51 +87,42 @@
             </div>
 
             <form id="form-cad" class="submit">
-                <div class="checkbox">
-                    <label class="switch">
-                        <span class="switch-text">Resolvido</span>
-                        <div class="switch-wrapper">
-                            <input id="checkbox-solve" type="checkbox" class="switch-input">
-                            <span class="switch-btn"></span>
-                        </div>
-                    </label>
-                </div>
                 <div class="inputs">
                     <input id="value" type="text" placeholder="valor">
                     <input id="category" type="text" placeholder="categoria">
                     <input id="description" type="text" placeholder="descricao">
                     <input id="date" type="date" placeholder="data">
                     <div class="checkbox">
-                        <span>Quantas vezes</span>
-                        <select name="" id="times" class="select">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                        </select>
-                    </div>
-
-                    <div class="checkbox">
+                        <label>
+                            <span>Repetir</span>
+                            <select name="" id="times" class="select">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </label>
+                        |
                         <label class="switch">
-                            <span class="switch-text">Despesa fixa</span>
+                            <span class="switch-text">Resolvido</span>
                             <div class="switch-wrapper">
-                                <input id="checkbox" type="checkbox" class="switch-input">
+                                <input id="checkbox-solve" type="checkbox" class="switch-input">
                                 <span class="switch-btn"></span>
                             </div>
                         </label>
                     </div>
 
-                    <button class="btn" id="btn-cad">Cadastrar</button>
+                    
                 </div>
-
+                <button class="btn" id="btn-cad">Cadastrar</button>
             </form>
 
         </section>

@@ -257,6 +257,7 @@ function showBalenceAndTransactions(y, m) {
             const li = document.createElement('li')
             li.classList.add('transation-li')
 
+            //adicionando classes para borda
             if(e.valueV < 0) {
                 li.classList.add('border-expenditure')
             } else {
@@ -267,20 +268,6 @@ function showBalenceAndTransactions(y, m) {
             btnRemove.setAttribute('id', `${e.id}`)
             btnRemove.classList.add('delete')
             btnRemove.innerHTML = '<i class="fa-solid fa-trash-can"></i>'
-
-            const btnSolve = document.createElement('div')
-            btnSolve.setAttribute('id', `${e.id}`)
-            btnSolve.classList.add('solve')
-            
-            if(e.checkboxV) {
-                btnSolve.innerHTML = '<i class="fa-regular fa-circle-check"></i>'
-            } else {
-                btnSolve.innerHTML = '<i class="fa-solid fa-xmark"></i>'
-            }
-
-            const btnEdit = document.createElement('button')
-            btnEdit.classList.add('edit')
-            btnEdit.innerHTML = '<i class="fa-solid fa-pencil"></i>'
 
             btnRemove.onclick = () => {
 
@@ -302,9 +289,19 @@ function showBalenceAndTransactions(y, m) {
                 btnNo.classList.add('btn-notification')
                 btnNo.innerText = 'Não'
 
-                divBtn.append(btnNo)
+                const btnNext = document.createElement('button')
+                btnNext.classList.add('btn-notification')
+                btnNext.innerText = 'Esta e as proximas?'
+
                 divBtn.append(btnYes)
 
+                if(e.timesV > 1) {
+                    btnYes.innerText = 'Só esta'
+                    divBtn.append(btnNext)
+                }
+
+                divBtn.append(btnNo)
+                
                 notification.append(divBtn)
 
                 divBackground.append(notification)
@@ -312,7 +309,21 @@ function showBalenceAndTransactions(y, m) {
                 const body = document.querySelector('body')
                 body.append(divBackground)
 
+
+                btnNext.onclick = () => {
+
+                    for(let a = 1; a <= e.timesV; a++) {
+                        allTransaction = allTransaction.filter(a => a.id != e.id++)
+                    }
+                    localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
+                    
+                    location.reload()
+                }
+
                 btnYes.onclick = () => {
+                    const liT = document.querySelector(`.id${e.id}`) 
+                    console.log(liT)
+
                     allTransaction = allTransaction.filter(a => a.id != e.id)
                     localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
 
@@ -322,26 +333,12 @@ function showBalenceAndTransactions(y, m) {
                 btnNo.onclick = () => {
                     divBackground.remove()
                 }
-            }
-
-            btnSolve.onclick = c => {
-                 
-                const getId = e.id
-                const index = allTransaction.indexOf(e)
-                const trueOrFalse = allTransaction[index].checkboxV
-
-                let transactionEdit = e
-
-                transactionEdit.checkboxV = !trueOrFalse
-
-                allTransaction = allTransaction.filter(e => getId != e.id)
-                allTransaction.push(transactionEdit)
-
-                localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
-
-                location.reload()
-            }
-
+            }     
+            
+            const btnEdit = document.createElement('button')
+            btnEdit.classList.add('edit')
+            btnEdit.innerHTML = '<i class="fa-solid fa-pencil"></i>'
+            
             btnEdit.onclick = () => {   
 
                 const body = document.querySelector('body')
@@ -351,7 +348,7 @@ function showBalenceAndTransactions(y, m) {
                 divEdition.classList.add('div-edition')
 
                 const dataBr = e.dateValue.split('/')
-                const dataUsa = `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
+                const dataUsa = dataBr[1] < 9 ? `${dataBr[2]}-0${dataBr[1]}-${dataBr[0]}` : `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
 
                 divEdition.innerHTML = `
                 <form class="div-inputs">
@@ -386,6 +383,9 @@ function showBalenceAndTransactions(y, m) {
                     const dateEdit = document.querySelector('#date-edit')
                     const checkEdit = document.querySelector('#date-edit')
 
+                    const arrayValueEdit = String(valueEdit).split('')
+                    const hasVirgulaEdit = arrayValueEdit.indexOf(',')
+
                     const idEdit = e.id
                     let valueEditV = valueEdit.value
                     const descriptionEditV = descriptionEdit.value
@@ -401,12 +401,9 @@ function showBalenceAndTransactions(y, m) {
                         return
                     }
 
-                    const arrayValueEdit = String(valueEditV).split('')
-                    const hasVirgulaEdit = arrayValueEdit.indexOf(',')
-
                     if(hasVirgulaEdit != -1) {
                         arrayValueEdit[hasVirgulaEdit] = '.'
-                        valueEditV = arrayValueEdit.join('')
+                        valueEditV = arrayValueEdit.join('')    
                     }
 
                     allTransaction = allTransaction.filter(c => c.id != e.id)
@@ -426,6 +423,35 @@ function showBalenceAndTransactions(y, m) {
 
                     location.reload()
                 }
+
+            }
+
+            const btnSolve = document.createElement('div')
+            btnSolve.setAttribute('id', `${e.id}`)
+            btnSolve.classList.add('solve')
+            
+            if(e.checkboxV) {
+                btnSolve.innerHTML = '<i class="fa-regular fa-circle-check"></i>'
+            } else {
+                btnSolve.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+            }
+
+            btnSolve.onclick = c => {
+                
+                const getId = e.id
+                const index = allTransaction.indexOf(e)
+                const trueOrFalse = allTransaction[index].checkboxV
+
+                let transactionEdit = e
+
+                transactionEdit.checkboxV = !trueOrFalse
+
+                allTransaction = allTransaction.filter(e => getId != e.id)
+                allTransaction.push(transactionEdit)
+
+                localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
+
+                location.reload()
             }
 
             li.innerHTML = `
@@ -438,6 +464,7 @@ function showBalenceAndTransactions(y, m) {
             li.appendChild(btnSolve) 
 
             const getUl = document.querySelectorAll(`[day]`)
+
             getUl.forEach(e => {
                 if (`0${e.getAttribute('day')}` === day || e.getAttribute('day') === day) {
                     e.append(li)
@@ -451,28 +478,6 @@ function showBalenceAndTransactions(y, m) {
 
 showBalenceAndTransactions(currentYear, currentMonth)
 
-// const ulDays = document.querySelector(`[day${currentDay}month${currentMonth}]`)
-
-// ulDays.append(li)
-
-// arrayDays.map(f => {
-//     const ulDay = document.createElement('ul')
-//     ulDay.setAttribute('id',`day${f}`)
-//     ulDay.innerText = f
-//     return transactionsYear.append(ulDay)
-// })
-// arrayDays = lis.filter((d, nextD) => lis.indexOf(d) === nextD)
-
-// arrayDays.map(f => {
-//     const ulDay = document.createElement('ul')
-
-//     if(getUlDay) {
-//         return
-//     } else {
-//         ulDay.setAttribute('id',`day${f}`)
-//         ulDay.innerText = f
-
-//         return transactionsYear.append(ulDay)
-//     }
-
-// })
+// function init() {
+//     showBalenceAndTransactions(currentYear, currentMonth)
+// }
