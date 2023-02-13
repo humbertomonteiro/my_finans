@@ -3,10 +3,7 @@ let currentYear = currentDate.getFullYear()
 let currentMonth = currentDate.getMonth() + 1
 let currentDay = currentDate.getDate()
 
-const currentValues = document.querySelector('#current-values')
-const currentBalanceMonth = document.querySelector('#current-balance-month')
-
-const sectionTransictions = document.querySelector('#section-transictions')
+const containerTransactions = document.querySelector('.container-transactions')
 
 const yearFilter = document.querySelector('#year-filter')
 let yearOption = yearFilter
@@ -14,7 +11,15 @@ let yearOption = yearFilter
 const monthFilter = document.querySelector('#month-filter')
 let monthOption = monthFilter
 
+const selectSubmitType = document.querySelector('#select-submit-type')
+let selectType = document.querySelector('#select-type')
+
+const currentValues = document.querySelector('#current-values')
+const currentBalanceMonth = document.querySelector('#current-balance-month')
+
 const transactionsYear = document.querySelector('#transactions-year')
+
+let allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
 
 let month = ''
 
@@ -58,8 +63,6 @@ switch(currentMonth) {
 }
 
 function createCalendar() {
-
-    const containerTransactions = document.querySelector('.container-transactions')
 
     const divMonth = document.createElement('div')
     divMonth.classList.add('div-month')
@@ -132,7 +135,8 @@ function createCalendar() {
             transactionsYear.append(ul)
         }
 
-        showBalenceAndTransactions(currentYear, currentMonth)
+        balanceMonth(allTransaction)
+        showTransactions(currentYear, currentMonth, allTransaction)
     }
 
     btnAfter.onclick = () => {
@@ -194,7 +198,8 @@ function createCalendar() {
             transactionsYear.append(ul)
         }
 
-        showBalenceAndTransactions(currentYear, currentMonth)
+        balanceMonth(allTransaction)
+        showTransactions(currentYear, currentMonth, allTransaction)
     }
 
     divMonth.append(btnBefore)
@@ -206,9 +211,45 @@ function createCalendar() {
 
 createCalendar()
 
-let allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
+function balanceMonth(v) {
+    //balanço
+    const getMonth = v.filter(p => {
+        const dateSp = p.dateValue.split('/')
+        const year = dateSp[2]
+        const month = dateSp[1]
+        
+        if(currentYear === Number(year) && currentMonth === Number(month)) {
+            return p
+        }
+    })
 
-for(let m = 1; m <= 30; m++) {
+    const currentV = getMonth
+        .filter(e => e.checkboxV === true)
+        .map(e => parseFloat(e.valueV))
+
+    const current = currentV
+    .reduce((a, val) => a + val, 0)
+    .toFixed(2)
+
+    currentValues.innerText = ''
+    currentValues.innerText = `R$ ${current}`
+
+    const balanceMonth = getMonth.filter(e => {
+        const arraysDate = e.dateValue.split('/')
+
+        if(arraysDate[1] === String(currentMonth)) {
+            return e.valueV
+        }
+
+    }).map(e => parseFloat(e.valueV))
+    .reduce((a, val) => a + val, 0)
+    .toFixed(2)
+
+    currentBalanceMonth.innerText = ''
+    currentBalanceMonth.innerText = `R$ ${balanceMonth}`
+}
+
+for(let m = 1; m <= 31; m++) {
     const ul = document.createElement('ul')
     ul.classList.add('hidden')
     ul.setAttribute('day', m)
@@ -216,9 +257,44 @@ for(let m = 1; m <= 30; m++) {
     transactionsYear.append(ul)
 }
 
-function showBalenceAndTransactions(y, m) {    
+balanceMonth(allTransaction)
 
-    allTransaction.map(e => {
+function showTransactions(y, m, a) {  
+    const getUl = document.querySelectorAll(`[day]`)  
+
+    selectType.addEventListener('change', e => {
+        e.preventDefault()
+    
+        const revenues = allTransaction.filter(e => e.valueV > 0)
+        const expenditures = allTransaction.filter(e => e.valueV < 0)
+
+        if(selectType.value === 'revenues') {
+            getUl.forEach(e => {
+                e.classList.add('hidden')
+                e.innerText = `Dia ${e.getAttribute('day')}`
+            })
+
+            showTransactions(currentYear, currentMonth, revenues)
+
+        } else if (selectType.value === 'expenditures') {
+            getUl.forEach(e => {
+                e.classList.add('hidden')
+                e.innerText = `Dia ${e.getAttribute('day')}`
+            })
+
+            showTransactions(currentYear, currentMonth, expenditures)
+
+        } else {
+            getUl.forEach(e => {
+                e.classList.add('hidden')
+                e.innerText = `Dia ${e.getAttribute('day')}`
+            })
+
+            showTransactions(currentYear, currentMonth, allTransaction)
+        }
+    })
+
+    a.map(e => {
 
         const date = e.dateValue
         const dateSplit = date.split('/')
@@ -228,42 +304,7 @@ function showBalenceAndTransactions(y, m) {
 
         if(y === Number(year) && m === Number(monthNumber)) {
 
-            //balance
-            const currentV = allTransaction
-                .filter(e => e.checkboxV === true)
-                .map(e => parseFloat(e.valueV))
-            
-            const current = currentV
-            .reduce((a, val) => a + val, 0)
-            .toFixed(2)
-            currentValues.innerText = `R$ ${current}`
-        
-            const balanceMonth = allTransaction.filter(e => {
-                const arraysDate = e.dateValue.split('/')
-
-                if(arraysDate[1] === monthNumber) {
-                    return e.valueV
-                }
-    
-            }).map(e => parseFloat(e.valueV))
-            .reduce((a, val) => a + val, 0)
-            .toFixed(2)
-
-            const currentM = balanceMonth
-
-            currentBalanceMonth.innerText = `R$ ${currentM}`
-
-            //mostrar transações
-            const li = document.createElement('li')
-            li.classList.add('transation-li')
-
-            //adicionando classes para borda
-            if(e.valueV < 0) {
-                li.classList.add('border-expenditure')
-            } else {
-                li.classList.add('border-revenue')
-            }
-
+            // mostrar transações
             const btnRemove = document.createElement('button')
             btnRemove.setAttribute('id', `${e.id}`)
             btnRemove.classList.add('delete')
@@ -454,6 +495,17 @@ function showBalenceAndTransactions(y, m) {
                 location.reload()
             }
 
+            //criando lis
+            const li = document.createElement('li')
+            li.classList.add('transation-li')
+
+            //adicionando classes para borda
+            if(e.valueV < 0) {
+                li.classList.add('border-expenditure')
+            } else {
+                li.classList.add('border-revenue')
+            }
+
             li.innerHTML = `
             <span>${e.categoryV}</span>
             <span>${e.descriptionV}</span>
@@ -463,8 +515,7 @@ function showBalenceAndTransactions(y, m) {
             li.appendChild(btnRemove)
             li.appendChild(btnSolve) 
 
-            const getUl = document.querySelectorAll(`[day]`)
-
+            //adicionando no dia correto
             getUl.forEach(e => {
                 if (`0${e.getAttribute('day')}` === day || e.getAttribute('day') === day) {
                     e.append(li)
@@ -476,8 +527,4 @@ function showBalenceAndTransactions(y, m) {
     })
 }
 
-showBalenceAndTransactions(currentYear, currentMonth)
-
-// function init() {
-//     showBalenceAndTransactions(currentYear, currentMonth)
-// }
+showTransactions(currentYear, currentMonth, allTransaction)

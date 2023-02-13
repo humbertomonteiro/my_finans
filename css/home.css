@@ -61,7 +61,7 @@ main {
 /* balance */
 
 .container {
-    width: 800px;
+    width: 600px;
 }
 
 .values {
@@ -102,19 +102,19 @@ main {
 /* pendency */
 
 .container-pendency {
-    width: 70%;
+    width: 600px;
     margin-bottom: 10px;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-around;
 }
 
 .container-pendency a {
     text-decoration: none;
     margin: 5px;
+    width: 140px;
 }
 
-.container-pendency .link-revenues, 
+.container-pendency .link-revenues,     
 .container-pendency .link-expenditures {
     padding: 10px;
     border-radius: 4px;
@@ -153,6 +153,28 @@ main {
 
 .container-pendency a h3 {
     font-size: .8em;
+}
+
+.many {
+    display: flex;
+    justify-content: space-around;
+}
+
+.many-revenues, .many-expenditures {
+    width: 32px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.many-revenues {
+    background-color: #02c4a3;
+}
+
+.many-expenditures {
+    background-color: rgb(224, 0, 0);
 }
 
 /* add transactions */
@@ -355,6 +377,10 @@ main {
         width: 90%;
     }
 
+    .container-pendency {
+        width: 400px;
+    }
+
     .cad-transations {
         max-width: 90%;
     }
@@ -385,6 +411,7 @@ main {
         bottom: 0;
         width: 100%;
         background-color: #0000009d;
+        z-index: 1;
     }
     
     .cad-transations {
@@ -398,6 +425,13 @@ main {
 
 @media (max-width: 400px) {
 
+    .container-pendency {
+        width: 350px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-around;
+    }
+
     .inputs input {
         margin-bottom: 8;
     }
@@ -410,5 +444,12 @@ main {
 
     .links {
         font-size: .8em;
+    }
+
+    .container-pendency {
+        width: 280px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-around;
     }
 }

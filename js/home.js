@@ -10,6 +10,8 @@ const expenditure = document.querySelector('#expenditure')
 const pendency = document.querySelector('#pendency')
 const revenuePendency = document.querySelector('#revenue-pendency')
 const expenditurePendency = document.querySelector('#expenditure-pendency')
+const manyRevenue = document.querySelector('.many-revenues')
+const manyExpenditures = document.querySelector('.many-expenditures')
 
 const formCad = document.querySelector('#form-cad')
 const btnCad = document.querySelector('#btn-cad')
@@ -152,11 +154,19 @@ function balanceMonth(v) {
         .filter(p => p.checkboxV === false)
         .map(p => parseFloat(p.valueV))
 
+    const manyR = pendencys
+        .filter(p => p > 0)    
+    manyRevenue.innerText = manyR.length
+
     const revenuesP = pendencys
         .filter(p => p > 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
     revenuePendency.innerText = `R$ ${revenuesP}`
+
+    const manyE = pendencys
+        .filter(p => p < 0)    
+    manyExpenditures.innerText = manyE.length
 
     const expenditureP = pendencys
         .filter(p => p < 0)
