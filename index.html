@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/b6c34f0ed7.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/transactions.css">
     <title>My Finans</title>
 </head>
 <body>
@@ -49,19 +50,19 @@
 
             <div class="values">
                 <h3 class="balance-title">Saldo Atual</h3>
-                <h2 id="balance">0</h2>
+                <h2 id="balance">R$ 0,00</h2>
             </div>
 
             <div class="revenue-expenditure">
 
                 <div class="values">
                     <h4 class="revenue-title"><i class="fa-solid fa-arrow-down"></i> Receitas</h4>
-                    <h3 id="revenue">0</h3>
+                    <h3 id="revenue">R$ 0,00</h3>
                 </div>
 
                 <div class="values">
                     <h4 class="expenditure-title"><i class="fa-solid fa-arrow-up"></i> Despesas</h4>
-                    <h3 id="expenditure">0</h3>
+                    <h3 id="expenditure">R$ 0,00</h3>
                 </div>
 
             </div>
@@ -69,23 +70,30 @@
         </section>
 
         <section id="pendency" class="container-pendency">
-            <a class="link-revenues" href="">
+
+            <div id="link-revenues" class="link-revenues hidden">
                 <div class="many">
                     <h3>Receitas Pendentes</h3>
                     <div class="many-revenues"></div>
                 </div>
                 <h4 id="revenue-pendency"></h4>
-            </a>
-            <a class="link-expenditures" href="">
+            </div>
+
+            <div id="link-expenditures" class="link-expenditures hidden">
                 <div class="many">
                     <h3>Despesas Pendentes</h3>
                     <div class="many-expenditures"></div>
                 </div>
                 <h4 id="expenditure-pendency"></h4>
-            </a>
+            </div>
+
         </section>
 
-        <section class="cad-transations">
+        <section id="show-pendencys" class="">
+            <div id="transactions-pendencys"></div>
+        </section>
+
+        <section id="cad-transactions" class="cad-transations">
 
             <div class="type">
                 <button class="btn revenue-btn" id="revenue-btn">Receita</button>
@@ -102,18 +110,6 @@
                         <label>
                             <span>Repetir</span>
                             <select name="" id="times" class="select">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
                             </select>
                         </label>
                         |

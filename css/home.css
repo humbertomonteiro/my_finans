@@ -105,13 +105,8 @@ main {
     width: 600px;
     margin-bottom: 10px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
-}
-
-.container-pendency a {
-    text-decoration: none;
-    margin: 5px;
-    width: 140px;
 }
 
 .container-pendency .link-revenues,     
@@ -122,6 +117,8 @@ main {
     background-color: #000;
     color: #fff;
     transition: .8s;
+    margin: 3px;
+    cursor: pointer;
 }
 
 .container-pendency .link-revenues:hover,
@@ -133,6 +130,10 @@ main {
     animation: slideXLeft .8s;
 }
 
+.container-pendency .link-revenues:active {
+    transform: scale(1.1);
+}
+
 .container-pendency .link-expenditures {
     animation: slideXRigth .8s;
 }
@@ -141,6 +142,7 @@ main {
 .container-pendency .link-expenditures h3 {
     max-width: 100px;
     padding-bottom: 10px;
+    font-size: .8em;
 }
 
 .container-pendency .link-revenues h3 {
@@ -161,9 +163,9 @@ main {
 }
 
 .many-revenues, .many-expenditures {
-    width: 32px;
-    height: 25px;
-    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -427,9 +429,6 @@ main {
 
     .container-pendency {
         width: 350px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-around;
     }
 
     .inputs input {
@@ -448,8 +447,5 @@ main {
 
     .container-pendency {
         width: 280px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-around;
     }
 }

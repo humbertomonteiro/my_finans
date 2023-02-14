@@ -16,6 +16,8 @@ let selectType = document.querySelector('#select-type')
 
 const currentValues = document.querySelector('#current-values')
 const currentBalanceMonth = document.querySelector('#current-balance-month')
+const currentColor = document.querySelector('#current-color')
+const balanceColor = document.querySelector('#balance-color')
 
 const transactionsYear = document.querySelector('#transactions-year')
 
@@ -234,6 +236,12 @@ function balanceMonth(v) {
     currentValues.innerText = ''
     currentValues.innerText = `R$ ${current}`
 
+    if(current > 0) {
+        currentColor.classList.add('revenue')
+    } else if (current < 0) {
+        currentColor.classList.add('expenditure')
+    }
+
     const balanceMonth = getMonth.filter(e => {
         const arraysDate = e.dateValue.split('/')
 
@@ -247,6 +255,12 @@ function balanceMonth(v) {
 
     currentBalanceMonth.innerText = ''
     currentBalanceMonth.innerText = `R$ ${balanceMonth}`
+    
+    if(balanceMonth > 0) {
+        balanceColor.classList.add('revenue')
+    } else if (balanceMonth < 0) {
+        balanceColor.classList.add('expenditure')
+    }
 }
 
 for(let m = 1; m <= 31; m++) {
@@ -270,6 +284,9 @@ function showTransactions(y, m, a) {
 
         if(selectType.value === 'revenues') {
             getUl.forEach(e => {
+                selectType.classList.remove('border-transaction')
+                selectType.classList.remove('border-expenditure')
+                selectType.classList.add('border-revenue')
                 e.classList.add('hidden')
                 e.innerText = `Dia ${e.getAttribute('day')}`
             })
@@ -278,6 +295,9 @@ function showTransactions(y, m, a) {
 
         } else if (selectType.value === 'expenditures') {
             getUl.forEach(e => {
+                selectType.classList.remove('border-transaction')
+                selectType.classList.remove('border-revenue')
+                selectType.classList.add('border-expenditure')
                 e.classList.add('hidden')
                 e.innerText = `Dia ${e.getAttribute('day')}`
             })
@@ -286,6 +306,9 @@ function showTransactions(y, m, a) {
 
         } else {
             getUl.forEach(e => {
+                selectType.classList.remove('border-expenditure')
+                selectType.classList.remove('border-revenue')
+                selectType.classList.add('border-transaction')
                 e.classList.add('hidden')
                 e.innerText = `Dia ${e.getAttribute('day')}`
             })
@@ -389,7 +412,8 @@ function showTransactions(y, m, a) {
                 divEdition.classList.add('div-edition')
 
                 const dataBr = e.dateValue.split('/')
-                const dataUsa = dataBr[1] < 9 ? `${dataBr[2]}-0${dataBr[1]}-${dataBr[0]}` : `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
+
+                const dataUsa = dataBr[1] <= 9 && !dataBr[1].includes('0') ? `${dataBr[2]}-0${dataBr[1]}-${dataBr[0]}` : `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
 
                 divEdition.innerHTML = `
                 <form class="div-inputs">
@@ -424,27 +448,31 @@ function showTransactions(y, m, a) {
                     const dateEdit = document.querySelector('#date-edit')
                     const checkEdit = document.querySelector('#date-edit')
 
-                    const arrayValueEdit = String(valueEdit).split('')
-                    const hasVirgulaEdit = arrayValueEdit.indexOf(',')
-
                     const idEdit = e.id
                     let valueEditV = valueEdit.value
                     const descriptionEditV = descriptionEdit.value
                     const categoryEditV = categoryEdit.value
                     const dateEditV = dateEdit.value
                     let dateUsaEdit = dateEditV.split('-')
-                    let dateEditValue = `${dateUsaEdit[2]}/${dateUsaEdit[1]}/${dateUsaEdit[0]}`
-                    const checkboxEditeV = checkEdit.checked
-                    const timesEdit = 1
 
-                    if(valueEditV === '' || descriptionEditV === '' || categoryEditV === '' || dateEditV === '') {
-                        alert('Preencha todos os campos para cadastrar sua transação')
-                        return
-                    }
+                    const numberMonth = dateUsaEdit[1].split('')
+                    const numberMonthRight = numberMonth.includes('0') ? numberMonth[1] : numberMonth.join('')
+
+                    let dateEditValue = `${dateUsaEdit[2]}/${numberMonthRight}/${dateUsaEdit[0]}`
+                    const checkboxEditeV = checkEdit.checked
+                    const timesEdit = '1'
+
+                    const arrayValueEdit = String(valueEditV).split('')
+                    const hasVirgulaEdit = arrayValueEdit.indexOf(',')
 
                     if(hasVirgulaEdit != -1) {
                         arrayValueEdit[hasVirgulaEdit] = '.'
                         valueEditV = arrayValueEdit.join('')    
+                    }
+
+                    if(valueEditV === '' || descriptionEditV === '' || categoryEditV === '' || dateEditV === '') {
+                        alert('Preencha todos os campos para cadastrar sua transação')
+                        return
                     }
 
                     allTransaction = allTransaction.filter(c => c.id != e.id)
@@ -453,7 +481,7 @@ function showTransactions(y, m, a) {
                     allTransaction.push({
                         id: idEdit,     
                         checkboxV: checkboxEditeV,
-                        valueV: valueEditV,
+                        valueV: Number(valueEditV),
                         descriptionV: descriptionEditV,
                         categoryV: categoryEditV,
                         dateValue: dateEditValue,
@@ -461,7 +489,6 @@ function showTransactions(y, m, a) {
                     })
 
                     localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
-
                     location.reload()
                 }
 
@@ -509,7 +536,7 @@ function showTransactions(y, m, a) {
             li.innerHTML = `
             <span>${e.categoryV}</span>
             <span>${e.descriptionV}</span>
-            <span>R$ ${Number(e.valueV).toFixed(2)}</span>`
+            <span class="value-transaction">R$ ${Number(e.valueV).toFixed(2)}</span>`
 
             li.appendChild(btnEdit)
             li.appendChild(btnRemove)
