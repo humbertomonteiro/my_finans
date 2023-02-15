@@ -110,6 +110,10 @@ function setTransactions() {
 
         let dateValue = `${dateUsa[2]}/${dateUsa[1]++}/${dateUsa[0]}`
         ++id
+        if(dateUsa[1] > 12) {
+            dateUsa[1] = 1
+            dateUsa[2]++
+        }
 
         if(localStorage.hasOwnProperty('setAllTransaction')) {
             setAllTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
@@ -348,10 +352,13 @@ function showTransactions(a) {
             <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text" placeholder="Descrição">
             <input id="category-edit" value="${e.categoryV}" class="i-value" type="text" placeholder="Categoria">
             <input id="date-edit" value="${dataUsa}" class="i-value-2" type="date" placeholder="date">
-            <div class="div-check">
-                <h3>Resolvido</h3>
-                <input id="check-edit" type="checkbox" name="" id="">
-            </div>
+            <label class="switch div-check">
+                <span class="switch-text">Resolvido</span>
+                <div class="switch-wrapper">
+                    <input id="checkbox-solve" type="checkbox" class="switch-input">
+                    <span class="switch-btn"></span>
+                </div>
+            </label>
             <button id="btn-cancel" class="i-value-3 btn-notification">Cancelar</button>
             <button id="btn-edition" class=i-value-3 "btn-notification">Pronto</button>
             </form>`

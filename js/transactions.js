@@ -423,10 +423,13 @@ function showTransactions(y, m, a) {
                 <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text">
                 <input id="category-edit" value="${e.categoryV}" class="i-value" type="text"">
                 <input id="date-edit" value="${dataUsa}" class="i-value-2" type="date" >
-                <div class="div-check">
-                    <h3>Resolvido</h3>
-                    <input id="check-edit" type="checkbox" name="" id="">
-                </div>
+                <label class="switch div-check">
+                    <span class="switch-text">Resolvido</span>
+                    <div class="switch-wrapper">
+                        <input id="checkbox-solve" type="checkbox" class="switch-input">
+                        <span class="switch-btn"></span>
+                    </div>
+                </label>
                 <button id="btn-cancel" class="i-value-3 btn-notification">Cancelar</button>
                 <button id="btn-edition" class=i-value-3 "btn-notification">Pronto</button>
                 </form>`
