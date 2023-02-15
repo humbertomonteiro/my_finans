@@ -214,47 +214,6 @@ function createCalendar() {
 
 createCalendar()
 
-selectType.addEventListener('change', e => {
-    e.preventDefault()
-
-    const revenues = allTransaction.filter(e => e.valueV > 0)
-    const expenditures = allTransaction.filter(e => e.valueV < 0)
-
-    if(selectType.value === 'revenues') {
-        getUl.forEach(e => {
-            selectType.classList.remove('border-transaction')
-            selectType.classList.remove('border-expenditure')
-            selectType.classList.add('border-revenue')
-            e.classList.add('hidden')
-            e.innerText = `Dia ${e.getAttribute('day')}`
-        })
-
-        showTransactions(currentYear, currentMonth, revenues)
-
-    } else if (selectType.value === 'expenditures') {
-        getUl.forEach(e => {
-            selectType.classList.remove('border-transaction')
-            selectType.classList.remove('border-revenue')
-            selectType.classList.add('border-expenditure')
-            e.classList.add('hidden')
-            e.innerText = `Dia ${e.getAttribute('day')}`
-        })
-
-        showTransactions(currentYear, currentMonth, expenditures)
-
-    } else {
-        getUl.forEach(e => {
-            selectType.classList.remove('border-expenditure')
-            selectType.classList.remove('border-revenue')
-            selectType.classList.add('border-transaction')
-            e.classList.add('hidden')
-            e.innerText = `Dia ${e.getAttribute('day')}`
-        })
-
-        showTransactions(currentYear, currentMonth, allTransaction)
-    }
-})
-
 function balanceMonth(v) {
     //balanço
     const getMonth = v.filter(p => {
@@ -318,6 +277,47 @@ balanceMonth(allTransaction)
 function showTransactions(y, m, a) {  
     const getUl = document.querySelectorAll(`[day]`)  
 
+    selectType.addEventListener('change', e => {
+        e.preventDefault()
+    
+        const revenues = allTransaction.filter(e => e.valueV > 0)
+        const expenditures = allTransaction.filter(e => e.valueV < 0)
+    
+        if(selectType.value === 'revenues') {
+            getUl.forEach(e => {
+                selectType.classList.remove('border-transaction')
+                selectType.classList.remove('border-expenditure')
+                selectType.classList.add('border-revenue')
+                e.classList.add('hidden')
+                e.innerText = `Dia ${e.getAttribute('day')}`
+            })
+    
+            showTransactions(currentYear, currentMonth, revenues)
+    
+        } else if (selectType.value === 'expenditures') {
+            getUl.forEach(e => {
+                selectType.classList.remove('border-transaction')
+                selectType.classList.remove('border-revenue')
+                selectType.classList.add('border-expenditure')
+                e.classList.add('hidden')
+                e.innerText = `Dia ${e.getAttribute('day')}`
+            })
+    
+            showTransactions(currentYear, currentMonth, expenditures)
+    
+        } else {
+            getUl.forEach(e => {
+                selectType.classList.remove('border-expenditure')
+                selectType.classList.remove('border-revenue')
+                selectType.classList.add('border-transaction')
+                e.classList.add('hidden')
+                e.innerText = `Dia ${e.getAttribute('day')}`
+            })
+    
+            showTransactions(currentYear, currentMonth, allTransaction)
+        }
+    })
+    
     a.map(e => {
 
         const date = e.dateValue

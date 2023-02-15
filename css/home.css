@@ -22,12 +22,14 @@
 
 body {
     color: var(--c-white);
-    background-color: #01473c;
+    background-color: #001a16;
 }
 
-header {
-    width: 100%;
-    background-color: var(--c-black-transaparent);
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 nav {
@@ -67,12 +69,6 @@ nav {
     font-size: .7em;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
 /* balance */
 
@@ -138,7 +134,7 @@ main {
 .container-pendency .link-revenues,     
 .container-pendency .link-expenditures {
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 10px;
     text-align: center;
     background-color: var(--c-black-transaparent);
     color: var(--c-white);
@@ -454,6 +450,8 @@ main {
         top: 0;
         left: 0;
         padding: 10px;
+        width: 100%;
+        background-color: var(--c-black-transaparent);
     }
     .links {
         position: fixed;
