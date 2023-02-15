@@ -27,6 +27,7 @@ body {
 
 header {
     width: 100%;
+    background-color: var(--c-black-transaparent);
 }
 
 nav {
@@ -76,6 +77,8 @@ main {
 /* balance */
 
 .container {
+    background-color: var(--c-black-transaparent);
+    border-radius: 0 0 20px 20px;
     width: 600px;
 }
 
@@ -118,10 +121,14 @@ main {
 
 .container-pendency {
     width: 400px;
-    margin-bottom: 10px;
+    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+#show-pendencys h3 {
+    margin-top: 10px;
 }
 
 .text {
@@ -205,6 +212,10 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.cad-transations h3 {
+    padding-top: 10px;
 }
 
 .type {
@@ -405,7 +416,7 @@ main {
     }
 
     .container {
-        width: 90%;
+        width: 95%;
     }
 
     .container-pendency {
