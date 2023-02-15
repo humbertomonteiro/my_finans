@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
 :root {
-    --c-main: #02c4a3;
     --c-revenue: #134417;
     --c-expenditure: #c00000;
     --c-edit: #02adc4;
@@ -9,6 +8,7 @@
     --c-white: #fff;
     --c-black: #000;
     --c-black-hover: #1b1b1b;
+    --c-black-transaparent: #0000009d;
     --c-gray: #f1f1f1;
     --c-bg-notification: #9b9a9a49;
 }
@@ -22,7 +22,9 @@
 
 body {
     color: var(--c-white);
-    background-color: var(--c-bg-main);
+    height: 100vh;
+    background-image: linear-gradient(to bottom,#002c25 , #004b3e, #01aa8e);
+    /* background-color: var(--c-bg-main); */
 }
 
 header {
@@ -38,7 +40,7 @@ nav {
 
 .logo a {
     text-decoration: none;
-    color: var(--c-main);
+    color: var(--c-white);
     padding: 10px;
 }
 
@@ -47,7 +49,7 @@ nav {
 }
 
 .links a {
-    color: var(--c-main);
+    color: var(--c-white);
     text-decoration: none;
     padding: 5px;
 }
@@ -124,8 +126,8 @@ main {
     justify-content: space-around;
 }
 
-.text-pendency {
-    color: #555454;
+.text {
+    color: var(--c-gray);
 }
 
 .container-pendency .link-revenues,     
@@ -133,7 +135,7 @@ main {
     padding: 10px;
     border-radius: 4px;
     text-align: center;
-    background-color: var(--c-black);
+    background-color: var(--c-black-transaparent);
     color: var(--c-white);
     transition: .8s;
     margin: 3px;
@@ -201,6 +203,10 @@ main {
 /* add transactions */
 .cad-transations {
     max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .type {
@@ -234,21 +240,21 @@ main {
     margin: 0 8px 8px;
     border-radius: 4px;
     border: 0;
-    background-color: var(--c-black-hover);
+    background-color: var(--c-black-transaparent);
     width: 220px;
     height: 32px;
     transition: .5s;
 }
 
 .inputs input:hover {
-    background-color: var(--c-bg-main);
+    background-color: var(--c-black);
 }
 
 .inputs input::placeholder {
     color: var(--c-gray);
 }
 
-.inputs input[type="date" i] {
+.inputs input[type="date"] {
     color: var(--c-gray);
 }
 
@@ -284,7 +290,7 @@ main {
     justify-content: center;
     align-items: center;
     border-radius: 25px;
-    background-color: var(--c-black-hover);
+    background-color: var(--c-black-transaparent);
 }
 
 .switch .switch-wrapper .switch-input {
@@ -326,7 +332,7 @@ main {
 
 .select option {
     cursor: pointer;
-    color: var(--c-black);
+    color: var(--c-black-hover); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -334,7 +340,7 @@ main {
 
 .btn {
     color: var(--c-white);
-    background-color: var(--c-main);
+    background-color: var(--c-revenue);
     padding: 5px;
     margin: 8px;
     width: 150px;
@@ -433,6 +439,11 @@ main {
 }
 
 @media (max-width: 500px) {
+
+    .logo {
+        position: fixed;
+        left: 10px;
+    }
     .links {
         position: fixed;
         bottom: 0;

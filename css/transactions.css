@@ -6,6 +6,7 @@
     --c-white: #fff;
     --c-black: #000;
     --c-black-hover: #1b1b1b;
+    --c-black-transaparent: #0000009d;
     --c-gray: #f1f1f1;
     --c-bg-notification: #9b9a9a49;
 }
@@ -45,7 +46,7 @@
 }
 
 #select-type {
-    background-color: var(--c-black);
+    background-color: var(--c-black-transaparent);
     color: var(--c-white);
     padding: 5px;
     border-radius: 4px;
@@ -92,11 +93,11 @@
     align-items: center;
 }
 
-.border-revenue .value-transaction {
+.value-revenue {
     color: var(--c-revenue);
 }
 
-.border-expenditure .value-transaction {
+.value-expediture {
     color: var(--c-expenditure);
 }
 

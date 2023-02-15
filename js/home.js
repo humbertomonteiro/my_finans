@@ -453,17 +453,13 @@ function showTransactions(a) {
         const li = document.createElement('li')
         li.classList.add('transation-li')
 
-        //adicionando classes para borda
-        if(e.valueV < 0) {
-            li.classList.add('border-expenditure')
-        } else {
-            li.classList.add('border-revenue')
-        }
+        //adicionando classes numeros
+        const colorNumber = e.valueV > 0 ? 'revenue' : ' expenditure'
 
         li.innerHTML = `
         <span>${e.categoryV}</span>
         <span>${e.descriptionV}</span>
-        <span class="value-transaction">R$ ${Number(e.valueV).toFixed(2)}</span>`
+        <span class="value-${colorNumber}">R$ ${Number(e.valueV).toFixed(2)}</span>`
 
         li.appendChild(btnEdit)
         li.appendChild(btnRemove)
