@@ -22,9 +22,7 @@
 
 body {
     color: var(--c-white);
-    height: 100vh;
-    background-image: linear-gradient(to bottom,#002c25 , #004b3e, #01aa8e);
-    /* background-color: var(--c-bg-main); */
+    background-color: #01473c;
 }
 
 header {
@@ -119,7 +117,7 @@ main {
 /* pendency */
 
 .container-pendency {
-    width: 600px;
+    width: 400px;
     margin-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
@@ -235,7 +233,7 @@ main {
     justify-content: center;
 }
 
-.inputs input {
+.inputs .input-home {
     padding: 8px;
     margin: 0 8px 8px;
     border-radius: 4px;
@@ -246,15 +244,15 @@ main {
     transition: .5s;
 }
 
-.inputs input:hover {
-    background-color: var(--c-black);
+.inputs .input-home:hover {
+    background-color: var(--c-black-hover);
 }
 
-.inputs input::placeholder {
+.inputs .input-home::placeholder {
     color: var(--c-gray);
 }
 
-.inputs input[type="date"] {
+.inputs .input-home[type="date"] {
     color: var(--c-gray);
 }
 
@@ -340,7 +338,7 @@ main {
 
 .btn {
     color: var(--c-white);
-    background-color: var(--c-revenue);
+    background-color: var(--c-edit);
     padding: 5px;
     margin: 8px;
     width: 150px;
@@ -411,7 +409,7 @@ main {
     }
 
     .container-pendency {
-        width: 400px;
+        width: 330px;
     }
 
     .cad-transations {
@@ -441,8 +439,10 @@ main {
 @media (max-width: 500px) {
 
     .logo {
-        position: fixed;
-        left: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px;
     }
     .links {
         position: fixed;
@@ -464,7 +464,7 @@ main {
 @media (max-width: 400px) {
 
     .container-pendency {
-        width: 350px;
+        width: 310px;
     }
 
     .inputs input {

@@ -1,7 +1,7 @@
 :root {
     --c-main: #00c0a0;
     --c-revenue: #2ccf3a;
-    --c-expenditure: #c20505;
+    --c-expenditure: #ca0000;
     --c-edit: #01a2b8;
     --c-white: #fff;
     --c-black: #000;
@@ -79,7 +79,7 @@
 
 .transation-li {
     list-style: none;
-    background-color: var(--c-black);
+    background-color: var(--c-black-transaparent);
     width: 450px;
     display: grid;
     grid-template-columns: 100px 150px 100px 30px 30px 30px;
