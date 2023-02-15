@@ -330,7 +330,7 @@
         grid-template-columns: 70px 104px 75px 30px 30px 30px;
         margin: 5px 0;
         border-radius: 4px;
-        background-color: #00000081;
+        background-color: var(--c-black-transaparent);
     }
 
     .transation-li span {

@@ -7,10 +7,10 @@
     --c-bg-main: #0c0c0c;
     --c-white: #fff;
     --c-black: #000;
-    --c-black-hover: #1b1b1b;
-    --c-black-transaparent: #0000009d;
+    --c-black-gray: #1414149d;
+    --c-black-hover: #000000;
     --c-gray: #f1f1f1;
-    --c-bg-notification: #9b9a9a49;
+    --c-bg-notification: #140a0a49;
 }
 
 * {
@@ -73,7 +73,7 @@ nav {
 /* balance */
 
 .container {
-    background-color: var(--c-black-transaparent);
+    background-color: var(--c-black-gray);
     border-radius: 0 0 20px 20px;
     width: 600px;
 }
@@ -141,7 +141,7 @@ nav {
     padding: 10px;
     border-radius: 10px;
     text-align: center;
-    background-color: var(--c-black-transaparent);
+    background-color: var(--c-black-gray);
     color: var(--c-white);
     transition: .8s;
     margin: 3px;
@@ -252,7 +252,7 @@ nav {
     border-radius: 4px;
     border: 0;
     color: var(--c-white);
-    background-color: var(--c-black-transaparent);
+    background-color: var(--c-black-gray);
     width: 220px;
     height: 32px;
     transition: .5s;
@@ -298,7 +298,7 @@ nav {
     justify-content: center;
     align-items: center;
     border-radius: 25px;
-    background-color: var(--c-black-transaparent);
+    background-color: var(--c-black-gray);
 }
 
 .switch .switch-wrapper .switch-input {
@@ -454,7 +454,7 @@ nav {
         left: 0;
         padding: 10px;
         width: 100%;
-        background-color: var(--c-black-transaparent);
+        background-color: var(--c-black-gray);
     }
     .links {
         position: fixed;
