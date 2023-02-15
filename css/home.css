@@ -1,13 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+:root {
+    --c-main: #02c4a3;
+    --c-revenue: #134417;
+    --c-expenditure: #c00000;
+    --c-edit: #02adc4;
+    --c-bg-main: #0c0c0c;
+    --c-white: #fff;
+    --c-black: #000;
+    --c-black-hover: #1b1b1b;
+    --c-gray: #f1f1f1;
+    --c-bg-notification: #9b9a9a49;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Rubik', sans-serif;
 }
 
 body {
-    color: #fff;
-    background-color: rgb(15, 15, 15);
+    color: var(--c-white);
+    background-color: var(--c-bg-main);
 }
 
 header {
@@ -23,7 +38,7 @@ nav {
 
 .logo a {
     text-decoration: none;
-    color: #02c4a3;
+    color: var(--c-main);
     padding: 10px;
 }
 
@@ -32,7 +47,7 @@ nav {
 }
 
 .links a {
-    color: #02c4a3;
+    color: var(--c-main);
     text-decoration: none;
     padding: 5px;
 }
@@ -90,12 +105,12 @@ main {
 }
 
 .revenue-title {
-    color: #02c4a3;
+    color: var(--c-revenue);
     font-size: .9em;
 }
 
 .expenditure-title {
-    color: rgb(224, 0, 0);
+    color: var(--c-expenditure);
     font-size: .9em;
 }
 
@@ -109,13 +124,17 @@ main {
     justify-content: space-around;
 }
 
+.text-pendency {
+    color: #555454;
+}
+
 .container-pendency .link-revenues,     
 .container-pendency .link-expenditures {
     padding: 10px;
     border-radius: 4px;
     text-align: center;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--c-black);
+    color: var(--c-white);
     transition: .8s;
     margin: 3px;
     cursor: pointer;
@@ -123,7 +142,7 @@ main {
 
 .container-pendency .link-revenues:hover,
 .container-pendency .link-expenditures:hover {
-    background-color: #1b1b1b;
+    background-color: var(--c-black-hover);
 }
 
 .container-pendency .link-revenues {
@@ -146,11 +165,11 @@ main {
 }
 
 .container-pendency .link-revenues h3 {
-    color: #02c4a3;
+    color: var(--c-revenue);
 }
 
 .container-pendency .link-expenditures h3 {
-    color: rgb(224, 0, 0);
+    color: var(--c-expenditure);
 }
 
 .container-pendency a h3 {
@@ -172,11 +191,11 @@ main {
 }
 
 .many-revenues {
-    background-color: #02c4a3;
+    background-color: var(--c-revenue);
 }
 
 .many-expenditures {
-    background-color: rgb(224, 0, 0);
+    background-color: var(--c-expenditure);
 }
 
 /* add transactions */
@@ -215,14 +234,22 @@ main {
     margin: 0 8px 8px;
     border-radius: 4px;
     border: 0;
-    background-color: rgb(238, 237, 237);
+    background-color: var(--c-black-hover);
     width: 220px;
     height: 32px;
     transition: .5s;
 }
 
 .inputs input:hover {
-    background-color: rgb(184, 184, 184);
+    background-color: var(--c-bg-main);
+}
+
+.inputs input::placeholder {
+    color: var(--c-gray);
+}
+
+.inputs input[type="date" i] {
+    color: var(--c-gray);
 }
 
 .checkbox {
@@ -257,7 +284,7 @@ main {
     justify-content: center;
     align-items: center;
     border-radius: 25px;
-    background-color: gray;
+    background-color: var(--c-black-hover);
 }
 
 .switch .switch-wrapper .switch-input {
@@ -273,12 +300,12 @@ main {
     position: absolute;
     left: 2px;
     border-radius: 50%;
-    transition: .4s all ease;
-    background-color: #fff;
+    transition: .4s all ease;   
+    background-color: var(--c-white);
 }
 
 .switch .switch-wrapper .switch-input:checked + .switch-btn{
-    background-color: #02c4a3;
+    background-color: var(--c-revenue);
 }
 
 .switch .switch-wrapper .switch-input:checked + .switch-btn::before {
@@ -293,26 +320,26 @@ main {
     border: none;
     border-radius: 4px;
     background-color: transparent;
-    color: #fff;
+    color: var(--c-white);
     padding: 0 16px;
 }
 
 .select option {
     cursor: pointer;
-    color: #000;
+    color: var(--c-black);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .btn {
-    color: #fff;
-    background-color: #02c4a3;
+    color: var(--c-white);
+    background-color: var(--c-main);
     padding: 5px;
     margin: 8px;
     width: 150px;
     border-radius: 4px;
-    border: 1px solid #c4c4c4;
+    border: 0;
     transition: .5s;
     transform: scale(1);
     font-size: 1em;
@@ -321,16 +348,14 @@ main {
 
 .btn:hover {
     transform: scale(1.1);
-    border: 1px solid #fff;
 }
 
 .revenue-btn {
-    background-color: #02c4a3;
+    background-color: var(--c-revenue);
 }
 
 .expenditure-btn {
-    background-color: rgb(224, 0, 0);
-    color: #fff;
+    background-color: var(--c-expenditure);
 }
 
 .hidden {

@@ -418,10 +418,10 @@ function showTransactions(y, m, a) {
                 divEdition.innerHTML = `
                 <form class="div-inputs">
                 <h2>Editar Transação</h2>
-                <input id="value-edit" value="${e.valueV}" class="i-value" type="text" placeholder="Valor">
-                <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text" placeholder="Descrição">
-                <input id="category-edit" value="${e.categoryV}" class="i-value" type="text" placeholder="Categoria">
-                <input id="date-edit" value="${dataUsa}" class="i-value-2" type="date" placeholder="date">
+                <input id="value-edit" value="${e.valueV}" class="i-value" type="text"">
+                <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text">
+                <input id="category-edit" value="${e.categoryV}" class="i-value" type="text"">
+                <input id="date-edit" value="${dataUsa}" class="i-value-2" type="date" >
                 <div class="div-check">
                     <h3>Resolvido</h3>
                     <input id="check-edit" type="checkbox" name="" id="">

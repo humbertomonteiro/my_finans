@@ -501,7 +501,7 @@ linkRevenues.onclick = () => {
     showTransactions(pendensysRevenue)
 
     showPendencys.classList.toggle('hidden')
-    cadTransactions.classList.remove('hidden')
+    cadTransactions.classList.toggle('hidden')
 }
 
 linkExpenditures.onclick = () => {
@@ -526,5 +526,5 @@ linkExpenditures.onclick = () => {
     showTransactions(pendendysExpenditures)
 
     showPendencys.classList.toggle('hidden')
-    cadTransactions.classList.remove('hidden')
+    cadTransactions.classList.toggle('hidden')
 }

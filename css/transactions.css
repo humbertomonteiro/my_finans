@@ -1,3 +1,15 @@
+:root {
+    --c-main: #00c0a0;
+    --c-revenue: #2ccf3a;
+    --c-expenditure: #c20505;
+    --c-edit: #01a2b8;
+    --c-white: #fff;
+    --c-black: #000;
+    --c-black-hover: #1b1b1b;
+    --c-gray: #f1f1f1;
+    --c-bg-notification: #9b9a9a49;
+}
+
 .container-transactions {
     display: flex;
     flex-direction: column;
@@ -20,7 +32,7 @@
 .div-month button {
     background-color: transparent;
     border: 0;
-    color: #02c4a3;
+    color: var(--c-main);
     cursor: pointer;
     font-size: 1.2em;
 }
@@ -33,8 +45,8 @@
 }
 
 #select-type {
-    background-color: #000;
-    color: #fff;
+    background-color: var(--c-black);
+    color: var(--c-white);
     padding: 5px;
     border-radius: 4px;
     margin-bottom: 10px;
@@ -42,7 +54,7 @@
 }
 
 #select-type:hover {
-    background-color: #1b1b1b;
+    background-color: var(--c-black-hover);
 }
 
 .balance-month p {
@@ -66,7 +78,7 @@
 
 .transation-li {
     list-style: none;
-    background-color: #00000081;
+    background-color: var(--c-black);
     width: 450px;
     display: grid;
     grid-template-columns: 100px 150px 100px 30px 30px 30px;
@@ -81,11 +93,11 @@
 }
 
 .border-revenue .value-transaction {
-    color: #02c4a3;
+    color: var(--c-revenue);
 }
 
 .border-expenditure .value-transaction {
-    color: rgb(224, 0, 0);
+    color: var(--c-expenditure);
 }
 
 .transation-li button {
@@ -99,7 +111,7 @@
     border-radius: 4px;
     border: 1px solid #a8a8a8;
     margin: 2px;
-    color: #fff;
+    color: var(--c-white);
     cursor: pointer;
     transition: .5s;
 }
@@ -109,29 +121,29 @@
 }
 
 .edit {
-    background-color: #02adc4;
+    background-color: var(--c-edit);
 }
 
 .delete {
-    background-color: rgb(224, 0, 0);
+    background-color: var(--c-expenditure);
 }
 
 .solve {
     display: flex;
     justify-content: center;
-    background-color: #f1f1f1;
+    background-color: var(--c-gray);
 }
 
 .solve .fa-circle-check {
-    color: #02c4a3;
+    color: var(--c-revenue);
 }
 
 .solve .fa-xmark {
-    color: rgb(224, 0, 0);
+    color: var(--c-expenditure);
 }
 
 .solve {
-    color: #ffffff;
+    color: var(--c-revenue);
 }
 
 #form-date {
@@ -141,16 +153,16 @@
 }
 
 .border-expenditure {
-    border: 1px solid rgb(224, 0, 0);
+    border: 1px solid var(--c-expenditure);
     /* border-bottom: 2px solid rgb(224, 0, 0); */
 }
 
 .border-revenue {
-    border: 1px solid #02c4a3;
+    border: 1px solid var(--c-revenue);
 }
 
 .border-transaction {
-    border: 1px solid #fff;
+    border: 1px solid var(--c-white);
 }
 
 .div-background {
@@ -159,12 +171,12 @@
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: #9b9a9a49;
+    background-color: var(--c-bg-notification);
 }
 
 .div-notification, .div-edition {
-    color: #fff;
-    text-shadow: 2px 1px 5px #000;
+    color: var(--c-white);
+    text-shadow: 2px 1px 5px var(--c-black);
     position: absolute;
     left: 20%;
     top: 15%;
@@ -174,14 +186,14 @@
     align-items: center;
     border-radius: 4px;
     padding: 5px;
-    border: 5px solid rgb(255, 255, 255);
+    border: 5px solid var(--c-gray);
     animation: slideY .8s;
 }
 
 .div-notification {
     width: 60%;
     height: 30%;
-    background-color: rgb(224, 0, 0);
+    background-color: var(--c-expenditure);
 }
 
 .div-notification h2 {
@@ -198,7 +210,7 @@
 
 .btn-notification {
     min-width: 100px;
-    color: #000;
+    color: var(--c-black);
     border: 0;
     padding: 10px;
     border-radius: 4px;
@@ -212,7 +224,7 @@
 .div-edition {
     width: 60%;
     height: 50%;
-    background-color: #02adc4;
+    background-color: var(--c-edit);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -227,6 +239,12 @@
     row-gap: 5px;
     column-gap: 5px;
     place-items: center;
+}
+
+.div-inputs input {
+    padding: 5px;
+    border-radius: 4px;
+    border: 0;
 }
 
 .div-inputs h2 {
@@ -285,11 +303,11 @@
 }
 
 .revenue {
-    color: #02c4a3;
+    color: var(--c-revenue);
 }
 
 .expenditure {
-    color: rgb(224, 0, 0);
+    color: var(--c-expenditure);
 }
 
 @media (max-width: 580px) {
