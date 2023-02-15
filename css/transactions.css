@@ -18,6 +18,16 @@
     align-items: center;
 }
 
+.container-info-transactions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    border-radius:  0 0 20px 20px;
+    background-color: var(--c-black-transaparent);
+}
+
 .div-month {
     display: flex;
     padding: 10px;

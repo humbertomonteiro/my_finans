@@ -44,35 +44,37 @@
 
     <main class="container-transactions">
 
-        <select id="select-type">
-            <option value="transactions">transações</option>
-            <option value="expenditures">Despesas</option>
-            <option value="revenues">Receitas</option>
-        </select>
-
-        <section class="balance-month">
-            <div id="current-color" class="div-balance">
-                <i class="fa-solid fa-wallet"></i>
-                <div>
-                    <p>Saldo atual</p>
-                    <h3 id="current-values"></h3>
+        <section class="container-info-transactions">
+            <select id="select-type">
+                <option value="transactions">transações</option>
+                <option value="expenditures">Despesas</option>
+                <option value="revenues">Receitas</option>
+            </select>
+            <section class="balance-month">
+                <div id="current-color" class="div-balance">
+                    <i class="fa-solid fa-wallet"></i>
+                    <div>
+                        <p>Saldo atual</p>
+                        <h3 id="current-values"></h3>
+                    </div>
                 </div>
-            </div>
-            <div id="balance-color" class="div-balance">
-                <i class="fa-solid fa-comment-dollar"></i>
-                <div>
-                    <p>Balanço mensal</p>
-                    <h3 id="current-balance-month"></h3>
+                <div id="balance-color" class="div-balance">
+                    <i class="fa-solid fa-comment-dollar"></i>
+                    <div>
+                        <p>Balanço mensal</p>
+                        <h3 id="current-balance-month"></h3>
+                    </div>
                 </div>
-            </div>
+            </section>
+            <!-- <section class="search">
+                <form action="">
+                    <input type="text" placeholder="Pesquisar...">
+                    <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </section> -->
         </section>
 
-        <!-- <section class="search">
-            <form action="">
-                <input type="text" placeholder="Pesquisar...">
-                <button><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
-        </section> -->
+        
 
         <section>
             <div id="transactions-year">
