@@ -22,7 +22,7 @@ const balanceColor = document.querySelector('#balance-color')
 
 const transactionsYear = document.querySelector('#transactions-year')
 
-let allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
+let allTransaction = JSON.parse(localStorage.getItem('setAllTransactions'))
 
 let month = ''
 
@@ -134,7 +134,7 @@ function createCalendar() {
             const ul = document.createElement('ul')
             ul.classList.add('hidden')
             ul.setAttribute('day', m)
-            ul.innerText = `Dia ${m}`
+            ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
             transactionsYear.append(ul)
         }
 
@@ -197,7 +197,7 @@ function createCalendar() {
             const ul = document.createElement('ul')
             ul.classList.add('hidden')
             ul.setAttribute('day', m)
-            ul.innerText = `Dia ${m}`
+            ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
             transactionsYear.append(ul)
         }
 
@@ -239,8 +239,10 @@ function balanceMonth(v) {
 
     if(current > 0) {
         currentColor.classList.add('revenue')
+        currentColor.classList.remove('expenditure')
     } else if (current < 0) {
         currentColor.classList.add('expenditure')
+        currentColor.classList.remove('revenue')
     }
 
     const balanceMonth = getMonth.filter(e => {
@@ -263,16 +265,6 @@ function balanceMonth(v) {
         balanceColor.classList.add('expenditure')
     }
 }
-
-for(let m = 1; m <= 31; m++) {
-    const ul = document.createElement('ul')
-    ul.classList.add('hidden')
-    ul.setAttribute('day', m)
-    ul.innerText = `Dia ${m}`
-    transactionsYear.append(ul)
-}
-
-balanceMonth(allTransaction)
 
 function showTransactions(y, m, a) {  
     const getUl = document.querySelectorAll(`[day]`)  
@@ -380,9 +372,10 @@ function showTransactions(y, m, a) {
                     for(let a = 1; a <= e.timesV; a++) {
                         allTransaction = allTransaction.filter(a => a.id != e.id++)
                     }
-                    localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
+                    localStorage.setItem('setAllTransactions', JSON.stringify(allTransaction))
                     
-                    location.reload()
+                    att()
+                    divBackground.remove()
                 }
 
                 btnYes.onclick = () => {
@@ -390,9 +383,10 @@ function showTransactions(y, m, a) {
                     console.log(liT)
 
                     allTransaction = allTransaction.filter(a => a.id != e.id)
-                    localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
+                    localStorage.setItem('setAllTransactions', JSON.stringify(allTransaction))
 
-                    location.reload()
+                    att()
+                    divBackground.remove()
                 }
 
                 btnNo.onclick = () => {
@@ -414,8 +408,8 @@ function showTransactions(y, m, a) {
 
                 const dataBr = e.dateValue.split('/')
 
-                const dataUsa = dataBr[1] <= 9 && !dataBr[1].includes('0') ? `${dataBr[2]}-0${dataBr[1]}-${dataBr[0]}` : `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
-
+                const dataUsa = dataBr[1] <= 9 ? `${dataBr[2]}-0${dataBr[1]}-${dataBr[0]}` : `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
+                // ${dataBr[0]}-${dataBr[1]}-${dataBr[2]}
                 divEdition.innerHTML = `
                 <form class="div-inputs">
                 <h2>Editar Transação</h2>
@@ -457,8 +451,9 @@ function showTransactions(y, m, a) {
                     const descriptionEditV = descriptionEdit.value
                     const categoryEditV = categoryEdit.value
                     const dateEditV = dateEdit.value
+                    console.log(dateEditV)
                     let dateUsaEdit = dateEditV.split('-')
-
+                    console.log(dateUsaEdit)
                     const numberMonth = dateUsaEdit[1].split('')
                     const numberMonthRight = numberMonth.includes('0') ? numberMonth[1] : numberMonth.join('')
 
@@ -480,7 +475,6 @@ function showTransactions(y, m, a) {
                     }
 
                     allTransaction = allTransaction.filter(c => c.id != e.id)
-                    console.log(allTransaction)
 
                     allTransaction.push({
                         id: idEdit,     
@@ -492,8 +486,10 @@ function showTransactions(y, m, a) {
                         timesV: timesEdit
                     })
 
-                    localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
-                    location.reload()
+                    localStorage.setItem('setAllTransactions', JSON.stringify(allTransaction))
+                   
+                    att()
+                    divBackground.remove()
                 }
 
             }
@@ -503,7 +499,7 @@ function showTransactions(y, m, a) {
             btnSolve.classList.add('solve')
             
             if(e.checkboxV) {
-                btnSolve.innerHTML = '<i class="fa-regular fa-circle-check"></i>'
+                btnSolve.innerHTML = '<i class="fa-solid fa-check"></i>'
             } else {
                 btnSolve.innerHTML = '<i class="fa-solid fa-xmark"></i>'
             }
@@ -521,9 +517,9 @@ function showTransactions(y, m, a) {
                 allTransaction = allTransaction.filter(e => getId != e.id)
                 allTransaction.push(transactionEdit)
 
-                localStorage.setItem('setAllTransaction', JSON.stringify(allTransaction))
+                localStorage.setItem('setAllTransactions', JSON.stringify(allTransaction))
 
-                location.reload()
+                att()
             }
 
             //criando lis
@@ -554,4 +550,19 @@ function showTransactions(y, m, a) {
     })
 }
 
-showTransactions(currentYear, currentMonth, allTransaction)
+function att() {
+    balanceMonth(allTransaction)
+    transactionsYear.innerHTML = ''
+    
+    for(let m = 1; m <= 31; m++) {
+        const ul = document.createElement('ul')
+        ul.classList.add('hidden')
+        ul.setAttribute('day', m)
+        ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
+        transactionsYear.append(ul)
+    }
+
+    showTransactions(currentYear, currentMonth, allTransaction)
+}
+
+att()

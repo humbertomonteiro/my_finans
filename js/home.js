@@ -30,6 +30,13 @@ const category = document.querySelector('#category')
 const date = document.querySelector('#date')
 const times = document.querySelector('#times')
 
+date.addEventListener('focus', () => {
+    date.setAttribute('type', 'date')
+})
+
+const localstorageTransactions = JSON.parse(localStorage.getItem('setAllTransactions'))
+let setAllTransactions = localStorage.getItem('setAllTransactions') !== null ? localstorageTransactions : []
+
 // botão de receita
 revenueBtn.onclick = () => {
     btnCad.classList.add('revenue-btn')
@@ -54,6 +61,7 @@ expenditureBtn.onclick = () => {
     formCad.setAttribute('expenditure', true)
 }
 
+//cria quantidades de vezes no select
 for(let i = 1; i <= 48; i++) {
     const option = document.createElement('option')
     option.setAttribute('value',`${i}`)
@@ -65,11 +73,9 @@ for(let i = 1; i <= 48; i++) {
 // setar id no localstorage
 const generationId = () => Math.round(Math.random() * 1000)
 
-let setAllTransaction = new Array
 //setar transações
 function setTransactions() {
 
-    
     // trocar a virgula por ponto
     const arrayValue = value.value.split('')
     const hasVirgula = arrayValue.indexOf(',')
@@ -95,71 +101,71 @@ function setTransactions() {
     if(expenditureTrue) valueV = -valueV
 
     // virifica se foram setados todos os valores
-    if(valueV === '' || descriptionV === '' || categoryV === '' || dateValue === '') {
-        alert('Preencha todos os campos para cadastrar sua transação')
-        return
-    } 
+    // if(valueV === '' || descriptionV === '' || categoryV === '' || dateValue === '') {
+    //     alert('Preencha todos os campos para cadastrar sua transação!')
+    //     return
+    // }
+    setAllTransactions.push({
+        id,
+        checkboxV,
+        valueV,
+        descriptionV,
+        categoryV,
+        dateValue,
+        timesV
+    })
 
-    if(localStorage.hasOwnProperty('setAllTransaction')) {
-        setAllTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
-    }
+    localStorage.setItem('setAllTransactions', JSON.stringify(setAllTransactions))
 
-    localStorage.setItem('setAllTransaction', JSON.stringify(setAllTransaction))
+    if(timesV > 1) {
+            for(let i = 1; i <= timesV; i++) {
 
-    for(let i = 1; i <= timesV; i++) {
+            let dateValue = `${dateUsa[2]}/${dateUsa[1]++}/${dateUsa[0]}`
+            ++id
+            if(dateUsa[1] > 12) {
+                dateUsa[1] = 1
+                dateUsa[2]++
+            }
 
-        let dateValue = `${dateUsa[2]}/${dateUsa[1]++}/${dateUsa[0]}`
-        ++id
-        if(dateUsa[1] > 12) {
-            dateUsa[1] = 1
-            dateUsa[2]++
+            let timesPush = timesV == 1 ? '' : `(${i}/${timesV})`
+            let check = i === 1 ? true : false
+
+            if(checkboxV) {
+                setAllTransactions.push({
+                    id,
+                    checkboxV: check,
+                    valueV,
+                    descriptionV: `${descriptionV} ${timesPush}`,
+                    categoryV,
+                    dateValue,
+                    timesV
+                })
+
+            } else {
+                setAllTransactions.push({
+                    id,
+                    checkboxV,
+                    valueV,
+                    descriptionV: `${descriptionV} ${timesPush}`,
+                    categoryV,
+                    dateValue,
+                    timesV
+                })
+            }            
+
+            localStorage.setItem('setAllTransaction', JSON.stringify(setAllTransactions))
         }
-
-        if(localStorage.hasOwnProperty('setAllTransaction')) {
-            setAllTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
-        }
-
-        let timesPush = timesV == 1 ? '' : `(${i}/${timesV})`
-        let check = i === 1 ? true : false
-
-        if(checkboxV) {
-            setAllTransaction.push({
-                id,
-                checkboxV: check,
-                valueV,
-                descriptionV: `${descriptionV} ${timesPush}`,
-                categoryV,
-                dateValue,
-                timesV
-            })
-        } else {
-            setAllTransaction.push({
-                id,
-                checkboxV,
-                valueV,
-                descriptionV: `${descriptionV} ${timesPush}`,
-                categoryV,
-                dateValue,
-                timesV
-            })
-        }            
-
-        localStorage.setItem('setAllTransaction', JSON.stringify(setAllTransaction))
     }
     
 }
 
-const newAllTransations = new Array()
-
-const allTransaction = JSON.parse(localStorage.getItem('setAllTransaction'))
-
 //balanço
-function balanceMonth(v) {
+function balanceMonth() {
 
-    if(v == null) return
+    if(setAllTransactions == null) return
 
     //se não for resolvida
-    const getMonth = v.filter(p => {
+    const getMonth = setAllTransactions.filter(p => {
         const dateSp = p.dateValue.split('/')
         const year = dateSp[2]
         const month = dateSp[1]
@@ -186,6 +192,7 @@ function balanceMonth(v) {
         .filter(p => p > 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
+    revenuePendency.innerText = ''
     revenuePendency.innerText = `R$ ${revenuesP}`
 
     // despesas pendentes
@@ -201,46 +208,41 @@ function balanceMonth(v) {
         .filter(p => p < 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
+    expenditurePendency.innerText = ''
     expenditurePendency.innerText = `R$ ${expenditureP}`
 
     //Se for resolvida
-    const allValues = v.filter(e => e.checkboxV === true)
+    const allValues = setAllTransactions.filter(e => e.checkboxV === true)
         .map(e => parseFloat(e.valueV))
 
     const balanceMonth = allValues
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
+    balance.innerText = ''
     balance.innerText = `R$ ${balanceMonth}`
 
     const revenueMonth = allValues
         .filter(e => e > 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
+    revenue.innerText = ''
     revenue.innerText = `R$ ${revenueMonth}`
 
     const expenditureMonth = allValues
         .filter(e => e < 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
+    expenditure.innerText = ''
     expenditure.innerText = `R$ ${expenditureMonth}`
 }
 
-balanceMonth(allTransaction)
-
-//submetendo formulario
-formCad.addEventListener('submit', e => {
-    e.preventDefault()
-
-    setTransactions()
-    balanceMonth(allTransaction)
-    location.reload()
-})
+balanceMonth()
 
 for(let m = 1; m <= 30; m++) {
     const ul = document.createElement('ul')
     ul.classList.add('hidden')
     ul.setAttribute('day', m)
-    ul.innerText = `Dia ${m}`
+    ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
     transactionsPendencys.append(ul)
 }
 
@@ -251,8 +253,6 @@ function showTransactions(a) {
 
         const date = e.dateValue
         const dateSplit = date.split('/')
-        const year = dateSplit[2]
-        const monthNumber = dateSplit[1]
         const day = dateSplit[0]
 
         // mostrar transações
@@ -306,9 +306,9 @@ function showTransactions(a) {
 
                 for(let a = 1; a <= e.timesV; a++) {
                     let arrayNewDelete = []
-                    arrayNewDelete = allTransaction.filter(a => a.id != e.id++)
+                    arrayNewDelete = setAllTransactions.filter(a => a.id != e.id++)
                 }
-                localStorage.setItem('setAllTransaction', JSON.stringify(arrayNewDelete))
+                localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewDelete))
                 
                 location.reload()
             }
@@ -318,8 +318,8 @@ function showTransactions(a) {
                 const liT = document.querySelector(`.id${e.id}`) 
                 console.log(liT)
 
-                arrayNewDelete = allTransaction.filter(a => a.id != e.id)
-                localStorage.setItem('setAllTransaction', JSON.stringify(arrayNewDelete))
+                arrayNewDelete = setAllTransactions.filter(a => a.id != e.id)
+                localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewDelete))
 
                 location.reload()
             }
@@ -403,13 +403,13 @@ function showTransactions(a) {
                     valueEditV = arrayValueEdit.join('')    
                 }
 
-                if(valueEditV === '' || descriptionEditV === '' || categoryEditV === '' || dateEditV === '') {
+                if(valueEditV === '' || descriptionEditV === '' || categoryEditV === '' || dateEditV === '') { 
                     alert('Preencha todos os campos para cadastrar sua transação')
                     return
                 }
 
                 let arrayNewEdit = []
-                arrayNewEdit = allTransaction.filter(c => c.id != e.id)
+                arrayNewEdit = setAllTransactions.filter(c => c.id != e.id)
 
                 arrayNewEdit.push({
                     id: idEdit,     
@@ -421,7 +421,7 @@ function showTransactions(a) {
                     timesV: timesEdit
                 })
 
-                localStorage.setItem('setAllTransaction', JSON.stringify(arrayNewEdit))
+                localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewEdit))
                 location.reload()
             }
 
@@ -430,28 +430,23 @@ function showTransactions(a) {
         const btnSolve = document.createElement('div')
         btnSolve.setAttribute('id', `${e.id}`)
         btnSolve.classList.add('solve')
-        
-        if(e.checkboxV) {
-            btnSolve.innerHTML = '<i class="fa-regular fa-circle-check"></i>'
-        } else {
-            btnSolve.innerHTML = '<i class="fa-solid fa-xmark"></i>'
-        }
+        btnSolve.innerHTML = '<i class="fa-solid fa-xmark"></i>'
 
         btnSolve.onclick = c => {
     
             let arrayNew = []
             const getId = e.id
-            const index = allTransaction.indexOf(e)
-            const trueOrFalse = allTransaction[index].checkboxV
+            const index = setAllTransactions.indexOf(e)
+            const trueOrFalse = setAllTransactions[index].checkboxV
 
             let transactionEdit = e
 
             transactionEdit.checkboxV = !trueOrFalse
 
-            arrayNew = allTransaction.filter(e => getId != e.id)
+            arrayNew = setAllTransactions.filter(e => getId != e.id)
             arrayNew.push(transactionEdit)
 
-            localStorage.setItem('setAllTransaction', JSON.stringify(arrayNew))
+            localStorage.setItem('setAllTransactions', JSON.stringify(arrayNew))
             
             location.reload()
         }
@@ -483,51 +478,70 @@ function showTransactions(a) {
 }
 
 linkRevenues.onclick = () => {
-    const pendensysRevenue = allTransaction
+    const pendensysRevenue = setAllTransactions
         .filter(e => {
             const dateS = e.dateValue.split('/')
-            return String(currentYear) ===  dateS[2] && String(currentMonth) === dateS[1]
+            const monthYear = currentMonth <= 9 ?  `0${currentMonth}/${currentYear}` : `${currentMonth}/${currentYear}`
+            return monthYear === `0${dateS[1]}/${dateS[2]}`
         })
         .filter(e => e.checkboxV === false)
         .filter(e => e.valueV > 0)
-    
-    transactionsPendencys.innerHTML = ''
 
-    for(let m = 1; m <= 30; m++) {
-        const ul = document.createElement('ul')
-        ul.classList.add('hidden')
-        ul.setAttribute('day', m)
-        ul.innerText = `Dia ${m}`
-        transactionsPendencys.append(ul)
-    }
-    
-    showTransactions(pendensysRevenue)
+    att(pendensysRevenue)
 
     showPendencys.classList.toggle('hidden')
     cadTransactions.classList.toggle('hidden')
 }
 
 linkExpenditures.onclick = () => {
-    const pendendysExpenditures = allTransaction
+    const pendendysExpenditures = setAllTransactions
         .filter(e => {
             const dateS = e.dateValue.split('/')
-            return String(currentYear) ===  dateS[2] && String(currentMonth) === dateS[1]
+            const monthYear = currentMonth <= 9 ?  `0${currentMonth}/${currentYear}` : `${currentMonth}/${currentYear}`
+            return monthYear === `0${dateS[1]}/${dateS[2]}`
         })
         .filter(e => e.checkboxV === false)
         .filter(e => e.valueV < 0)
-    
-    transactionsPendencys.innerHTML = ''
 
-    for(let m = 1; m <= 30; m++) {
-        const ul = document.createElement('ul')
-        ul.classList.add('hidden')
-        ul.setAttribute('day', m)
-        ul.innerText = `Dia ${m}`
-        transactionsPendencys.append(ul)
-    }
-
-    showTransactions(pendendysExpenditures)
+    att(pendendysExpenditures)
 
     showPendencys.classList.toggle('hidden')
     cadTransactions.classList.toggle('hidden')
+}
+
+
+//submetendo formulario
+formCad.addEventListener('submit', e => {
+    e.preventDefault()
+
+    if(value.value === '' || description.value === '' || category.value === '' || date.value === '') { 
+        alert('Preencha todos os campos para cadastrar sua transação')
+        return
+    }
+
+    setTransactions()
+
+    balanceMonth()
+    
+    checkboxSolve.value = '' 
+    value.value = '' 
+    description.value = '' 
+    category.value = ''
+    date.value = '' 
+    times.value = '' 
+})
+
+function att(a) {
+    balanceMonth()
+    transactionsPendencys.innerHTML = ''
+    
+    for(let m = 1; m <= 31; m++) {
+        const ul = document.createElement('ul')
+        ul.classList.add('hidden')
+        ul.setAttribute('day', m)
+        ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
+        transactionsPendencys.append(ul)
+    }
+
+    showTransactions(a)
 }
