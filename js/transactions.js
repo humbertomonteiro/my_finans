@@ -379,8 +379,6 @@ function showTransactions(y, m, a) {
                 }
 
                 btnYes.onclick = () => {
-                    const liT = document.querySelector(`.id${e.id}`) 
-                    console.log(liT)
 
                     allTransaction = allTransaction.filter(a => a.id != e.id)
                     localStorage.setItem('setAllTransactions', JSON.stringify(allTransaction))
@@ -408,7 +406,7 @@ function showTransactions(y, m, a) {
 
                 const dataBr = e.dateValue.split('/')
 
-                const dataUsa = dataBr[1] <= 9 ? `${dataBr[2]}-0${dataBr[1]}-${dataBr[0]}` : `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
+                const dataUsa = dataBr[1] <= 9 && !dataBr[1].includes('0') ? `${dataBr[2]}-0${dataBr[1]}-${dataBr[0]}` : `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
                 // ${dataBr[0]}-${dataBr[1]}-${dataBr[2]}
                 divEdition.innerHTML = `
                 <form class="div-inputs">
@@ -451,9 +449,7 @@ function showTransactions(y, m, a) {
                     const descriptionEditV = descriptionEdit.value
                     const categoryEditV = categoryEdit.value
                     const dateEditV = dateEdit.value
-                    console.log(dateEditV)
                     let dateUsaEdit = dateEditV.split('-')
-                    console.log(dateUsaEdit)
                     const numberMonth = dateUsaEdit[1].split('')
                     const numberMonthRight = numberMonth.includes('0') ? numberMonth[1] : numberMonth.join('')
 

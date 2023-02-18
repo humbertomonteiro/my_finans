@@ -255,6 +255,10 @@ nav {
     background-color: var(--c-bg-notification);
 }
 
+#date.input-home[type="date"] {
+    color: #838383;
+}
+
 .inputs .input-home[type="date"] {
     color: var(--c-gray);
 }

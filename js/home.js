@@ -30,10 +30,6 @@ const category = document.querySelector('#category')
 const date = document.querySelector('#date')
 const times = document.querySelector('#times')
 
-date.addEventListener('focus', () => {
-    date.setAttribute('type', 'date')
-})
-
 const localstorageTransactions = JSON.parse(localStorage.getItem('setAllTransactions'))
 let setAllTransactions = localStorage.getItem('setAllTransactions') !== null ? localstorageTransactions : []
 
@@ -100,11 +96,6 @@ function setTransactions() {
 
     if(expenditureTrue) valueV = -valueV
 
-    // virifica se foram setados todos os valores
-    // if(valueV === '' || descriptionV === '' || categoryV === '' || dateValue === '') {
-    //     alert('Preencha todos os campos para cadastrar sua transação!')
-    //     return
-    // }
     setAllTransactions.push({
         id,
         checkboxV,
@@ -246,6 +237,24 @@ for(let m = 1; m <= 30; m++) {
     transactionsPendencys.append(ul)
 }
 
+const pendensysRevenues = setAllTransactions
+    .filter(e => {
+        const dateS = e.dateValue.split('/')
+        const monthYear = currentMonth <= 9 ?  `0${currentMonth}/${currentYear}` : `${currentMonth}/${currentYear}`
+        return monthYear === `${dateS[1]}/${dateS[2]}`
+    })
+    .filter(e => e.checkboxV === false)
+    .filter(e => parseFloat(e.valueV) > 0)
+
+const pendensysExpenditures = setAllTransactions
+    .filter(e => {
+        const dateS = e.dateValue.split('/')
+        const monthYear = currentMonth <= 9 ?  `0${currentMonth}/${currentYear}` : `${currentMonth}/${currentYear}`
+        return monthYear === `${dateS[1]}/${dateS[2]}`
+    })
+    .filter(e => e.checkboxV === false)
+    .filter(e => e.valueV < 0)
+
 function showTransactions(a) {  
     const getUl = document.querySelectorAll(`[day]`)  
 
@@ -316,12 +325,17 @@ function showTransactions(a) {
             btnYes.onclick = () => {
                 let arrayNewDelete = []
                 const liT = document.querySelector(`.id${e.id}`) 
-                console.log(liT)
 
                 arrayNewDelete = setAllTransactions.filter(a => a.id != e.id)
                 localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewDelete))
 
-                location.reload()
+                if(e.value > 0) {
+                    att(pendensysRevenues)
+                    divBackground.remove()
+                } else {
+                    att(pendensysExpenditures)
+                    divBackground.remove()
+                }
             }
 
             btnNo.onclick = () => {
@@ -414,7 +428,7 @@ function showTransactions(a) {
                 arrayNewEdit.push({
                     id: idEdit,     
                     checkboxV: checkboxEditeV,
-                    valueV: Number(valueEditV),
+                    valueV: valueEditV,
                     descriptionV: descriptionEditV,
                     categoryV: categoryEditV,
                     dateValue: dateEditValue,
@@ -422,7 +436,14 @@ function showTransactions(a) {
                 })
 
                 localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewEdit))
-                location.reload()
+
+                if(valueEditV > 0) {
+                    att(pendensysRevenues)
+                    divBackground.remove()
+                } else {
+                    console.log('não')
+                }
+                
             }
 
         }
@@ -447,8 +468,13 @@ function showTransactions(a) {
             arrayNew.push(transactionEdit)
 
             localStorage.setItem('setAllTransactions', JSON.stringify(arrayNew))
+ 
+            if(e.valueV > 0) {
+                att(pendensysRevenues)
+            } else {
+                att(pendensysExpenditures)
+            }
             
-            location.reload()
         }
 
         //criando lis
@@ -478,32 +504,16 @@ function showTransactions(a) {
 }
 
 linkRevenues.onclick = () => {
-    const pendensysRevenue = setAllTransactions
-        .filter(e => {
-            const dateS = e.dateValue.split('/')
-            const monthYear = currentMonth <= 9 ?  `0${currentMonth}/${currentYear}` : `${currentMonth}/${currentYear}`
-            return monthYear === `0${dateS[1]}/${dateS[2]}`
-        })
-        .filter(e => e.checkboxV === false)
-        .filter(e => e.valueV > 0)
 
-    att(pendensysRevenue)
+    att(pendensysRevenues)
 
     showPendencys.classList.toggle('hidden')
     cadTransactions.classList.toggle('hidden')
 }
 
 linkExpenditures.onclick = () => {
-    const pendendysExpenditures = setAllTransactions
-        .filter(e => {
-            const dateS = e.dateValue.split('/')
-            const monthYear = currentMonth <= 9 ?  `0${currentMonth}/${currentYear}` : `${currentMonth}/${currentYear}`
-            return monthYear === `0${dateS[1]}/${dateS[2]}`
-        })
-        .filter(e => e.checkboxV === false)
-        .filter(e => e.valueV < 0)
 
-    att(pendendysExpenditures)
+    att(pendensysExpenditures)
 
     showPendencys.classList.toggle('hidden')
     cadTransactions.classList.toggle('hidden')
@@ -522,17 +532,14 @@ formCad.addEventListener('submit', e => {
     setTransactions()
 
     balanceMonth()
-    
-    checkboxSolve.value = '' 
-    value.value = '' 
-    description.value = '' 
-    category.value = ''
-    date.value = '' 
-    times.value = '' 
+    formCad.classList.toggle('show')
+    pendency.classList.remove('hidden')
 })
 
 function att(a) {
+
     balanceMonth()
+
     transactionsPendencys.innerHTML = ''
     
     for(let m = 1; m <= 31; m++) {
