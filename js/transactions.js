@@ -24,46 +24,52 @@ const transactionsYear = document.querySelector('#transactions-year')
 
 let allTransaction = JSON.parse(localStorage.getItem('setAllTransactions'))
 
-let month = ''
+let transactionsCurrentMonth = e => e
+    .filter(transactions => {
+        const dateSplit = transactions.dateValue.split('/')
+        const year = dateSplit[2]
+        const getValuesMonth = dateSplit[1]
+        const monthSplit = getValuesMonth.split('')
 
-switch(currentMonth) {
-    case 01:
-        month = 'Janeiro'
-        break
-    case 02:
-        month = 'Fevereiro'
-        break
-    case 03:
-        month = 'Março'
-        break
-    case 04:
-        month = 'Abril'
-        break
-    case 05:
-        month = 'Maio'
-        break
-    case 06:
-        month = 'Junho'
-        break
-    case 07:
-        month = 'Julho'
-        break
-    case 08:
-        month = 'Agosto'
-        break
-    case 09:
-        month = 'Setembro'
-        break
-    case 10:
-        month = 'Outubro'
-        break
-    case 11:
-        month = 'Novembro'
-        break
-    case 12:
-        month = 'Dezembro'
-        break
+        const month = monthSplit[0] === '0' ? monthSplit[1] : monthSplit
+        if(currentYear === Number(year) && currentMonth === Number(month)) {
+            return transactions
+        }
+})
+
+const pendencysCurrentMonth = e => e
+    .filter(pendencys => pendencys.checkboxV === false)
+
+const transactionsDoneCurrentMonth = e => e
+    .filter(pendencys => pendencys.checkboxV === true)
+
+let months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
+const attBalanceSetTransactions = (array, arrayBalance) => {
+
+    transactionsYear.innerHTML = ''
+
+    for(let m = 1; m <= 30; m++) {
+        const ul = document.createElement('ul')
+        ul.classList.add('hidden')
+        ul.setAttribute('day', m)
+        ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
+        transactionsYear.append(ul)
+    }
+
+    const balanceCurrentMonth = transactionsDoneCurrentMonth(arrayBalance)
+    balanceMonth(balanceCurrentMonth)
+    showTransactions(array, currentYear, currentMonth)
 }
+
+function att() {
+    
+    const currentValues = transactionsCurrentMonth(allTransaction)
+    const balanceCurrentMonth = transactionsDoneCurrentMonth(currentValues)
+    attBalanceSetTransactions(allTransaction, balanceCurrentMonth)
+}
+
+att()
 
 function createCalendar() {
 
@@ -77,7 +83,7 @@ function createCalendar() {
     btnAfter.innerHTML = '<i class="fa-solid fa-chevron-right"></i>'
 
     let monthH2 = document.createElement('h2')
-    monthH2.innerText = month
+    monthH2.innerText = months[currentMonth - 1]
 
     btnBefore.onclick = () => {
         --currentMonth
@@ -86,60 +92,10 @@ function createCalendar() {
             --currentYear
         }
 
-        switch(currentMonth) {
-            case 01:
-                month = 'Janeiro'
-                break
-            case 02:
-                month = 'Fevereiro'
-                break
-            case 03:
-                month = 'Março'
-                break
-            case 04:
-                month = 'Abril'
-                break
-            case 05:
-                month = 'Maio'
-                break
-            case 06:
-                month = 'Junho'
-                break
-            case 07:
-                month = 'Julho'
-                break
-            case 08:
-                month = 'Agosto'
-                break
-            case 09:
-                month = 'Setembro'
-                break
-            case 10:
-                month = 'Outubro'
-                break
-            case 11:
-                month = 'Novembro'
-                break
-            case 12:
-                month = 'Dezembro'
-                break
-        }
-
         monthH2.innerText = ''
-        monthH2.innerText = month
+        monthH2.innerText = months[currentMonth - 1]
 
-        transactionsYear.innerHTML = ''
-
-        for(let m = 1; m <= 30; m++) {
-            const ul = document.createElement('ul')
-            ul.classList.add('hidden')
-            ul.setAttribute('day', m)
-            ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
-            transactionsYear.append(ul)
-        }
-
-        balanceMonth(allTransaction)
-        showTransactions(currentYear, currentMonth, allTransaction)
+        attBalanceSetTransactions(allTransaction, allTransaction)
     }
 
     btnAfter.onclick = () => {
@@ -149,60 +105,10 @@ function createCalendar() {
             ++currentYear
         }
 
-        switch(currentMonth) {
-            case 01:
-                month = 'Janeiro'
-                break
-            case 02:
-                month = 'Fevereiro'
-                break
-            case 03:
-                month = 'Março'
-                break
-            case 04:
-                month = 'Abril'
-                break
-            case 05:
-                month = 'Maio'
-                break
-            case 06:
-                month = 'Junho'
-                break
-            case 07:
-                month = 'Julho'
-                break
-            case 08:
-                month = 'Agosto'
-                break
-            case 09:
-                month = 'Setembro'
-                break
-            case 10:
-                month = 'Outubro'
-                break
-            case 11:
-                month = 'Novembro'
-                break
-            case 12:
-                month = 'Dezembro'
-                break
-        }
-
         monthH2.innerText = ''
-        monthH2.innerText = month
+        monthH2.innerText = months[currentMonth - 1]
 
-        transactionsYear.innerHTML = ''
-
-        for(let m = 1; m <= 30; m++) {
-            const ul = document.createElement('ul')
-            ul.classList.add('hidden')
-            ul.setAttribute('day', m)
-            ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
-            transactionsYear.append(ul)
-        }
-
-        balanceMonth(allTransaction)
-        showTransactions(currentYear, currentMonth, allTransaction)
+        attBalanceSetTransactions(allTransaction, allTransaction)
     }
 
     divMonth.append(btnBefore)
@@ -214,103 +120,87 @@ function createCalendar() {
 
 createCalendar()
 
-function balanceMonth(v) {
-    //balanço
-    const getMonth = v.filter(p => {
-        const dateSp = p.dateValue.split('/')
-        const year = dateSp[2]
-        const month = dateSp[1]
-        
-        if(currentYear === Number(year) && currentMonth === Number(month)) {
-            return p
-        }
-    })
+selectType.addEventListener('change', e => {
+    const ulDays = document.querySelectorAll('[day]')
+    e.preventDefault()
 
-    const currentV = getMonth
-        .filter(e => e.checkboxV === true)
-        .map(e => parseFloat(e.valueV))
+    const transactionsMonth = transactionsCurrentMonth(allTransaction)
 
-    const current = currentV
-    .reduce((a, val) => a + val, 0)
-    .toFixed(2)
+    const revenues = transactionsMonth.filter(e => e.valueV > 0)
+    const expenditures = transactionsMonth.filter(e => e.valueV < 0)
 
-    currentValues.innerText = ''
-    currentValues.innerText = `R$ ${current}`
-
-    if(current > 0) {
-        currentColor.classList.add('revenue')
-        currentColor.classList.remove('expenditure')
-    } else if (current < 0) {
-        currentColor.classList.add('expenditure')
-        currentColor.classList.remove('revenue')
+    let array
+    if(selectType.value == 'revenues') {
+        array = revenues
+    } else if (selectType.value == 'expenditures') {
+        array = expenditures
+    } else {
+        array = allTransaction
     }
 
-    const balanceMonth = getMonth.filter(e => {
-        const arraysDate = e.dateValue.split('/')
+    ulDays.forEach(e => {
+        e.classList.add('hidden')
+        e.innerText = `Dia ${e.getAttribute('day')}`
+    })
 
-        if(arraysDate[1] === String(currentMonth)) {
-            return e.valueV
-        }
+    showTransactions(array, currentYear, currentMonth)
 
-    }).map(e => parseFloat(e.valueV))
-    .reduce((a, val) => a + val, 0)
-    .toFixed(2)
+})
+
+function balanceMonth(array) {
+
+    const allCurrentValuesMonth = array
+        .map(e => parseFloat(e.valueV))
+
+    const valueCurrent = allCurrentValuesMonth
+        .reduce((a, val) => a + val, 0)
+        .toFixed(2)
+
+    currentValues.innerText = ''
+    currentValues.innerText = `R$ ${valueCurrent}`
+
+    if(allCurrentValuesMonth > 0) {
+        currentColor.classList.remove('white')
+        currentColor.classList.remove('expenditure')
+        currentColor.classList.add('revenue')
+    } else if (allCurrentValuesMonth < 0) {
+        currentColor.classList.remove('white')
+        currentColor.classList.remove('revenue')
+        currentColor.classList.add('expenditure')
+    } else if (allCurrentValuesMonth == 0) {
+        currentColor.classList.remove('expenditure')
+        currentColor.classList.remove('revenue')
+        currentColor.classList.add('white')
+    }
+
+    const balanceCurrentMonthFunction = transactionsCurrentMonth(allTransaction)
+    const balanceCurrentMonth = balanceCurrentMonthFunction
+        .map(e => parseFloat(e.valueV))
+        .reduce((a, val) => a + val, 0)
+        .toFixed(2)
 
     currentBalanceMonth.innerText = ''
-    currentBalanceMonth.innerText = `R$ ${balanceMonth}`
+    currentBalanceMonth.innerText = `R$ ${balanceCurrentMonth}`
     
-    if(balanceMonth > 0) {
+    if(balanceCurrentMonth > 0) {
+        balanceColor.classList.remove('expenditure')
+        balanceColor.classList.remove('white')
         balanceColor.classList.add('revenue')
-    } else if (balanceMonth < 0) {
+    } else if (balanceCurrentMonth < 0) {
+        balanceColor.classList.remove('white')
+        balanceColor.classList.remove('revenue')
         balanceColor.classList.add('expenditure')
+    } else if (balanceCurrentMonth == 0 ) {
+        balanceColor.classList.remove('expenditure')
+        balanceColor.classList.remove('revenue')
+        balanceColor.classList.add('white')
     }
 }
 
-function showTransactions(y, m, a) {  
+function showTransactions(transactions, y, m) {  
     const getUl = document.querySelectorAll(`[day]`)  
-
-    selectType.addEventListener('change', e => {
-        e.preventDefault()
     
-        const revenues = allTransaction.filter(e => e.valueV > 0)
-        const expenditures = allTransaction.filter(e => e.valueV < 0)
-    
-        if(selectType.value === 'revenues') {
-            getUl.forEach(e => {
-                selectType.classList.remove('border-transaction')
-                selectType.classList.remove('border-expenditure')
-                selectType.classList.add('border-revenue')
-                e.classList.add('hidden')
-                e.innerText = `Dia ${e.getAttribute('day')}`
-            })
-    
-            showTransactions(currentYear, currentMonth, revenues)
-    
-        } else if (selectType.value === 'expenditures') {
-            getUl.forEach(e => {
-                selectType.classList.remove('border-transaction')
-                selectType.classList.remove('border-revenue')
-                selectType.classList.add('border-expenditure')
-                e.classList.add('hidden')
-                e.innerText = `Dia ${e.getAttribute('day')}`
-            })
-    
-            showTransactions(currentYear, currentMonth, expenditures)
-    
-        } else {
-            getUl.forEach(e => {
-                selectType.classList.remove('border-expenditure')
-                selectType.classList.remove('border-revenue')
-                selectType.classList.add('border-transaction')
-                e.classList.add('hidden')
-                e.innerText = `Dia ${e.getAttribute('day')}`
-            })
-    
-            showTransactions(currentYear, currentMonth, allTransaction)
-        }
-    })
-    
-    a.map(e => {
+    transactions.map(e => {
 
         const date = e.dateValue
         const dateSplit = date.split('/')
@@ -320,7 +210,7 @@ function showTransactions(y, m, a) {
 
         if(y === Number(year) && m === Number(monthNumber)) {
 
-            // mostrar transações
+        // mostrar transações
             const btnRemove = document.createElement('button')
             btnRemove.setAttribute('id', `${e.id}`)
             btnRemove.classList.add('delete')
@@ -483,8 +373,9 @@ function showTransactions(y, m, a) {
                     })
 
                     localStorage.setItem('setAllTransactions', JSON.stringify(allTransaction))
-                   
-                    att()
+                    
+                    const balanceCurrentMonth = transactionsDoneCurrentMonth(allTransaction)
+                    attBalanceSetTransactions(allTransaction, balanceCurrentMonth)
                     divBackground.remove()
                 }
 
@@ -500,7 +391,7 @@ function showTransactions(y, m, a) {
                 btnSolve.innerHTML = '<i class="fa-solid fa-xmark"></i>'
             }
 
-            btnSolve.onclick = c => {
+            btnSolve.onclick = () => {
                 
                 const getId = e.id
                 const index = allTransaction.indexOf(e)
@@ -515,7 +406,9 @@ function showTransactions(y, m, a) {
 
                 localStorage.setItem('setAllTransactions', JSON.stringify(allTransaction))
 
-                att()
+
+                pendencysCurrentMonth(allTransaction)
+                att(transactionsCurrentMonth)
             }
 
             //criando lis
@@ -545,20 +438,3 @@ function showTransactions(y, m, a) {
         } 
     })
 }
-
-function att() {
-    balanceMonth(allTransaction)
-    transactionsYear.innerHTML = ''
-    
-    for(let m = 1; m <= 31; m++) {
-        const ul = document.createElement('ul')
-        ul.classList.add('hidden')
-        ul.setAttribute('day', m)
-        ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
-        transactionsYear.append(ul)
-    }
-
-    showTransactions(currentYear, currentMonth, allTransaction)
-}
-
-att()
