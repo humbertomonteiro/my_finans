@@ -329,6 +329,10 @@
     color: var(--c-expenditure);
 }
 
+.white {
+    color: #fff;
+}
+
 @media (max-width: 580px) {
 
     .container-info-transactions {

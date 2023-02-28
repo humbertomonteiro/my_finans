@@ -15,26 +15,32 @@
         <nav>
 
             <h1 class="logo">
-                <a href="index.html">MyFinans<i class="fa-solid fa-comments-dollar"></i></a>
+                <a href="index.html">
+                    MyFinans
+                    <i class="fa-solid fa-comments-dollar"></i>
+                </a>
             </h1>
 
             <nav class="links">
 
                 <a href="index.html">
                     <li>
-                        <i class="fa-solid fa-house"></i> <p>Home</p>
+                        <i class="fa-solid fa-house"></i> 
+                        <p>Home</p>
                     </li>
                 </a>
 
                 <a href="./pages/transactions.html">
                     <li>
-                        <i class="fa-solid fa-list-check"></i> <p>Transações</p>
+                        <i class="fa-solid fa-list-check"></i> 
+                        <p>Transações</p>
                     </li>
                 </a>
 
                 <a href="./pages/settings.html">
                     <li>
-                        <i class="fa-solid fa-gear"></i> <p>Configurações</p>
+                        <i class="fa-solid fa-gear"></i> 
+                        <p>Configurações</p>
                     </li>
                 </a>
 
@@ -56,12 +62,18 @@
             <div class="revenue-expenditure">
 
                 <div class="values">
-                    <h4 class="revenue-title"><i class="fa-solid fa-arrow-down"></i> Receitas</h4>
+                    <h4 class="revenue-title">
+                        <i class="fa-solid fa-arrow-down"></i> 
+                        Receitas
+                    </h4>
                     <h3 id="revenue">R$ 0,00</h3>
                 </div>
 
                 <div class="values">
-                    <h4 class="expenditure-title"><i class="fa-solid fa-arrow-up"></i> Despesas</h4>
+                    <h4 class="expenditure-title">
+                        <i class="fa-solid fa-arrow-up"></i> 
+                        Despesas
+                    </h4>
                     <h3 id="expenditure">R$ 0,00</h3>
                 </div>
 
@@ -71,7 +83,7 @@
 
         <section id="pendency" class="container-pendency">
 
-            <div id="link-revenues" class="link-revenues hidden">
+            <div id="link-revenues" class="link-revenues">
                 <div class="many">
                     <h3>Receitas Pendentes</h3>
                     <div class="many-revenues"></div>
@@ -79,7 +91,7 @@
                 <h4 id="revenue-pendency"></h4>
             </div>
 
-            <div id="link-expenditures" class="link-expenditures hidden">
+            <div id="link-expenditures" class="link-expenditures">
                 <div class="many">
                     <h3>Despesas Pendentes</h3>
                     <div class="many-expenditures"></div>
@@ -89,17 +101,24 @@
 
         </section>
 
-        <section id="show-pendencys" class="hidden">
+        <!-- <section id="show-pendencys">
             <h3 class="text">Pedências Mensais</h3>
-            <div id="transactions-pendencys">
+            
             </div>
+        </section> -->
+        <section id="transactions-pendencys" show-revenues="false" show-expenditures="false">
+
         </section>
 
         <section id="cad-transactions" class="cad-transations">
             <h3 class="text">Cadatrar Transação</h3>
             <div class="type">
-                <button class="btn revenue-btn" id="revenue-btn">Receita</button>
-                <button class="btn expenditure-btn" id="expenditure-btn">Despesa</button>
+                <button class="btn revenue-btn" id="revenue-btn">
+                    Receita
+                </button>
+                <button class="btn expenditure-btn" id="expenditure-btn">
+                    Despesa
+                </button>
             </div>
 
             <form id="form-cad" class="submit">
@@ -126,7 +145,9 @@
 
                     
                 </div>
-                <button class="btn" id="btn-cad">Cadastrar</button>
+                <button class="btn revenue-btn" id="btn-cad">
+                    Cadastrar Receita
+                </button>
             </form>
 
         </section>

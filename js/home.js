@@ -30,31 +30,73 @@ const category = document.querySelector('#category')
 const date = document.querySelector('#date')
 const times = document.querySelector('#times')
 
-const localstorageTransactions = JSON.parse(localStorage.getItem('setAllTransactions'))
-let setAllTransactions = localStorage.getItem('setAllTransactions') !== null ? localstorageTransactions : []
+const body = document.querySelector('body')
 
-// botão de receita
+const localstorageTransactions = JSON
+    .parse(localStorage.getItem('setAllTransactions'))
+
+let setAllTransactions = localStorage
+    .getItem('setAllTransactions') !== null ? localstorageTransactions : []
+
+const hasPendencies = setAllTransactions.filter(e => e.checkboxV == false)
+
+const pendenciesCurrent = hasPendencies.length > 0 ? true : false 
+
 revenueBtn.onclick = () => {
     btnCad.classList.add('revenue-btn')
     btnCad.classList.remove('expenditure-btn')
-
-    pendency.classList.toggle('hidden')
-    showPendencys.classList.add('hidden')
-
-    formCad.classList.toggle('show')
-    formCad.removeAttribute('expenditure', true)
+    btnCad.innerText = 'Cadastrar Receita'
 }
 
-// botão de despesa
 expenditureBtn.onclick = () => {
     btnCad.classList.add('expenditure-btn')
     btnCad.classList.remove('revenue-btn')
+    btnCad.innerText = 'Cadastrar Despesa'
+}
 
-    pendency.classList.toggle('hidden')
-    showPendencys.classList.add('hidden')
+const showRevenues = document.querySelector('[show-revenues]')
+const showExpenditures = document.querySelector('[show-expenditures]')
 
-    formCad.classList.toggle('show')
-    formCad.setAttribute('expenditure', true)
+linkRevenues.onclick = () => {
+    const currentMonth = transactionsCurrentMonth(setAllTransactions)
+    const pendencyMonth = pendencysCurrentMonth(currentMonth)
+    const revenues = arrayRevenues(pendencyMonth)
+
+    attBalanceSetTransactions(revenues)
+
+    if(showRevenues.getAttribute('show-revenues') === 'false') {
+        transactionsPendencys.setAttribute('show-revenues', 'true')
+        transactionsPendencys.setAttribute('show-expenditure', 'false')
+        transactionsPendencys.style.display = 'block'
+        formCad.classList.add('hidden')
+    }
+    else {
+        transactionsPendencys.setAttribute('show-revenues', 'false')
+        transactionsPendencys.style.display = 'none'
+        formCad.classList.remove('hidden')
+    }
+
+}
+
+linkExpenditures.onclick = () => {
+
+    const currentMonth = transactionsCurrentMonth(setAllTransactions)
+    const pendencyMonth = pendencysCurrentMonth(currentMonth)
+    const expenditures = arrayExpenditures(pendencyMonth)
+
+    attBalanceSetTransactions(expenditures)
+
+    if(showExpenditures.getAttribute('show-expenditures') === 'false') {
+        transactionsPendencys.setAttribute('show-expenditures', 'true')
+        transactionsPendencys.setAttribute('show-revenues', 'false')
+        transactionsPendencys.style.display = 'block'
+        formCad.classList.add('hidden')
+    }
+    else {
+        transactionsPendencys.setAttribute('show-expenditures', 'false')
+        transactionsPendencys.style.display = 'none'
+        formCad.classList.remove('hidden')
+    }
 }
 
 //cria quantidades de vezes no select
@@ -66,15 +108,12 @@ for(let i = 1; i <= 48; i++) {
     times.append(option)
 }
 
-// setar id no localstorage
-const generationId = () => Math.round(Math.random() * 1000)
-
-//setar transações
 function setTransactions() {
 
-    // trocar a virgula por ponto
     const arrayValue = value.value.split('')
     const hasVirgula = arrayValue.indexOf(',')
+
+    const generationId = () => Math.round(Math.random() * 1000)
 
     let id = generationId()
     const checkboxV = checkboxSolve.checked
@@ -83,7 +122,7 @@ function setTransactions() {
     const categoryV = category.value
     const dateValueUsa = date.value
     let dateUsa = dateValueUsa.split('-')
-    let dateValue = `${dateUsa[2]}/${dateUsa[1]}/${dateUsa[0]}`
+    let dateValue = dateUsa.includes('0') ? `${dateUsa[2]}/${dateUsa[1].split('')[2]}/${dateUsa[0]}` : `${dateUsa[2]}/${dateUsa[1]}/${dateUsa[0]}`
     const timesV = times.value
 
     if(hasVirgula != -1) {
@@ -91,9 +130,7 @@ function setTransactions() {
         valueV = arrayValue.join('')
     }
 
-    // adiciona atributo para informar despesa
     const expenditureTrue = document.querySelector('[expenditure]')
-
     if(expenditureTrue) valueV = -valueV
 
     setAllTransactions.push({
@@ -150,13 +187,13 @@ function setTransactions() {
     
 }
 
-//balanço
-function balanceMonth() {
+function balanceMonth(array) {
 
-    if(setAllTransactions == null) return
+    if(array == null) return
 
-    //se não for resolvida
-    const getMonth = setAllTransactions.filter(p => {
+    const getTransactionsCurrentMonth = array
+        .filter(p => {
+
         const dateSp = p.dateValue.split('/')
         const year = dateSp[2]
         const month = dateSp[1]
@@ -166,94 +203,68 @@ function balanceMonth() {
         }
     })
 
-    const pendencys = getMonth
+    const pendenciesMonth = getTransactionsCurrentMonth
         .filter(p => p.checkboxV === false)
         .map(p => parseFloat(p.valueV))
 
-    // receitas pendentes
-    const manyR = pendencys
-        .filter(p => p > 0) 
-    
-    if(manyR.length > 0) {
-        linkRevenues.classList.remove('hidden')
-        manyRevenue.innerText = manyR.length
-    }
-
-    const revenuesP = pendencys
+    const amountRevenuesCurrent = pendenciesMonth
         .filter(p => p > 0)
+    
+    if(amountRevenuesCurrent.length > 0) {
+        linkRevenues.classList.remove('hidden')
+        manyRevenue.innerText = amountRevenuesCurrent.length
+    } else linkRevenues.classList.add('hidden')
+
+    const pendenciesRevenuesCurrentMonth = pendenciesMonth
+        .filter(p => p >= 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
+
     revenuePendency.innerText = ''
-    revenuePendency.innerText = `R$ ${revenuesP}`
-
-    // despesas pendentes
-    const manyE = pendencys
+    revenuePendency.innerText = `R$ ${pendenciesRevenuesCurrentMonth}`
+    
+    const manyExpendituresCurrent = pendenciesMonth
         .filter(p => p < 0)
     
-    if(manyE.length > 0) {
+    if(manyExpendituresCurrent.length > 0) {
         linkExpenditures.classList.remove('hidden')
-        manyExpenditures.innerText = manyE.length
-    }
-    
-    const expenditureP = pendencys
-        .filter(p => p < 0)
+        manyExpenditures.innerText = manyExpendituresCurrent.length
+    } else linkExpenditures.classList.add('hidden')
+
+    const pendenciesExpendituresCurrentMonth = pendenciesMonth
+        .filter(p => p <= 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
-    expenditurePendency.innerText = ''
-    expenditurePendency.innerText = `R$ ${expenditureP}`
 
-    //Se for resolvida
-    const allValues = setAllTransactions.filter(e => e.checkboxV === true)
+    expenditurePendency.innerText = ''
+    expenditurePendency.innerText = `R$ ${pendenciesExpendituresCurrentMonth}`
+
+
+    const allBalanceSheetTransactions = setAllTransactions
+        .filter(e => e.checkboxV === true)
         .map(e => parseFloat(e.valueV))
 
-    const balanceMonth = allValues
+    const balanceMonth = allBalanceSheetTransactions
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
+
     balance.innerText = ''
     balance.innerText = `R$ ${balanceMonth}`
 
-    const revenueMonth = allValues
+    const revenueMonth = allBalanceSheetTransactions
         .filter(e => e > 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
     revenue.innerText = ''
     revenue.innerText = `R$ ${revenueMonth}`
 
-    const expenditureMonth = allValues
+    const expenditureMonth = allBalanceSheetTransactions
         .filter(e => e < 0)
         .reduce((a, val) => a + val, 0)
         .toFixed(2)
     expenditure.innerText = ''
     expenditure.innerText = `R$ ${expenditureMonth}`
 }
-
-balanceMonth()
-
-for(let m = 1; m <= 30; m++) {
-    const ul = document.createElement('ul')
-    ul.classList.add('hidden')
-    ul.setAttribute('day', m)
-    ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
-    transactionsPendencys.append(ul)
-}
-
-const pendensysRevenues = setAllTransactions
-    .filter(e => {
-        const dateS = e.dateValue.split('/')
-        const monthYear = currentMonth <= 9 ?  `0${currentMonth}/${currentYear}` : `${currentMonth}/${currentYear}`
-        return monthYear === `${dateS[1]}/${dateS[2]}`
-    })
-    .filter(e => e.checkboxV === false)
-    .filter(e => parseFloat(e.valueV) > 0)
-
-const pendensysExpenditures = setAllTransactions
-    .filter(e => {
-        const dateS = e.dateValue.split('/')
-        const monthYear = currentMonth <= 9 ?  `0${currentMonth}/${currentYear}` : `${currentMonth}/${currentYear}`
-        return monthYear === `${dateS[1]}/${dateS[2]}`
-    })
-    .filter(e => e.checkboxV === false)
-    .filter(e => e.valueV < 0)
 
 function showTransactions(a) {  
     const getUl = document.querySelectorAll(`[day]`)  
@@ -264,7 +275,6 @@ function showTransactions(a) {
         const dateSplit = date.split('/')
         const day = dateSplit[0]
 
-        // mostrar transações
         const btnRemove = document.createElement('button')
         btnRemove.setAttribute('id', `${e.id}`)
         btnRemove.classList.add('delete')
@@ -302,40 +312,28 @@ function showTransactions(a) {
             }
 
             divBtn.append(btnNo)
-            
             notification.append(divBtn)
 
             divBackground.append(notification)
-
-            const body = document.querySelector('body')
             body.append(divBackground)
-
 
             btnNext.onclick = () => {
 
                 for(let a = 1; a <= e.timesV; a++) {
-                    let arrayNewDelete = []
                     arrayNewDelete = setAllTransactions.filter(a => a.id != e.id++)
                 }
                 localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewDelete))
                 
-                location.reload()
+                attBalanceTransactionsAndAplicationAtts(e)
+                divBackground.remove()
             }
 
             btnYes.onclick = () => {
-                let arrayNewDelete = []
-                const liT = document.querySelector(`.id${e.id}`) 
+                setAllTransactions = setAllTransactions.filter(a => a.id != e.id)
+                localStorage.setItem('setAllTransactions', JSON.stringify(setAllTransactions))
 
-                arrayNewDelete = setAllTransactions.filter(a => a.id != e.id)
-                localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewDelete))
-
-                if(e.value > 0) {
-                    att(pendensysRevenues)
-                    divBackground.remove()
-                } else {
-                    att(pendensysExpenditures)
-                    divBackground.remove()
-                }
+                attBalanceTransactionsAndAplicationAtts(e)
+                divBackground.remove()
             }
 
             btnNo.onclick = () => {
@@ -349,9 +347,9 @@ function showTransactions(a) {
         
         btnEdit.onclick = () => {   
 
-            const body = document.querySelector('body')
             const divBackground = document.createElement('div')
             divBackground.classList.add('div-background')
+
             const divEdition = document.createElement('div')
             divEdition.classList.add('div-edition')
 
@@ -388,7 +386,9 @@ function showTransactions(a) {
             
             const btnEdition = document.querySelector('#btn-edition')
             btnEdition.onclick = a => {
+                
                 a.preventDefault()
+
                 const valueEdit = document.querySelector('#value-edit')
                 const descriptionEdit = document.querySelector('#description-edit')
                 const categoryEdit = document.querySelector('#category-edit')
@@ -422,10 +422,9 @@ function showTransactions(a) {
                     return
                 }
 
-                let arrayNewEdit = []
-                arrayNewEdit = setAllTransactions.filter(c => c.id != e.id)
+                setAllTransactions = setAllTransactions.filter(c => c.id != e.id)
 
-                arrayNewEdit.push({
+                setAllTransactions.push({
                     id: idEdit,     
                     checkboxV: checkboxEditeV,
                     valueV: valueEditV,
@@ -435,16 +434,12 @@ function showTransactions(a) {
                     timesV: timesEdit
                 })
 
-                localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewEdit))
+                localStorage.setItem('setAllTransactions', JSON.stringify(setAllTransactions))
 
-                if(valueEditV > 0) {
-                    att(pendensysRevenues)
-                    divBackground.remove()
-                } else {
-                    console.log('não')
-                }
-                
-            }
+                attBalanceTransactionsAndAplicationAtts(e)
+
+                divBackground.remove()
+            } 
 
         }
 
@@ -453,9 +448,8 @@ function showTransactions(a) {
         btnSolve.classList.add('solve')
         btnSolve.innerHTML = '<i class="fa-solid fa-xmark"></i>'
 
-        btnSolve.onclick = c => {
-    
-            let arrayNew = []
+        btnSolve.onclick = () => {
+
             const getId = e.id
             const index = setAllTransactions.indexOf(e)
             const trueOrFalse = setAllTransactions[index].checkboxV
@@ -464,24 +458,17 @@ function showTransactions(a) {
 
             transactionEdit.checkboxV = !trueOrFalse
 
-            arrayNew = setAllTransactions.filter(e => getId != e.id)
-            arrayNew.push(transactionEdit)
+            setAllTransactions = setAllTransactions.filter(e => getId != e.id)
+            setAllTransactions.push(transactionEdit)
 
-            localStorage.setItem('setAllTransactions', JSON.stringify(arrayNew))
- 
-            if(e.valueV > 0) {
-                att(pendensysRevenues)
-            } else {
-                att(pendensysExpenditures)
-            }
+            localStorage.setItem('setAllTransactions', JSON.stringify(setAllTransactions))
             
+            attBalanceTransactionsAndAplicationAtts(e)
         }
 
-        //criando lis
         const li = document.createElement('li')
         li.classList.add('transation-li')
 
-        //adicionando classes numeros
         const colorNumber = e.valueV > 0 ? 'revenue' : ' expenditure'
 
         li.innerHTML = `
@@ -503,24 +490,61 @@ function showTransactions(a) {
     })
 }
 
-linkRevenues.onclick = () => {
+balanceMonth(setAllTransactions)
 
-    att(pendensysRevenues)
+let transactionsCurrentMonth = e => e
+    .filter(transactions => {
+        const dateSplit = transactions.dateValue.split('/')
+        const year = dateSplit[2]
+        const getValuesMonth = dateSplit[1]
+        const monthSplit = getValuesMonth.split('')
 
-    showPendencys.classList.toggle('hidden')
-    cadTransactions.classList.toggle('hidden')
+        const month = monthSplit[0] === '0' ? monthSplit[1] : monthSplit
+        if(currentYear === Number(year) && currentMonth === Number(month)) {
+            return transactions
+        }
+})
+
+const pendencysCurrentMonth = e => e
+    .filter(pendencys => pendencys.checkboxV === false)
+
+const transactionsDoneCurrentMonth = e => e
+    .filter(pendencys => pendencys.checkboxV === true)
+
+const arrayRevenues = e => e
+    .filter(e => e.valueV > 0)
+
+const arrayExpenditures = e => e
+    .filter(e => e.valueV < 0)
+
+const attBalanceSetTransactions = (array) => {
+
+    transactionsPendencys.innerHTML = ''
+
+    for(let m = 1; m <= 30; m++) {
+        const ul = document.createElement('ul')
+        ul.classList.add('hidden')
+        ul.setAttribute('day', m)
+        ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
+        transactionsPendencys.append(ul)
+    }
+
+    const balanceCurrentMonth = pendencysCurrentMonth(setAllTransactions)
+    balanceMonth(balanceCurrentMonth)
+    showTransactions(array)
 }
 
-linkExpenditures.onclick = () => {
+function attBalanceTransactionsAndAplicationAtts(e) {
+    const currentMonth = transactionsCurrentMonth(setAllTransactions)
+    const pendencyMonth = pendencysCurrentMonth(currentMonth)
+    
+    const pendencyRevenuesMonth = arrayRevenues(pendencyMonth)
+    const pendencyExpendituresMonth = arrayExpenditures(pendencyMonth)
 
-    att(pendensysExpenditures)
-
-    showPendencys.classList.toggle('hidden')
-    cadTransactions.classList.toggle('hidden')
+    const arrayRigth = e.valueV > 0 ? pendencyRevenuesMonth : pendencyExpendituresMonth
+    attBalanceSetTransactions(arrayRigth)
 }
 
-
-//submetendo formulario
 formCad.addEventListener('submit', e => {
     e.preventDefault()
 
@@ -531,24 +555,13 @@ formCad.addEventListener('submit', e => {
 
     setTransactions()
 
-    balanceMonth()
-    formCad.classList.toggle('show')
+    balanceMonth(setAllTransactions)
+
+    value.value = ''
+    category.value = ''
+    description.value = ''
+    date.value = ''
+
+    // formCad.classList.toggle('show')
     pendency.classList.remove('hidden')
 })
-
-function att(a) {
-
-    balanceMonth()
-
-    transactionsPendencys.innerHTML = ''
-    
-    for(let m = 1; m <= 31; m++) {
-        const ul = document.createElement('ul')
-        ul.classList.add('hidden')
-        ul.setAttribute('day', m)
-        ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
-        transactionsPendencys.append(ul)
-    }
-
-    showTransactions(a)
-}

@@ -406,7 +406,6 @@ function showTransactions(transactions, y, m) {
 
                 localStorage.setItem('setAllTransactions', JSON.stringify(allTransaction))
 
-
                 pendencysCurrentMonth(allTransaction)
                 att(transactionsCurrentMonth)
             }
