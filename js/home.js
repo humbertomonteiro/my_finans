@@ -42,61 +42,63 @@ const hasPendencies = setAllTransactions.filter(e => e.checkboxV == false)
 
 const pendenciesCurrent = hasPendencies.length > 0 ? true : false 
 
+const showRevenues = document.querySelector('[show-revenues]')
+const showExpenditures = document.querySelector('[show-expenditures]')
+const textPendencies = document.createElement('h3')
+
+function showForm(type, type2, str) {
+    btnCad.classList.add(`${type}-btn`)
+    btnCad.classList.remove(`${type2}-btn`)
+    btnCad.innerText = `Cadastrar ${str}`
+
+    formCad.classList.toggle(`show-${type}`)
+    formCad.classList.remove(`show-${type2}`)
+}
+
 revenueBtn.onclick = () => {
-    btnCad.classList.add('revenue-btn')
-    btnCad.classList.remove('expenditure-btn')
-    btnCad.innerText = 'Cadastrar Receita'
+    showForm('revenue', 'expenditure', 'Receitas')
 }
 
 expenditureBtn.onclick = () => {
-    btnCad.classList.add('expenditure-btn')
-    btnCad.classList.remove('revenue-btn')
-    btnCad.innerText = 'Cadastrar Despesa'
+    showForm('expenditure', 'revenue', 'Despesas')
 }
 
-const showRevenues = document.querySelector('[show-revenues]')
-const showExpenditures = document.querySelector('[show-expenditures]')
-
-linkRevenues.onclick = () => {
+function clickPendencies(type, type2, str) {
     const currentMonth = transactionsCurrentMonth(setAllTransactions)
     const pendencyMonth = pendencysCurrentMonth(currentMonth)
-    const revenues = arrayRevenues(pendencyMonth)
+    
+    const functionTypeTransactions = type === 'revenues' ? arrayRevenues(pendencyMonth) : arrayExpenditures(pendencyMonth)
 
-    attBalanceSetTransactions(revenues)
+    attBalanceSetTransactions(functionTypeTransactions)
 
-    if(showRevenues.getAttribute('show-revenues') === 'false') {
-        transactionsPendencys.setAttribute('show-revenues', 'true')
-        transactionsPendencys.setAttribute('show-expenditure', 'false')
+    if(showRevenues.getAttribute(`show-${type}`) === 'false') {
+        
+        transactionsPendencys.setAttribute(`show-${type}`, 'true')
+        transactionsPendencys.setAttribute(`show-${type2}`, 'false')
         transactionsPendencys.style.display = 'block'
+
+        textPendencies.innerText = `${str} Pendentes`
+        textPendencies.classList.add('text')
+
+        transactionsPendencys.prepend(textPendencies)
+
         formCad.classList.add('hidden')
     }
     else {
-        transactionsPendencys.setAttribute('show-revenues', 'false')
+        
+        transactionsPendencys.setAttribute(`show-${type}`, 'false')
         transactionsPendencys.style.display = 'none'
+
         formCad.classList.remove('hidden')
     }
+}
 
+linkRevenues.onclick = () => {
+    clickPendencies('revenues', 'expenditures', 'Receitas')
 }
 
 linkExpenditures.onclick = () => {
-
-    const currentMonth = transactionsCurrentMonth(setAllTransactions)
-    const pendencyMonth = pendencysCurrentMonth(currentMonth)
-    const expenditures = arrayExpenditures(pendencyMonth)
-
-    attBalanceSetTransactions(expenditures)
-
-    if(showExpenditures.getAttribute('show-expenditures') === 'false') {
-        transactionsPendencys.setAttribute('show-expenditures', 'true')
-        transactionsPendencys.setAttribute('show-revenues', 'false')
-        transactionsPendencys.style.display = 'block'
-        formCad.classList.add('hidden')
-    }
-    else {
-        transactionsPendencys.setAttribute('show-expenditures', 'false')
-        transactionsPendencys.style.display = 'none'
-        formCad.classList.remove('hidden')
-    }
+    clickPendencies('expenditures', 'revenues', 'Despesas')
 }
 
 //cria quantidades de vezes no select

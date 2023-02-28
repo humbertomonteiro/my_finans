@@ -120,17 +120,9 @@ nav {
     justify-content: space-around;
 }
 
-#show-pendencys {
-    margin-top: 10px;
-    margin-bottom: 70px;
-}
-
-#show-pendencys h3 {
-    margin-top: 10px;
-}
-
 .text {
     color: var(--c-white);
+    margin: 20px 0;
 }
 
 .container-pendency .link-revenues,     
@@ -208,10 +200,6 @@ nav {
     align-items: center;
 }
 
-.cad-transations h3 {
-    padding: 15px;
-}
-
 .type {
     width: 90%;
     display: flex;
@@ -224,6 +212,12 @@ nav {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    visibility: hidden;
+}
+
+.show-revenue, .show-expenditure {
+    animation: slideY .8s;
+    visibility: visible;
 }
 
 .inputs {
