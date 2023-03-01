@@ -437,3 +437,18 @@ function showTransactions(transactions, y, m) {
         } 
     })
 }
+
+const formSearch = document.querySelector('#form-search')
+const inputSearch = document.querySelector('#input-search')
+
+formSearch.addEventListener('submit', e => {
+    e.preventDefault()
+    const filterTransaction = allTransaction.filter(e => {
+        const category = e.categoryV
+        const description = e.descriptionV
+        return category.includes(inputSearch.value) 
+        || description.includes(inputSearch.value)
+    })
+
+    attBalanceSetTransactions(filterTransaction, allTransaction)
+})

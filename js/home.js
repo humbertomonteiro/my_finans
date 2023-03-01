@@ -76,20 +76,18 @@ function clickPendencies(type, type2, str) {
         transactionsPendencys.setAttribute(`show-${type}`, 'true')
         transactionsPendencys.setAttribute(`show-${type2}`, 'false')
         transactionsPendencys.style.display = 'block'
+        cadTransactions.style.display = 'none'
+        transactionsPendencys.classList.add('pendencies-transactions')
 
         textPendencies.innerText = `${str} Pendentes`
         textPendencies.classList.add('text')
 
         transactionsPendencys.prepend(textPendencies)
-
-        formCad.classList.add('hidden')
     }
     else {
-        
         transactionsPendencys.setAttribute(`show-${type}`, 'false')
         transactionsPendencys.style.display = 'none'
-
-        formCad.classList.remove('hidden')
+        cadTransactions.style.display = 'flex'
     }
 }
 

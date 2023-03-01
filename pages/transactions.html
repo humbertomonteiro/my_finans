@@ -43,14 +43,8 @@
     </header>
 
     <main class="container-transactions">
-
         <section class="container-info-transactions">
-            <select id="select-type">
-                <option value="transactions">transações</option>
-                <option value="expenditures">Despesas</option>
-                <option value="revenues">Receitas</option>
-            </select>
-            <section class="balance-month">
+            <div class="balance-month">
                 <div id="current-color" class="div-balance">
                     <i class="fa-solid fa-wallet"></i>
                     <div>
@@ -65,15 +59,20 @@
                         <h3 id="current-balance-month"></h3>
                     </div>
                 </div>
-            </section>
-            <!-- <section class="search">
-                <form action="">
-                    <input type="text" placeholder="Pesquisar...">
-                    <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+            <section class="search">
+                <form id="form-search">
+                    <input  id="input-search" class="input-search" type="text" placeholder="Pesquisar transação...">
+                    <button class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
-            </section> -->
+            </section>
         </section>
 
+        <select id="select-type">
+            <option value="transactions">transações</option>
+            <option value="expenditures">Despesas</option>
+            <option value="revenues">Receitas</option>
+        </select>
         
 
         <section>
