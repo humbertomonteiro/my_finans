@@ -453,11 +453,9 @@ function ifNotTransactions(array) {
     }
 }
 
-
-const formSearch = document.querySelector('#form-search')
 const inputSearch = document.querySelector('#input-search')
 
-formSearch.addEventListener('submit', e => {
+inputSearch.addEventListener('input', e => {
     e.preventDefault()
     const filterTransaction = allTransaction.filter(e => {
         const category = e.categoryV
@@ -467,6 +465,4 @@ formSearch.addEventListener('submit', e => {
     })
 
     attBalanceSetTransactions(filterTransaction, allTransaction)
-
-    inputSearch.value = ''
 })
