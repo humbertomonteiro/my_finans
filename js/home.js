@@ -133,18 +133,6 @@ function setTransactions() {
     const expenditureTrue = document.querySelector('[expenditure]')
     if(expenditureTrue) valueV = -valueV
 
-    setAllTransactions.push({
-        id,
-        checkboxV,
-        valueV,
-        descriptionV,
-        categoryV,
-        dateValue,
-        timesV
-    })
-
-    localStorage.setItem('setAllTransactions', JSON.stringify(setAllTransactions))
-
     if(timesV > 1) {
             for(let i = 1; i <= timesV; i++) {
 
@@ -181,10 +169,22 @@ function setTransactions() {
                 })
             }            
 
-            localStorage.setItem('setAllTransaction', JSON.stringify(setAllTransactions))
+            localStorage.setItem('setAllTransactions', JSON.stringify(setAllTransactions))
         }
+    } else {
+
+        setAllTransactions.push({
+            id,
+            checkboxV,
+            valueV,
+            descriptionV,
+            categoryV,
+            dateValue,
+            timesV
+        })
+        
+        localStorage.setItem('setAllTransactions', JSON.stringify(setAllTransactions))
     }
-    
 }
 
 function balanceMonth(array) {
@@ -320,9 +320,9 @@ function showTransactions(a) {
             btnNext.onclick = () => {
 
                 for(let a = 1; a <= e.timesV; a++) {
-                    arrayNewDelete = setAllTransactions.filter(a => a.id != e.id++)
+                    setAllTransactions = setAllTransactions.filter(a => a.id != e.id++)
                 }
-                localStorage.setItem('setAllTransactions', JSON.stringify(arrayNewDelete))
+                localStorage.setItem('setAllTransactions', JSON.stringify(setAllTransactions))
                 
                 attBalanceTransactionsAndAplicationAtts(e)
                 divBackground.remove()

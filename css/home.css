@@ -317,7 +317,6 @@ nav {
     left: 23px;
 }
 
-/* para edit */
 .div-edition .switch-btn {
     width: 40px;
     height: 27px;
@@ -332,6 +331,7 @@ nav {
 }
 
 .select {
+    cursor: pointer;
     border: none;
     border-radius: 4px;
     background-color: transparent;
@@ -339,11 +339,8 @@ nav {
 }
 
 .select option {
-    cursor: pointer;
-    color: var(--color-black-2); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: var(--color-font-1);
+    background-color: var(--color-black-2);
 }
 
 .btn {

@@ -32,6 +32,7 @@ let transactionsCurrentMonth = e => e
         const monthSplit = getValuesMonth.split('')
 
         const month = monthSplit[0] === '0' ? monthSplit[1] : monthSplit
+
         if(currentYear === Number(year) && currentMonth === Number(month)) {
             return transactions
         }
@@ -43,7 +44,9 @@ const pendencysCurrentMonth = e => e
 const transactionsDoneCurrentMonth = e => e
     .filter(pendencys => pendencys.checkboxV === true)
 
-let months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+let months = ['Janeiro', 'Fevereiro', 'Março',
+ 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 
+ 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 const attBalanceSetTransactions = (array, arrayBalance) => {
 
@@ -60,10 +63,13 @@ const attBalanceSetTransactions = (array, arrayBalance) => {
     const balanceCurrentMonth = transactionsDoneCurrentMonth(arrayBalance)
     balanceMonth(balanceCurrentMonth)
     showTransactions(array, currentYear, currentMonth)
+
+    let currentTransactions = transactionsCurrentMonth(allTransaction)
+    ifNotTransactions(currentTransactions)
 }
 
 function att() {
-    
+
     const currentValues = transactionsCurrentMonth(allTransaction)
     const balanceCurrentMonth = transactionsDoneCurrentMonth(currentValues)
     attBalanceSetTransactions(allTransaction, balanceCurrentMonth)
@@ -210,7 +216,6 @@ function showTransactions(transactions, y, m) {
 
         if(y === Number(year) && m === Number(monthNumber)) {
 
-        // mostrar transações
             const btnRemove = document.createElement('button')
             btnRemove.setAttribute('id', `${e.id}`)
             btnRemove.classList.add('delete')
@@ -297,7 +302,7 @@ function showTransactions(transactions, y, m) {
                 const dataBr = e.dateValue.split('/')
 
                 const dataUsa = dataBr[1] <= 9 && !dataBr[1].includes('0') ? `${dataBr[2]}-0${dataBr[1]}-${dataBr[0]}` : `${dataBr[2]}-${dataBr[1]}-${dataBr[0]}`
-                // ${dataBr[0]}-${dataBr[1]}-${dataBr[2]}
+
                 divEdition.innerHTML = `
                 <form class="div-inputs">
                 <h2>Editar Transação</h2>
@@ -424,7 +429,7 @@ function showTransactions(transactions, y, m) {
 
             li.appendChild(btnEdit)
             li.appendChild(btnRemove)
-            li.appendChild(btnSolve) 
+            li.appendChild(btnSolve)
 
             //adicionando no dia correto
             getUl.forEach(e => {
@@ -437,6 +442,17 @@ function showTransactions(transactions, y, m) {
         } 
     })
 }
+
+function ifNotTransactions(array) {
+
+    if(array.length == 0) {
+        const h3 = document.createElement('h3')
+        h3.classList.add('text')
+        h3.innerText = 'Sem transações este mês!'
+        transactionsYear.append(h3)
+    }
+}
+
 
 const formSearch = document.querySelector('#form-search')
 const inputSearch = document.querySelector('#input-search')
@@ -451,4 +467,6 @@ formSearch.addEventListener('submit', e => {
     })
 
     attBalanceSetTransactions(filterTransaction, allTransaction)
+
+    inputSearch.value = ''
 })
