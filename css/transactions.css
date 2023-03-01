@@ -91,7 +91,7 @@
 }
 
 .text-day {
-    color: #6e6e6e;
+    color: var(--color-font-3);
 }
 
 .transation-li {
@@ -213,17 +213,10 @@
     padding: 5px;
 }
 
-.btn-notification {
-    min-width: 100px;
-    color: var(--color-main-3);
-    border: 0;
-    padding: 10px;
-    border-radius: 4px;
-    transition: .5s;
-}
-
-.div-btn .btn-notification {
+.div-btn  button {
     margin: 5px;
+    color: var(--color-black-2);
+    background-color: var(--color-font-1);
 }
 
 .div-edition {
@@ -313,10 +306,6 @@
 
 .expenditure {
     color: var(--color-main-2);
-}
-
-.white {
-    color: #fff;
 }
 
 @media (max-width: 580px) {

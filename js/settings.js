@@ -1,4 +1,5 @@
-const btnAlert = document.querySelector('#btn-alert')
+const containerSettings = document.querySelector('.container-settings')
+const liClearAll = document.querySelector('#clear-all')
 const ids = localStorage.getItem('id')
 const arrayTransactions = []
 
@@ -10,10 +11,10 @@ for(let i = 1; i <= ids; i++) {
     arrayTransactions.push(transactions)
 }
 
-btnAlert.onclick = () => {
+liClearAll.onclick = () => {
 
-    // alert transação cadastrada
-    const alert = document.querySelector('#alert')
+    const divBackground = document.createElement('div')
+    const divClearAll = document.createElement('div')
     const alertH2 = document.createElement('h2')
     const alertP = document.createElement('p')
     const btnDelete = document.createElement('button')
@@ -29,13 +30,15 @@ btnAlert.onclick = () => {
     btnDelete.classList.add('expenditure-btn')
     btnDelete.innerText = 'Sim, apagar!'
 
-    btnCancel.innerText = 'Não, voltar para pagina inicial!'
     btnCancel.classList.add('btn')
+    btnCancel.classList.add('revenue-btn')
+    btnCancel.innerText = 'Não!'
 
-    alert.append(alertH2)
-    alert.append(alertP)
-    alert.append(btnDelete)
-    alert.append(btnCancel)
+    divClearAll.classList.add('div-clearAll')
+    divClearAll.append(alertH2)
+    divClearAll.append(alertP)
+    divClearAll.append(btnDelete)
+    divClearAll.append(btnCancel)
 
     btnDelete.onclick = () => {
         localStorage.clear()
@@ -43,9 +46,12 @@ btnAlert.onclick = () => {
     }
 
     btnCancel.onclick = () => {
-        location.href = '../index.html'
+        divClearAll.classList.add('hidden')
     }
 
-    alert.classList.add('alert')
-    btnAlert.classList.add('hidden')
+    divClearAll.classList.remove('hidden')
+
+    divBackground.classList.add('div-background')
+    divBackground.append(divClearAll)
+    containerSettings.append(divBackground)
 }

@@ -1,17 +1,50 @@
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .container-settings {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 15px;
+    padding: 10px;
 }
 
-.alert {
-    background-color: #b10101;
+.container-settings ul li {
+    width: 99%;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: var(--color-black-2);
+}
+
+.container-settings ul li:hover {
+    background-color: var(--color-black-3);
+}
+
+.div-clearAll {
+    color: var(--color-font-1);
+    position: absolute;
+    left: 20%;
+    top: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    padding: 15px;
+    border: 5px solid var(--c-gray);
+    animation: slideY .8s;
+    background-color: var(--color-black-1);
+}
+
+.div-clearAll .alertP {
+    margin-bottom: 15px;
+}
+
+@keyframes slideY {
+    from{
+        transform: translateY(120px);
+    }
+    to {
+        transform: translateY(0px);
+    }
+}
+
+/* .alert {
+    background-color: var(--color-black-2);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,7 +55,7 @@ main {
 }
 
 .alert:hover {
-    background-color: #b10101ee;
+    background-color: var(--color-black-3);
 }
 
 .alert .alertH2 {
@@ -31,15 +64,14 @@ main {
 }
 
 .alert .alertP {
-    background-color: #fff;
-    color: #000;
+    background-color: var(--color-black-1);
     width: 99%px;
     display: flex;
     justify-content: center;
     padding: 10px;
     margin: 20px 0;
     border-radius: 4px;
-}
+} */
 
 .hidden {
     display: none;
