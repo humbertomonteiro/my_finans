@@ -294,14 +294,17 @@ function showTransactions(a) {
 
             const btnYes = document.createElement('button')
             btnYes.classList.add('btn-notification')
+            btnYes.classList.add('btn')
             btnYes.innerText = 'Sim'
 
             const btnNo = document.createElement('button')
             btnNo.classList.add('btn-notification')
+            btnNo.classList.add('btn')
             btnNo.innerText = 'Não'
 
             const btnNext = document.createElement('button')
             btnNext.classList.add('btn-notification')
+            btnNext.classList.add('btn')
             btnNext.innerText = 'Esta e as proximas?'
 
             divBtn.append(btnYes)
