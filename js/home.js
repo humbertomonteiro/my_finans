@@ -32,6 +32,8 @@ const times = document.querySelector('#times')
 
 const body = document.querySelector('body')
 
+console.log(date.value)
+
 const localstorageTransactions = JSON
     .parse(localStorage.getItem('setAllTransactions'))
 
@@ -47,6 +49,10 @@ const showExpenditures = document.querySelector('[show-expenditures]')
 const textPendencies = document.createElement('h3')
 
 function showForm(type, type2, str) {
+    const day = currentDay < 10 ? `0${currentDay}` : currentDay
+    const month = currentMonth < 10 ? `0${currentMonth}` : currentMonth
+
+    date.value = `${currentYear}-${month}-${day}`
     btnCad.classList.add(`${type}-btn`)
     btnCad.classList.remove(`${type2}-btn`)
     btnCad.innerText = `Cadastrar ${str}`
@@ -88,6 +94,7 @@ function clickPendencies(type, type2, str) {
         transactionsPendencys.setAttribute(`show-${type2}`, 'false')
         transactionsPendencys.style.display = 'block'
         cadTransactions.style.display = 'none'
+
         transactionsPendencys.classList.add('pendencies-transactions')
 
         textPendencies.innerText = `${str} Pendentes`
@@ -104,6 +111,7 @@ function clickPendencies(type, type2, str) {
 
 linkRevenues.onclick = () => {
     clickPendencies('revenues', 'expenditures', 'Receitas')
+    
 }
 
 linkExpenditures.onclick = () => {
@@ -224,7 +232,9 @@ function balanceMonth(array) {
     if(amountRevenuesCurrent.length > 0) {
         linkRevenues.classList.remove('hidden')
         manyRevenue.innerText = amountRevenuesCurrent.length
-    } else linkRevenues.classList.add('hidden')
+    }
+
+    else linkRevenues.classList.add('hidden')
 
     const pendenciesRevenuesCurrentMonth = pendenciesMonth
         .filter(p => p >= 0)
@@ -250,6 +260,10 @@ function balanceMonth(array) {
     expenditurePendency.innerText = ''
     expenditurePendency.innerText = `R$ ${pendenciesExpendituresCurrentMonth}`
 
+    if(manyExpendituresCurrent.length < 1 && amountRevenuesCurrent.length < 1) {
+        transactionsPendencys.style.display = 'none'
+        cadTransactions.style.display = 'flex'
+    }
 
     const allBalanceSheetTransactions = setAllTransactions
         .filter(e => e.checkboxV === true)

@@ -215,7 +215,7 @@
 .div-edition {
     width: 60%;
     height: 50%;
-    background-color: var(--color-main-1);
+    background-color: var(--color-black-3);
     display: flex;
     justify-content: space-around;
     align-items: center;

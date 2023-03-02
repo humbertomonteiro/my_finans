@@ -10,6 +10,7 @@ const btnDelete = document.createElement('button')
 const btnCancel = document.createElement('button')
 
 divBackground.classList.add('div-background')
+divBackground.classList.add('hidden')
 
 alertH2.classList.add('alertH2')
 alertH2.innerText = `Atenção`
