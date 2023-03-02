@@ -209,7 +209,7 @@ nav {
 }
 
 input {
-    touch-action: none;
+    touch-action: none !important;
 }
 
 /* add transactions */
