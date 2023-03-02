@@ -199,6 +199,15 @@ nav {
     background-color: var(--color-main-2);
 }
 
+.div-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--color-bg-transaparent);
+}
+
 /* add transactions */
 .cad-transations {
     max-width: 600px;
@@ -347,7 +356,7 @@ nav {
 .btn {
     color: var(--color-font-1);
     background-color: var(--color-black-1);
-    padding: 5px;
+    padding: 5px 10px;
     margin: 8px;
     width: fit-content;
     border-radius: 4px;
@@ -363,10 +372,12 @@ nav {
 }
 
 .revenue-btn {
+    min-width: 90px;
     background-color: var(--color-main-1);
 }
 
 .expenditure-btn {
+    min-width: 90px;
     background-color: var(--color-main-2);
 }
 

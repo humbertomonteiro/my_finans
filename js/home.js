@@ -56,10 +56,12 @@ function showForm(type, type2, str) {
 }
 
 revenueBtn.onclick = () => {
+    btnCad.removeAttribute('expenditure')
     showForm('revenue', 'expenditure', 'Receitas')
 }
 
 expenditureBtn.onclick = () => {
+    btnCad.setAttribute('expenditure', 'true')
     showForm('expenditure', 'revenue', 'Despesas')
 }
 

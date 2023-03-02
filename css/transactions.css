@@ -87,7 +87,8 @@
 
 [day] {
     padding: 5px;
-    border-left: 1px solid var(--color-black-2);
+    margin-bottom: 15px;
+    border-left: 1px solid var(--color-font-3);
 }
 
 .text-day {
@@ -168,15 +169,6 @@
     padding: 2px;
     margin: 15px 0;
     border-radius: 4px;
-}
-
-.div-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: var(--color-bg-transaparent);
 }
 
 .div-notification, .div-edition {
