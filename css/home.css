@@ -208,10 +208,6 @@ nav {
     background-color: var(--color-bg-transaparent);
 }
 
-input {
-    touch-action: none !important;
-}
-
 /* add transactions */
 .cad-transations {
     max-width: 600px;
