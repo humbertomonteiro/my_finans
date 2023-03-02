@@ -53,6 +53,15 @@ function showForm(type, type2, str) {
 
     formCad.classList.toggle(`show-${type}`)
     formCad.classList.remove(`show-${type2}`)
+
+    const showExpenditure = document.querySelector('.show-expenditure')
+    const showRevenue = document.querySelector('.show-revenue')
+
+    if(showExpenditure != null || showRevenue != null) {
+        pendency.classList.add('hidden')
+    } else {
+        pendency.classList.remove('hidden')
+    }
 }
 
 revenueBtn.onclick = () => {

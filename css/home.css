@@ -218,7 +218,7 @@ nav {
 }
 
 .type {
-    width: 50%;
+    width: 80%;
     display: flex;
     justify-content: space-around;
     padding-bottom: 10px;
@@ -251,8 +251,9 @@ nav {
     border: 0;
     color: var(--color-font-1);
     background-color: var(--color-black-2);
-    width: 220px;
-    height: 32px;
+    width: 80%;
+    height: 45px;
+    transition: .5s;
 }
 
 .inputs .input-home:hover {
@@ -260,11 +261,7 @@ nav {
 }
 
 #date.input-home[type="date"] {
-    color: #838383;
-}
-
-.inputs .input-home[type="date"] {
-    color: var(--color-black-2);
+    color: var(--color-font-2);
 }
 
 .checkbox {
@@ -442,6 +439,10 @@ nav {
     .inputs input {
         display: flex;
         width: 300px;
+    }
+
+    .inputs .input-home {
+        width: 95%;
     }
 
     .btn {
