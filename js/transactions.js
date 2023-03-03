@@ -458,10 +458,10 @@ const inputSearch = document.querySelector('#input-search')
 inputSearch.addEventListener('input', e => {
     e.preventDefault()
     const filterTransaction = allTransaction.filter(e => {
-        const category = e.categoryV
-        const description = e.descriptionV
-        return category.includes(inputSearch.value) 
-        || description.includes(inputSearch.value)
+        const category = e.categoryV.toLowerCase()
+        const description = e.descriptionV.toLowerCase()
+        return category.includes(inputSearch.value.toLowerCase()) 
+        || description.includes(inputSearch.value.toLowerCase())
     })
 
     attBalanceSetTransactions(filterTransaction, allTransaction)

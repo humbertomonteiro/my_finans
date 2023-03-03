@@ -173,10 +173,11 @@
 }
 
 .div-notification, .div-edition {
+    width: fit-content;
+    height: fit-content;
     color: var(--color-font-1);
     text-shadow: 2px 1px 5px var(--color-main-3);
     position: absolute;
-    left: 20%;
     top: 15%;
     display: flex;
     flex-direction: column;
@@ -189,13 +190,16 @@
 }
 
 .div-notification {
-    width: 60%;
-    height: 30%;
+
     background-color: var(--color-main-2);
 }
 
 .div-notification h2 {
     padding: 5px;
+}
+
+.div-edition {
+    background-color: var(--color-black-3);
 }
 
 .div-btn {
@@ -212,21 +216,11 @@
     background-color: var(--color-font-1);
 }
 
-.div-edition {
-    width: 60%;
-    height: 50%;
-    background-color: var(--color-black-3);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
 .div-inputs {
-    width: 100%;
     padding: 10px;
     display: grid;
-    grid-template-columns:1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 14rem 14rem;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr max-content max-content;
     row-gap: 5px;
     column-gap: 5px;
     place-items: center;
@@ -236,6 +230,7 @@
     padding: 5px;
     border-radius: 4px;
     border: 0;
+    width: 80%;
 }
 
 .div-inputs h2 {
@@ -326,19 +321,10 @@
         text-align: center;
     }
 
-    .div-notification {
-        left: 10%;
+    .div-notification, .div-edition {
         top: 20%;
         width: 80%;
-        height: 45%;
-        text-align: center;
-    }
-
-    .div-edition {
-        left: 10%;
-        top: 20%;
-        width: 80%;
-        height: 55%;
+        height: fit-content;
         text-align: center;
     }
 
@@ -421,10 +407,6 @@
         width: 90%;
         font-size: .8em;
     }
-
-    .div-notification, .div-edition {
-        height: 55%;
-    }
     
     .div-inputs {
         height: 100%;
@@ -461,7 +443,13 @@
         justify-content: center;
         align-items: center;
     }
+}
 
+@media (max-height: 300px) {
+    
+    .div-notification, .div-edition {
+        top: 1%;
+    }
 }
 
 @keyframes slideY {

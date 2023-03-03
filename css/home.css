@@ -205,6 +205,9 @@ nav {
     left: 0;
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--color-bg-transaparent);
 }
 
@@ -324,10 +327,6 @@ nav {
     margin: 5px 0;
 }
 
-/* .div-edition .switch-input[type='date'] {
-    color: var(--color-black-1);
-} */
-
 .div-edition .switch-btn {
     margin-left: 5px;
     width: 45px;
@@ -374,12 +373,12 @@ nav {
 }
 
 .revenue-btn {
-    min-width: 90px;
+    min-width: 100px;
     background-color: var(--color-main-1);
 }
 
 .expenditure-btn {
-    min-width: 90px;
+    min-width: 100px;
     background-color: var(--color-main-2);
 }
 
