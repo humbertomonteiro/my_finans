@@ -60,12 +60,18 @@ const attBalanceSetTransactions = (array, arrayBalance) => {
         transactionsYear.append(ul)
     }
 
+    const h3 = document.createElement('h3')
+    h3.classList.add('text')
+    h3.setAttribute('no-transactions', true)
+    h3.innerText = 'Sem transações este mês!'
+
+    transactionsYear.prepend(h3)
+
     const balanceCurrentMonth = transactionsDoneCurrentMonth(arrayBalance)
     balanceMonth(balanceCurrentMonth)
     showTransactions(array, currentYear, currentMonth)
 
-    let currentTransactions = transactionsCurrentMonth(allTransaction)
-    ifNotTransactions(currentTransactions)
+    // let currentTransactions = transactionsCurrentMonth(allTransaction)
 }
 
 function att() {
@@ -91,15 +97,18 @@ function createCalendar() {
     let monthH2 = document.createElement('h2')
     monthH2.innerText = months[currentMonth - 1]
 
+    const currentYearNow = currentYear
+
     btnBefore.onclick = () => {
         --currentMonth
         if(currentMonth < 1) {
             currentMonth = 12
             --currentYear
         }
-
+    
+        const newYearBefore = currentYear < currentYearNow ? currentYear : ''
         monthH2.innerText = ''
-        monthH2.innerText = months[currentMonth - 1]
+        monthH2.innerHTML = `${months[currentMonth - 1]} </br> ${newYearBefore}`
 
         attBalanceSetTransactions(allTransaction, allTransaction)
     }
@@ -111,8 +120,10 @@ function createCalendar() {
             ++currentYear
         }
 
+        const newYearAfter = currentYear > currentYearNow ? currentYear : ''
+
         monthH2.innerText = ''
-        monthH2.innerText = months[currentMonth - 1]
+        monthH2.innerHTML = `${months[currentMonth - 1]} </br> ${newYearAfter}`
 
         attBalanceSetTransactions(allTransaction, allTransaction)
     }
@@ -433,7 +444,9 @@ function showTransactions(transactions, y, m) {
 
             //adicionando no dia correto
             getUl.forEach(e => {
+                const noTransactions = document.querySelector('[no-transactions]')
                 if (`0${e.getAttribute('day')}` === day || e.getAttribute('day') === day) {
+                    noTransactions.innerHTML = ''
                     e.append(li)
                     e.classList.remove('hidden')
                 }
@@ -441,16 +454,6 @@ function showTransactions(transactions, y, m) {
 
         } 
     })
-}
-
-function ifNotTransactions(array) {
-
-    if(array.length == 0) {
-        const h3 = document.createElement('h3')
-        h3.classList.add('text')
-        h3.innerText = 'Sem transações este mês!'
-        transactionsYear.append(h3)
-    }
 }
 
 const inputSearch = document.querySelector('#input-search')

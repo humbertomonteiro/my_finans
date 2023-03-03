@@ -32,8 +32,6 @@ const times = document.querySelector('#times')
 
 const body = document.querySelector('body')
 
-console.log(date.value)
-
 const localstorageTransactions = JSON
     .parse(localStorage.getItem('setAllTransactions'))
 
@@ -48,9 +46,10 @@ const showRevenues = document.querySelector('[show-revenues]')
 const showExpenditures = document.querySelector('[show-expenditures]')
 const textPendencies = document.createElement('h3')
 
+const day = currentDay < 10 ? `0${currentDay}` : currentDay
+const month = currentMonth < 10 ? `0${currentMonth}` : currentMonth
+
 function showForm(type, type2, str) {
-    const day = currentDay < 10 ? `0${currentDay}` : currentDay
-    const month = currentMonth < 10 ? `0${currentMonth}` : currentMonth
 
     date.value = `${currentYear}-${month}-${day}`
     btnCad.classList.add(`${type}-btn`)
@@ -159,7 +158,7 @@ function setTransactions() {
             ++id
             if(dateUsa[1] > 12) {
                 dateUsa[1] = 1
-                dateUsa[2]++
+                ++dateUsa[0]
             }
 
             let timesPush = timesV == 1 ? '' : `(${i}/${timesV})`
@@ -588,7 +587,7 @@ formCad.addEventListener('submit', e => {
     value.value = ''
     category.value = ''
     description.value = ''
-    date.value = ''
+    date.value = `${currentYear}-${month}-${day}`
 
     // formCad.classList.toggle('show')
     pendency.classList.remove('hidden')
