@@ -251,25 +251,13 @@ nav {
     border: 0;
     color: var(--color-font-1);
     background-color: var(--color-black-2);
-    width: 80%;
+    min-width: 80%;
     height: 45px;
     transition: .5s;
 }
 
 .inputs .input-home:hover {
     background-color: var(--color-black-3);
-}
-
-#date.input-home[type="date"] {
-    color: var(--color-font-1);
-    padding: 8px;
-    margin: 0 8px 8px;
-    border-radius: 4px;
-    border: 0;
-    background-color: var(--color-black-2);
-    width: 80%;
-    height: 45px;
-    transition: .5s;
 }
 
 .checkbox {
@@ -459,7 +447,7 @@ nav {
     }
 
     .inputs .input-home {
-        width: 95%;
+        min-width: 95%;
     }
 
     #date.input-home[type="date"] {
