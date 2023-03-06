@@ -13,6 +13,7 @@ const linkExpenditures = document.querySelector('#link-expenditures')
 const transactionsPendencys = document.querySelector('#transactions-pendencys')
 const showPendencys = document.querySelector('#show-pendencys')
 const cadTransactions = document.querySelector('#cad-transactions')
+
 const revenuePendency = document.querySelector('#revenue-pendency')
 const expenditurePendency = document.querySelector('#expenditure-pendency')
 const manyRevenue = document.querySelector('.many-revenues')
@@ -32,13 +33,18 @@ const times = document.querySelector('#times')
 
 const body = document.querySelector('body')
 
+let monthsStrings = ['Janeiro', 'Fevereiro', 'Março',
+ 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 
+ 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
 const localstorageTransactions = JSON
     .parse(localStorage.getItem('setAllTransactions'))
 
 let setAllTransactions = localStorage
     .getItem('setAllTransactions') !== null ? localstorageTransactions : []
 
-const hasPendencies = setAllTransactions.filter(e => e.checkboxV == false)
+const hasPendencies = setAllTransactions
+    .filter(e => e.checkboxV == false)
 
 const pendenciesCurrent = hasPendencies.length > 0 ? true : false 
 
@@ -544,14 +550,73 @@ const arrayRevenues = e => e
 const arrayExpenditures = e => e
     .filter(e => e.valueV < 0)
 
+function createCalendar() {
+
+    const divMonth = document.createElement('div')
+    divMonth.classList.add('div-month')
+
+    const btnBefore = document.createElement('button')
+    btnBefore.innerHTML = '<i class="fa-solid fa-chevron-left"></i>'
+
+    const btnAfter = document.createElement('button')
+    btnAfter.innerHTML = '<i class="fa-solid fa-chevron-right"></i>'
+
+    let monthH2 = document.createElement('h2')
+    monthH2.innerText = monthsStrings[currentMonth - 1]
+
+    const currentYearNow = currentYear
+
+    btnBefore.onclick = () => {
+        --currentMonth
+        if(currentMonth < 1) {
+            currentMonth = 12
+            --currentYear
+        }
+    
+        const newYearBefore = currentYear < currentYearNow ? currentYear : ''
+        monthH2.innerText = ''
+        monthH2.innerHTML = `${monthsStrings[currentMonth - 1]} </br> ${newYearBefore}`
+
+        attBalanceSetTransactions(setAllTransactions, setAllTransactions)
+        transactionsPendencys.innerHTML = ''
+    }
+
+    btnAfter.onclick = () => {
+        ++currentMonth
+        if(currentMonth > 12) {
+            currentMonth = 1
+            ++currentYear
+        }
+
+        const newYearAfter = currentYear > currentYearNow ? currentYear : ''
+
+        monthH2.innerText = ''
+        monthH2.innerHTML = `${monthsStrings[currentMonth - 1]} </br> ${newYearAfter}`
+
+        attBalanceSetTransactions(setAllTransactions, setAllTransactions)
+        transactionsPendencys.innerHTML = ''
+    }
+
+    divMonth.append(btnBefore)
+    divMonth.append(monthH2)
+    divMonth.append(btnAfter)
+
+    const overduesCalendar = document.querySelector('.overdues-calendar')
+
+    overduesCalendar.append(divMonth)
+}
+
+createCalendar()
+
 const attBalanceSetTransactions = (array) => {
 
     transactionsPendencys.innerHTML = ''
-
-    for(let m = 1; m <= 30; m++) {
+    
+    for(let m = 1; m <= 31; m++) {
         const ul = document.createElement('ul')
         ul.classList.add('hidden')
         ul.setAttribute('day', m)
+
         ul.innerHTML = `<p class="text-day">Dia ${m}</p>`
         transactionsPendencys.append(ul)
     }
@@ -572,23 +637,31 @@ function attBalanceTransactionsAndAplicationAtts(e) {
     attBalanceSetTransactions(arrayRigth)
 }
 
-formCad.addEventListener('submit', e => {
-    e.preventDefault()
+function submit() {
+    formCad.addEventListener('submit', e => {
+        e.preventDefault()
 
-    if(value.value === '' || description.value === '' || category.value === '' || date.value === '') { 
-        alert('Preencha todos os campos para cadastrar sua transação')
-        return
+        if(value.value === '' || description.value === '' || category.value === '' || date.value === '') { 
+            return
+        }
+
+        setTransactions()
+
+        balanceMonth(setAllTransactions)
+
+        value.value = ''
+        category.value = ''
+        description.value = ''
+        date.value = `${currentYear}-${month}-${day}`
+
+        pendency.classList.remove('hidden')
+    })
+}
+
+formCad.onclick = submit()
+
+document.addEventListener('keypress', e => {
+    if(e.key === 'Enter') {
+        submit()
     }
-
-    setTransactions()
-
-    balanceMonth(setAllTransactions)
-
-    value.value = ''
-    category.value = ''
-    description.value = ''
-    date.value = `${currentYear}-${month}-${day}`
-
-    // formCad.classList.toggle('show')
-    pendency.classList.remove('hidden')
 })
