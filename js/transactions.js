@@ -318,8 +318,8 @@ function showTransactions(transactions, y, m) {
                 <form class="div-inputs">
                 <h2>Editar Transação</h2>
                 <input id="value-edit" value="${e.valueV}" class="i-value" type="text"">
-                <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text">
                 <input id="category-edit" value="${e.categoryV}" class="i-value" type="text"">
+                <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text">
                 <input id="date-edit" value="${dataUsa}" class="i-value-2" type="date" >
                 <label class="switch div-check">
                     <span class="switch-text">Resolvido</span>

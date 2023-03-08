@@ -397,8 +397,8 @@ function showTransactions(a) {
             <form class="div-inputs">
             <h2>Editar Transação</h2>
             <input id="value-edit" value="${e.valueV}" class="i-value" type="text" placeholder="Valor">
-            <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text" placeholder="Descrição">
             <input id="category-edit" value="${e.categoryV}" class="i-value" type="text" placeholder="Categoria">
+            <input id="description-edit" value="${e.descriptionV}" class="i-value-2" type="text" placeholder="Descrição">
             <input id="date-edit" value="${dataUsa}" class="i-value-2" type="date" placeholder="date">
             <label class="switch div-check">
                 <span class="switch-text">Resolvido</span>
@@ -582,6 +582,8 @@ function createCalendar() {
 
         attBalanceSetTransactions(setAllTransactions, setAllTransactions)
         transactionsPendencys.innerHTML = ''
+        transactionsPendencys.style.display = 'none'
+        cadTransactions.style.display = 'flex'
     }
 
     btnAfter.onclick = () => {
@@ -598,6 +600,8 @@ function createCalendar() {
 
         attBalanceSetTransactions(setAllTransactions, setAllTransactions)
         transactionsPendencys.innerHTML = ''
+        transactionsPendencys.style.display = 'none'
+        cadTransactions.style.display = 'flex'
     }
 
     divMonth.append(btnBefore)

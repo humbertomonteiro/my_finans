@@ -43,7 +43,7 @@ nav {
 .logo a {
     text-decoration: none;
     color: var(--color-font-1);
-    padding: 10px;
+    padding: 10px 0 5px 0;
 }
 
 .links {
@@ -54,6 +54,16 @@ nav {
     color: var(--color-font-1);
     text-decoration: none;
     padding: 5px;
+    transition: .51s;
+}
+
+.links a:hover {
+    color: var(--color-main-1);
+}
+
+.links .active {
+    color: var(--color-main-1);
+    transform: scale(1.1);
 }
 
 .links a i {
@@ -62,14 +72,9 @@ nav {
     font-size: .8em;
 }
 
-.links a li {
-    list-style: none;
-}
-
-.links a li p {
+.links a p {
     font-size: .7em;
 }
-
 
 /* balance */
 
@@ -118,7 +123,6 @@ nav {
 
 .container-pendency {
     width: 600px;
-    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -128,6 +132,13 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#no-pendencies {
+    width: 100vh;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-font-2);
 }
 
 .overdues {
@@ -178,7 +189,7 @@ nav {
 
 .text {
     color: var(--color-font-2);
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .container-pendency .link-revenues,     
@@ -463,11 +474,11 @@ nav {
 
 @media (max-width: 600px) {
 
-    .links a li p {
+    .links a p {
         display: none;
     }
 
-    .links a li {
+    .links a {
         padding: 0 15px;
         font-size: 1.5em;
     }
