@@ -52,6 +52,8 @@ const showRevenues = document.querySelector('[show-revenues]')
 const showExpenditures = document.querySelector('[show-expenditures]')
 const textPendencies = document.createElement('h3')
 
+const noPendencies = document.querySelector('#no-pendencies')
+
 const day = currentDay < 10 ? `0${currentDay}` : currentDay
 const month = currentMonth < 10 ? `0${currentMonth}` : currentMonth
 
@@ -237,9 +239,7 @@ function balanceMonth(array) {
     if(amountRevenuesCurrent.length > 0) {
         linkRevenues.classList.remove('hidden')
         manyRevenue.innerText = amountRevenuesCurrent.length
-    }
-
-    else linkRevenues.classList.add('hidden')
+    } else linkRevenues.classList.add('hidden')
 
     const pendenciesRevenuesCurrentMonth = pendenciesMonth
         .filter(p => p >= 0)
@@ -249,12 +249,12 @@ function balanceMonth(array) {
     revenuePendency.innerText = ''
     revenuePendency.innerText = `R$ ${pendenciesRevenuesCurrentMonth}`
     
-    const manyExpendituresCurrent = pendenciesMonth
+    const amountExpendituresCurrent = pendenciesMonth
         .filter(p => p < 0)
     
-    if(manyExpendituresCurrent.length > 0) {
+    if(amountExpendituresCurrent.length > 0) {
         linkExpenditures.classList.remove('hidden')
-        manyExpenditures.innerText = manyExpendituresCurrent.length
+        manyExpenditures.innerText = amountExpendituresCurrent.length
     } else linkExpenditures.classList.add('hidden')
 
     const pendenciesExpendituresCurrentMonth = pendenciesMonth
@@ -265,9 +265,12 @@ function balanceMonth(array) {
     expenditurePendency.innerText = ''
     expenditurePendency.innerText = `R$ ${pendenciesExpendituresCurrentMonth}`
 
-    if(manyExpendituresCurrent.length < 1 && amountRevenuesCurrent.length < 1) {
+    if(amountExpendituresCurrent.length < 1 && amountRevenuesCurrent.length < 1) {
         transactionsPendencys.style.display = 'none'
         cadTransactions.style.display = 'flex'
+        noPendencies.classList.remove('hidden')
+    } else {
+        noPendencies.classList.add('hidden')
     }
 
     const allBalanceSheetTransactions = setAllTransactions
